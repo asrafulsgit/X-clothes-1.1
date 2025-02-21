@@ -1,0 +1,79 @@
+:root {
+     --color-1: #0487E2;
+     --color-2: #0463CA;
+     --color-3: #09B1EC;
+     --color-4: #D91656;
+     --color-5: #1D7373 ;
+     --display-font-01 :"Montserrat", sans-serif;
+     --display-font-02 : "Open Sans", sans-serif;
+     --font-family:"Afacad Flux", sans-serif;
+     --font-family2 :"Poppins", sans-serif;
+}
+.show-page{
+     display: flex;
+     justify-content: space-between;
+     align-items: center;
+     padding: 1rem 4rem;
+}
+.show-page div{
+     width: 100%;
+     height: 250px;
+     padding-top:9rem;
+     position: relative;
+     overflow: hidden;
+}
+.show-page > div h2{
+     font-family: var(--display-font-01);
+     font-size: 2rem;
+     color: var(--color-4);
+     padding-left: 1rem;
+}
+
+.show-page .men-show{
+     background-image: url('../../../assets/products-banner/men.jpg');
+     background-position: center;
+     background-size: cover;
+     background-repeat: no-repeat;
+}
+
+.show-page .women-show{
+     background-image: url('../../../assets/products-banner/women.jpg');
+     background-position: center;
+     background-size: cover;
+     background-repeat: no-repeat;
+}
+.show-page .kids-show{
+     background-image: url('../../../assets/products-banner/kids.jpg');
+     background-position: center;
+     background-repeat: no-repeat;
+     background-size: cover;
+}
+
+.show-page .show-hover-btn{
+     position: absolute;
+     bottom: -35px;
+     width: 100%;
+     transition: 0.2s;
+}
+.show-page .mens-hover,
+.show-page .womens-hover,
+.show-page .kids-hover{
+     position: absolute;
+     bottom: 0;
+     width: 100%;
+}
+
+.show-page .show-hover-btn button{
+     width: 100%;
+     padding: 0.2rem;
+     border: none;
+     font-family:var(--font-family2);
+     font-size: 1rem;
+     font-weight: 500;
+     cursor: pointer;
+}
+.show-page .show-hover-btn button:hover{
+     background-color: var(--color-4);
+     color: white;
+     bottom: 0;
+}

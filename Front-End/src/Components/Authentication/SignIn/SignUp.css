@@ -1,0 +1,119 @@
+:root {
+     --color-1: #0487E2;
+     --color-2: #0463CA;
+     --color-3: #09B1EC;
+     --color-4: #D91656;
+     --color-5: #1D7373 ;
+     --display-font-01 :"Montserrat", sans-serif;
+     --display-font-02 : "Open Sans", sans-serif;
+     --font-family:"Afacad Flux", sans-serif;
+     --font-family2 :"Poppins", sans-serif;
+}
+.sing-up-section{
+     height: 80vh;
+     width: 100%;
+     display: flex;
+     flex-direction: column;
+     gap: 1rem;
+     justify-content: center;
+     align-items: center;
+}
+.message{
+     font-family: var(--font-family2);
+     font-size: 14px;
+     color:var(--color-4) ;
+}
+.sing-up-section form{
+     display: flex;
+     flex-direction: column;
+     gap: 0.5rem;
+     justify-content: center;
+     align-items: center;
+     border: 1px solid #0464ca47;
+     border-radius: 5px;
+     width: 380px;
+     padding: 1rem 1.5rem;
+}
+.sing-up-section .email-fild,.sing-up-section .fullname-fild,.sing-up-section  .password-div{
+     display: flex;
+     flex-direction: column;
+     gap: 0.2rem;
+     width: 100%;
+}
+.sing-up-section .email-fild label,.sing-up-section .fullname-fild label,.sing-up-section .password-div label{
+     font-family: var(--font-family);
+     font-size: 1.2rem;
+     color: var(--color-2);
+}
+
+.sing-up-section input{
+     border: 1px solid #09afec6d;
+     border-radius: 5px;
+     font-family: var(--font-family2);
+     font-size: 1rem;
+     outline: none;
+     padding: 0.3rem;
+     width: 100%;
+     font-weight: 400;
+     background-color: rgba(255, 255, 255, 0.09);
+}
+.sing-up-section .password-field input{
+     border:none;
+     border-radius: 5px;
+     font-family: var(--font-family2);
+     font-size: 1rem;
+     outline: none;
+     padding: 0.3rem;
+     font-weight: 400;
+     width: 100%;
+     background-color: rgba(255, 255, 255, 0.09);
+}
+.sing-up-section .password-field{
+     display: flex;
+     justify-content: space-between;
+     align-items: center;
+     border: 1px solid #09afec6d;
+     border-radius: 5px;
+     width: 100%;
+}
+
+.sing-up-section .seePassword-btn{
+      border: none;
+      background-color: transparent;
+      outline: none;
+      cursor: pointer;
+}
+.sing-up-section .seePassword-btn i{
+     font-size: 1.2rem;
+     margin-right: 0.3rem;
+}
+.sing-up-section  .password-div .message{
+     color:var(--color-4);
+     font-family: var(--font-family-Poppins);
+     font-size: 0.9rem;
+     margin-top: 0.2rem;
+}
+.sing-up-section .Sing-up-btn{
+     border-radius: 5px;
+     font-family: var(--font-family);
+     font-size: 1.3rem;
+     outline: none;
+     border: none;
+     background-color: var(--color-3);
+     padding: 0.2rem;
+     width: 100%;
+     transition: 0.3s;
+     cursor: pointer;
+}
+.sing-up-section .Sing-up-btn:hover{
+     background-color: var(--color-2);    
+     color: white;
+}
+.sing-up-section .forgot_singup{
+     display: flex;
+     justify-content: space-between;
+     align-items: center;
+     width: 100%;
+}
+
+

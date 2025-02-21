@@ -1,0 +1,46 @@
+:root {
+     --color-1: #0487E2;
+     --color-2: #0463CA;
+     --color-3: #09B1EC;
+     --color-4: #D91656;
+     --display-font-montserate :"Montserrat", sans-serif;
+     --display-font-open-sens : "Open Sans", sans-serif;
+     --font-family-afacad:"Afacad Flux", sans-serif;
+     --font-family-poppins :"Poppins", sans-serif;
+     --display-font-courgette : "Courgette", cursive;
+}
+
+.return-policy{
+     padding: 5rem 4rem 2rem 4rem;
+     display: flex;
+     flex-direction: column;
+     gap: 2rem;
+}
+.return-policy-header h1{
+     text-align: center;
+     font-family: var(--display-font-courgette);
+     font-weight: 600;
+}
+.return-policy-header p{
+     text-align: center;
+     font-family: var(--font-family-poppins);
+     font-size: 14px;
+}
+.return-policy-main{
+     display: flex;
+     flex-direction: column;
+     gap: 1.5rem;
+}
+.return-policy-main p{
+     font-family: var(--font-family-poppins);
+     text-align: justify;
+}
+.return-policy-main h2{
+     font-family: var(--display-font-open-sens);
+     font-size: 16px;
+}
+.return-policy-footer p{
+     font-family: var(--font-family-poppins);
+     text-align: justify;
+     font-weight: 500;
+}

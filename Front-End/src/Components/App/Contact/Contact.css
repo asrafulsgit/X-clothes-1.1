@@ -1,0 +1,192 @@
+:root {
+     --color-1: #0487E2;
+     --color-2: #0463CA;
+     --color-3: #09B1EC;
+     --color-4: #D91656;
+     --display-font-01 :"Montserrat", sans-serif;
+     --display-font-02 : "Open Sans", sans-serif;
+     --font-family:"Afacad Flux", sans-serif;
+     --font-family2 :"Poppins", sans-serif;
+}
+.contactSection{
+     padding: 2rem 0;
+}
+ .contacts{
+     display: flex;
+     justify-content: start;
+     align-items: center;
+     gap: 3rem;
+     /* border: 1px solid white; */
+ }
+ .directContact{
+     flex: 0.5;
+     display: flex;
+     flex-direction: column;
+     gap: 0.3rem;
+     /* border: 1px solid white; */
+ }
+ .directContact {
+     font-family: var(--font-family);
+ }
+ .directContactHead{
+     font-weight: 250;
+     font-size: 1.5rem;
+     padding-bottom: 1.5rem;
+     font-family:var(--font-family);
+     color: var(--color-4);
+ }
+ .directContact h1{
+     font-size: 3rem;
+     font-weight: 500;
+     line-height: 4.2rem;
+ }
+ .directContact h1 span{
+     color: var(--color-2);
+ }
+ .directContactDetails{
+     font-weight: 400;
+     text-align: justify; 
+     font-size: 1.3rem;
+     line-height: 1.4rem;
+ }
+ .mobileContact{
+     padding-top: 0.6rem;
+     display: flex;
+     flex-direction: column;
+     gap: 0.4rem;
+     font-size: 1.2rem;
+ }
+ .mobileIcon{
+     font-size: 1.3rem;
+     margin-right: 1rem;
+     background-color: var(--color-2);
+     border-radius: 50%;
+     padding: 0.5rem;
+ }
+ .mobileIconLocation{
+     padding: 0.6rem 0.7rem;
+ }
+ .messageContact{
+     flex: 0.5;
+     width: 100%;
+     /* border: 1px solid white;   */
+ }
+ .messageContact form{
+     display: flex;
+     flex-direction: column;
+     gap: 0.5rem;
+     justify-content: center;
+     /* align-items: center; */
+     color:var(--color-2);
+     font-family: var(--font-family);
+     font-weight: 300;
+ }
+ .messageContact form .name,.message,.email,.phone{
+     display: flex;
+     flex-direction: column;
+     justify-content: center;
+     font-size: 1.2rem; 
+     width: 100%;
+ }
+
+ .emailOrPhone{
+     display: flex;
+     gap: 1rem;
+     width: 100%;
+     justify-content: center;
+     align-items: center;
+ }
+ 
+ .messageContact form  #name,
+ .messageContact form #email,
+ .messageContact form #phone,
+ .messageContact form #message{
+     border: none;
+     outline: none;
+     padding: 0.5rem;
+     border-radius: 6px;
+     font-size: 1rem;
+     width: 100%;
+     font-family:var(--display-font-02) ;
+     box-shadow: 1px 1px 1px #0464ca45,
+                -1px 1px 1px #0464ca45 ,
+                0 -1px 1px #0464ca45 ;
+    /* border: 1px solid var(--color-2); */
+ }
+ .messageContact form .message{
+     color:var(--color-2);
+     font-family: var(--font-family);
+     font-weight: 300;
+     font-size: 1.2rem;
+ }
+ .messageContact form #message{
+     resize: none;
+     height: 120px;
+ }
+ .messageContact form #submit{
+     font-family: var(--display-font-02);
+     border: 1px solid var(--color-2);
+     background-color:transparent;
+     padding: 0.2rem 0.4rem;
+     color: var(--color-2);
+     font-size: 1rem;
+     cursor: pointer;
+     transition: 0.3s;
+     margin-top: 0.5rem;
+     margin-left: auto;
+ }
+ .messageContact form #submit:hover{
+     background-color:var(--color-2);
+     color: white;
+}
+
+@media screen and (max-width : 1090px) {
+   .directContact h1{
+    font-size: 2.5rem;
+    }
+}
+@media screen and (max-width : 940px) {
+   .directContact h1{
+    font-size: 2rem;
+    line-height: 2.6rem;
+    }
+}
+@media screen and (max-width : 940px) {
+   .directContact h1{
+    font-size: 2rem;
+    line-height: 3rem;
+    }
+}
+@media screen and (max-width : 750px) {
+    .contactSection{
+        padding: 2rem 2rem;
+   }
+    .contacts{
+        flex-direction: column;
+        gap: 2rem;
+        /* border: 1px solid white; */
+    }
+    .directContact h1{
+        font-size: 3rem;
+        line-height: 3.5rem;
+    }
+    .directContactHead{
+        padding-bottom: 0.5rem;
+    }
+}
+@media screen and (max-width : 624px) {
+    .contactSection{
+        padding: 2rem 0;
+   }
+   .directContact h1{
+    font-size: 2.5rem;
+    line-height: 3rem;
+    }
+    
+}
+@media screen and (max-width : 424px) {
+   .directContact h1{
+    font-size: 2rem;
+    line-height: 2.5rem;
+    }
+}

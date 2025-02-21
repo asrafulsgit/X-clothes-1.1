@@ -1,0 +1,55 @@
+:root {
+     --color-1: #0487E2;
+     --color-2: #0463CA;
+     --color-3: #09B1EC;
+     --color-4: #D91656;
+     --display-font-01 :"Montserrat", sans-serif;
+     --display-font-02 : "Open Sans", sans-serif;
+     --font-family:"Afacad Flux", sans-serif;
+     --font-family2 :"Poppins", sans-serif;
+
+     --new-arrival-btn: #009CC2ff;
+}
+
+.new-arrivals-section{
+     margin: 4rem 0;
+     /* padding: 0 4rem; */
+     width: 100%;
+}
+.new-arrivals{
+     border-radius: 30px;
+     background-image: url('../../../assets//newArrivals/new-arrivals-01.jpg');
+     background-position: center;
+     background-size:cover;
+     background-repeat: no-repeat;
+     height: 300px;   
+     width: 100%;
+     padding:2.5rem 3rem;
+}
+
+.new-arrivals .new{
+     font-family: var(--display-font-02);
+     color: white;
+     font-size: 3.5rem;
+     line-height: 3.5rem;
+     letter-spacing: 2px;
+}
+
+.new-arrivals p{
+     font-family: var(--font-family2);
+     color: white;
+     font-size: 1rem;
+     padding: 0.5rem 0;
+}
+
+.new-arrivals .new-arrival-btn{
+     color: white;
+     border: 1px solid white;
+     padding: 0.1rem 0.6rem;
+     font-family: var(--display-font-02);
+     background-color: transparent;
+     font-size: 1.2rem;
+     cursor: pointer;
+     margin-top: 0.5rem;
+}
+

@@ -1,0 +1,71 @@
+:root {
+     --color-1: #0487E2;
+     --color-2: #0463CA;
+     --color-3: #09B1EC;
+     --color-4: #D91656;
+     --font-family-AfacadFlux:"Afacad Flux", sans-serif;
+     --font-family-Poppins :"Poppins", sans-serif;
+   }
+.forgot-password-section{
+     height: 65vh;
+     width: 100%;
+     display: flex;
+     justify-content: center;
+     align-items: center;
+}
+.forgot-password-section form{
+     display: flex;
+     flex-direction: column;
+     gap: 0.5rem;
+     justify-content: center;
+     align-items: center;
+     border: 1px solid #0464ca47;
+     border-radius: 5px;
+     width: 380px;
+     padding: 1rem 1.5rem;
+}
+.forgot-password-section .forgot-email{
+     width: 100%;
+}
+.forgot-password-section .forgot-email label{
+     font-family: var(--font-family-Poppins);
+     font-size: 1rem;
+     color: var(--color-2);
+     font-weight: 500;
+}
+
+.forgot-password-section .forgot-email #email{
+     border: 1px solid #09afec6d;
+     border-radius: 5px;
+     font-family: var(--font-family-Poppins);
+     font-size: 1rem;
+     outline: none;
+     padding: 0.3rem;
+     width: 100%;
+     font-weight: 400;
+     background-color: rgba(255, 255, 255, 0.09);
+}
+.forgot-password-section .forgot-email .message{
+     color:var(--color-4);
+     font-family: var(--font-family-Poppins);
+     font-size: 0.9rem;
+     margin-top: 0.2rem;
+}
+
+.forgot-password-section .forgot-btn{
+     border-radius: 5px;
+     font-family: var(--font-family-Poppins);
+     font-size: 1rem;
+     outline: none;
+     border: none;
+     background-color: var(--color-3);
+     padding: 0.2rem;
+     font-weight: 500;
+     width: 100%;
+     transition: 0.3s;
+     cursor: pointer;
+}
+.forgot-password-section .forgot-btn:hover{
+     background-color: var(--color-2);    
+     color: white;
+}

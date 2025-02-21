@@ -1,0 +1,59 @@
+:root {
+     --color-1: #0487E2;
+     --color-2: #0463CA;
+     --color-3: #09B1EC;
+     --color-4: #D91656;
+     --display-font-Montserrat :"Montserrat", sans-serif;
+     --display-font-OpenSans : "Open Sans", sans-serif;
+     --font-family-AfacadFlux:"Afacad Flux", sans-serif;
+     --font-family-Poppins :"Poppins", sans-serif;
+}
+.all-product-section{
+     padding: 1rem 2rem;
+}
+.all-product-section .product-cards{
+     display: flex;
+     flex-direction: column;
+     gap: 1rem;  
+}
+.all-product-section .product-card{
+     display: flex;
+     justify-content: space-between;
+     align-items: center;
+     padding: 0.5rem;
+     box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.199),
+                 -1px 1px 2px rgba(0, 0, 0, 0.199),
+                 0 -1px 2px rgba(0, 0, 0, 0.199);
+     border-radius: 5px;
+}
+.all-product-section .product-card img{
+     width: 50px;
+     /* height: 100px; */
+     border: 5px;
+}
+.all-product-section .product-card .product-details{
+     display: flex;
+     justify-content: space-between;
+     width: 80%;
+}
+.all-product-section .product-details p{
+     font-family:var(--font-family-Poppins);
+     font-size: 1rem;
+}
+.all-product-section .product-details h3{
+     font-family:var(--font-family-Poppins);
+     font-size: 1rem;
+     font-weight: 500;
+}
+.all-product-section .product-details .edit-btns{
+     display: flex;
+     gap: 1rem; 
+     justify-content: center;
+     align-items: center;  
+}
+.all-product-section .product-details .edit-btns button{
+     padding: 0.1rem 0.4rem;
+     font-family: var(--font-family-Poppins);
+     outline: none;
+     cursor: pointer;
+}

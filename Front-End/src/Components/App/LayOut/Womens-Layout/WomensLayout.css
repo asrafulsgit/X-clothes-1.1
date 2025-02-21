@@ -1,0 +1,115 @@
+:root {
+     --color-1: #0487E2;
+     --color-2: #0463CA;
+     --color-3: #09B1EC;
+     --color-4: #D91656;
+     --color-5: #1D7373 ;
+     --display-font-Montserrat :"Montserrat", sans-serif;
+     --display-font-OpenSans : "Open Sans", sans-serif;
+     --font-family-AfacadFlux:"Afacad Flux", sans-serif;
+     --font-family-Poppins :"Poppins", sans-serif;
+}
+
+
+.womens-layout-page{
+     /* border: 1px solid; */
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     gap: 1.5rem;
+     height: 600px;
+}
+.womens-layout-page .left-layout{
+     width: 100%;
+     /* border: 1px solid; */
+     display: flex;
+     flex-direction: column;
+     gap: 0.5rem;
+     margin-top: auto;
+     padding-bottom: 1rem;
+}
+.womens-layout-page .layout-details{
+     display: flex;
+     flex-direction: column;
+     gap: 0.5rem;
+}
+.womens-layout-page .layout-details h1{
+     font-family: var(--display-font-OpenSans);
+     font-weight: 600;
+     font-size: 2rem;
+     line-height: 2.1rem;
+}
+.womens-layout-page .layout-details p{
+     font-family: var(--display-font-OpenSans);
+     font-size: 1rem;
+}
+.womens-layout-page .left-btns .shop-now{
+      padding: 0.2rem 0.5rem;
+      font-size: 1rem;
+      border: 1px solid var(--color-4);
+      color: var(--color-4);
+      cursor: pointer;
+}
+.womens-layout-page .right-layout{
+     width: 100%;
+     /* border: 1px solid; */
+     height: 100%;
+     display: flex;
+     justify-content: end;
+     align-items: end;
+     margin-top: auto;
+}
+
+.womens-layout-page .right-layout img{
+     width: 450px;
+     height: 95%;
+     /* border: 1px solid; */
+}
+
+.womens-layout-page .image-btns{
+     display: flex;
+     flex-direction: column;
+     gap: 0.7rem;
+     margin:1rem;
+}
+.womens-layout-page .image-btn{
+     border: 1px solid var(--color-4);
+     border-radius: 50%;
+     padding: 0.4rem 0.5rem;
+     /* background-color: var(--color-4); */
+     cursor: pointer;
+     transition: 0.2s;
+}
+.womens-layout-page .image-btn:hover{
+     background-color: var(--color-4);
+}
+.womens-layout-page .image-btn i{
+     font-size: 1.1rem;
+     color: var(--color-4);
+} 
+.womens-layout-page .image-btn:hover i{
+     color: white;
+}
+/* animation  */
+.womens-layout-page .left-layout, 
+.womens-layout-page .right-layout {
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.womens-layout-page .left-layout.entering,
+.womens-layout-page .right-layout.entering {
+  opacity: 0;
+  transform: translateY(-20px);
+}
+
+.womens-layout-page .left-layout.exiting,
+.womens-layout-page .right-layout.exiting {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.womens-layout-page .left-layout.active,
+.womens-layout-page .right-layout.active {
+  opacity: 1;
+  transform: translateY(0);
+}

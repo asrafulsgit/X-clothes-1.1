@@ -1,0 +1,22 @@
+:root {
+     --color-1: #0487E2;
+     --color-2: #0463CA;
+     --color-3: #09B1EC;
+     --font-family:"Afacad Flux", sans-serif;
+} 
+.shop{
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     gap: 3rem;
+     flex-wrap: wrap;
+     padding: 5rem 2rem 2rem 2rem;
+}
+/* .shop .outlate-card{
+     border: 1px solid;
+} */
+.shop .outlate-image .image{
+     width: 180px;
+     height: 210px;
+     object-fit: cover;
+}

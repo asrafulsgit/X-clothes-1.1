@@ -1,0 +1,65 @@
+:root {
+     --color-1: #0487E2;
+     --color-2: #0463CA;
+     --color-3: #09B1EC;
+     --font-family:"Afacad Flux", sans-serif;
+} 
+.mens-page{
+     display: flex;
+     flex-direction: column;
+     gap: 1.5rem;
+}
+.mens-page .mens-banner{
+     margin-top: 3.5rem;
+     padding: 0 4rem;
+}
+.mens-page .mens-banner img{
+     width: 100%;
+}
+.mens-section{
+     padding: 0 2rem 2rem 2rem;
+     min-height: 80vh;
+}
+.product-type{
+     padding-bottom: 2rem;
+     margin: 0 auto;
+}
+.product-type ul{
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     gap: 2rem;
+}
+.product-type ul li{
+     font-family: var(--font-family);
+     font-size: 1.3rem;
+     border: 1px solid var(--color-3);
+     padding: 0 0.4rem;
+     cursor: pointer;
+     color: var(--color-3);
+     transition: all 0.3s;
+}
+.product-type ul li:hover{
+     background-color: var(--color-3);
+     color: white;
+}
+.product-type ul .active-type{
+     background-color: var(--color-3);
+     color: white;
+}
+
+.mens-shop{
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     gap: 3rem;
+     flex-wrap: wrap;
+     
+}
+/* .shop .outlate-card{
+     border: 1px solid;
+} */
+.mens-shop .outlate-image .image{
+     width: 180px;
+     height: 210px;
+}

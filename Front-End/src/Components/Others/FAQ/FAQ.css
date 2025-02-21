@@ -1,0 +1,38 @@
+:root {
+     --color-1: #0487E2;
+     --color-2: #0463CA;
+     --color-3: #09B1EC;
+     --color-4: #D91656;
+     --display-font-montserate :"Montserrat", sans-serif;
+     --display-font-open-sens : "Open Sans", sans-serif;
+     --font-family-afacad:"Afacad Flux", sans-serif;
+     --font-family-poppins :"Poppins", sans-serif;
+     --display-font-courgette : "Courgette", cursive;
+}
+
+.faq{
+     padding: 5rem 4rem 2rem 4rem;
+     display: flex;
+     flex-direction: column;
+     gap: 2rem;
+}
+.faq-header h1{
+     text-align: center;
+     font-family: var(--display-font-courgette);
+     font-weight: 600;
+     text-decoration: underline;
+}
+.faq-main{
+     display: flex;
+     flex-direction: column;
+     gap: 1.5rem;
+}
+
+.faq-main p{
+     font-family: var(--font-family-poppins);
+     text-align: justify;
+}
+.faq-main h2{
+     font-family: var(--display-font-open-sens);
+     font-size: 16px;
+}

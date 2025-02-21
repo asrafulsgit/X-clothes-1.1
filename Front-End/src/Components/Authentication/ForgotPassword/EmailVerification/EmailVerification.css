@@ -1,0 +1,96 @@
+:root {
+     --color-1: #0487E2;
+     --color-2: #0463CA;
+     --color-3: #09B1EC;
+     --color-4: #D91656;
+     --font-family-AfacadFlux:"Afacad Flux", sans-serif;
+     --font-family-Poppins :"Poppins", sans-serif;
+   }
+.email-verification-page .email-verification-section{
+     height: 85vh;
+     width: 100%;
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     flex-direction: column;
+     gap: 1.5rem;
+}
+.email-verification-section .varification-title p{
+     font-family: var(--font-family-Poppins);
+     text-align: center;
+}
+.email-verification-section form{
+     display: flex;
+     flex-direction: column;
+     gap: 0.5rem;
+     justify-content: center;
+     align-items: center;
+     border: 1px solid #0464ca47;
+     border-radius: 5px;
+     width: 380px;
+     padding: 1rem 1.5rem;
+}
+.email-verification-section .email-verficaton-code{
+     width: 100%;
+}
+.email-verification-section .email-verficaton-code label{
+     font-family: var(--font-family);
+     font-size: 1.3rem;
+     color: var(--color-2);
+}
+
+.email-verification-section .email-verficaton-code input{
+     border: 1px solid #09afec6d;
+     border-radius: 5px;
+     font-family: var(--font-family2);
+     font-size: 1rem;
+     outline: none;
+     padding: 0.3rem;
+     width: 100%;
+     font-weight: 400;
+     background-color: rgba(255, 255, 255, 0.09);
+}
+.email-verification-section .email-verficaton-code .message{
+     color:var(--color-4);
+     font-family: var(--font-family-Poppins);
+     font-size: 0.9rem;
+     margin-top: 0.2rem;
+}
+
+.email-verification-section .email-verification-btns{
+     display: flex;
+     justify-content: space-between;
+     gap: 1rem;
+     width: 100%;
+}
+.email-verification-section .email-verficaton-resend-btn{
+     border-radius: 5px;
+     font-family: var(--font-family-Poppins);
+     font-size: 1rem;
+     outline: none;
+     border: none;
+     background-color: var(--color-4);
+     padding: 0.2rem;
+     font-weight: 500;
+     width: 100%;
+     transition: 0.3s;
+     cursor: pointer;
+}
+.email-verification-section .email-verficaton-btn{
+     border-radius: 5px;
+     font-family: var(--font-family-Poppins);
+     font-size: 1rem;
+     outline: none;
+     border: none;
+     background-color: var(--color-3);
+     padding: 0.2rem;
+     font-weight: 500;
+     width: 100%;
+     transition: 0.3s;
+     cursor: pointer;
+}
+.email-verification-section .email-verficaton-btn:hover,
+.email-verification-section .email-verficaton-resend-btn:hover{
+     background-color: var(--color-2);    
+     color: white;
+}

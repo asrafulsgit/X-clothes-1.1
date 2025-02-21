@@ -1,0 +1,25 @@
+:root {
+     --color-1: #0487E2;
+     --color-2: #0463CA;
+     --color-3: #09B1EC;
+     --color-4: #D91656;
+     --display-font-01 :"Montserrat", sans-serif;
+     --display-font-02 : "Open Sans", sans-serif;
+     --font-family:"Afacad Flux", sans-serif;
+     --font-family2 :"Poppins", sans-serif;
+}
+
+.extra-footer-links{
+     display: flex;
+     gap: 2rem;
+     font-size: 1rem;
+     font-family: var(--display-font-02);
+     padding-top: 2rem;
+}
+.extra-footer-links a{
+     color: white;
+     transition: 0.2s;
+}
+.extra-footer-links a:hover{
+     text-decoration:underline;
+}

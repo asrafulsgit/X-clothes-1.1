@@ -1,0 +1,9 @@
+
+
+.brnads-page{
+     display: flex;
+}
+.brnads-page .image{
+     height:50px;
+     width: 100px;
+}
