@@ -5,13 +5,11 @@
      --color-4: #D91656;
      --display-font-Montserrat :"Montserrat", sans-serif;
      --display-font-OpenSans : "Open Sans", sans-serif;
-     --display-font-section-header : "Courgette", cursive;
-     --font-AfacadFlux:"Afacad Flux", sans-serif;
      --font-Poppins :"Poppins", sans-serif;
 }
 
 .best-seller-page{
-     padding: 3rem 4rem;
+     padding: 3rem 0;
 }
 .best-seller-page .out-late-item-header{
      display: flex;

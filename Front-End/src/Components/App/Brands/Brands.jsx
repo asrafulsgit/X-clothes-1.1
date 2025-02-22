@@ -4,7 +4,7 @@ import easy from '../../../assets/brands/easy.png'
 import aarong from '../../../assets/brands/aarong.webp'
 import lereve from '../../../assets/brands/lereve.png'
 import Richman from '../../../assets/brands/Richman.webp'
-import turaag from '../../../assets/brands/turaag.webp'
+import turaag from '../../../assets/brands/turaag.png'
 import twelve from '../../../assets/brands/twelve.avif'
 
 const Brands = () => {
@@ -30,14 +30,17 @@ const Brands = () => {
                logo : turaag
           },
      ]
+     
   return (
     <div  className='brands-name-page'>
           {
                brandsName.map((item,index)=>{
-                    <div key={index}>
-                         <img src={item.logo} alt="" />
-                         <p>{item.name}</p>
-                    </div>
+                    return (
+                         <div key={index} className='brand'>
+                              <img src={item.logo} alt="" />
+                              <p>{item.name}</p>
+                         </div>
+                    )
                })
           }
     </div>

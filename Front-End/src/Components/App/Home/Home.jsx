@@ -9,13 +9,10 @@ import Banner from '../Banner/Banner'
 import Contact from '../Contact/Contact'
 import Footer from '../Footer/Footer'
 
-import NewArrivals from '../NewArrivals/NewArrivals'
-import Show from '../Show/Show'
 import BestSellers from '../Outlate/BestSellers/BestSellers'
 import Brands from '../Brands/Brands'
-import WomensLayout from '../LayOut/Womens-Layout/WomensLayout'
-import MenstLayout from '../LayOut/Mens-Layout/MensLayout'
-import KidsLayout from '../LayOut/Kids-Layout/KidsLayout'
+import Layout from '../LayOut/Layout'
+import Offer from '../Offers/Offer'
 
 
 
@@ -23,22 +20,14 @@ const Home = () => {
 
   return (
     <div>
-        {/* <Nav /> */}
-        <div>
+        <Nav />
+        <div className='app-main'>
           {/* <Display /> */}
-          {/* <Brands /> */}
-          {/* <Show /> */}
+          <Brands />
+          {/* <Layout /> */}
           <BestSellers />
         </div>
-        <div className='main'>     
-            {/* <OutLate /> */}
-            {/* <Banner />   */}
-            <NewArrivals />
-            <WomensLayout />
-            <MenstLayout />
-            <KidsLayout />
-            <Contact /> 
-        </div>
+          <Offer />
         <Footer />
     </div>
   )

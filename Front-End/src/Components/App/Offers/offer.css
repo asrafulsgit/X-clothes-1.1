@@ -1,0 +1,73 @@
+:root {
+     --color-1: #0487E2;
+     --color-2: #0463CA;
+     --color-3: #09B1EC;
+     --color-4: #D91656;
+     --color-secondary-black : rgba(0, 0, 0, 0.05);
+     --display-font-Montserrat :"Montserrat", sans-serif;
+     --display-font-OpenSans : "Open Sans", sans-serif;
+     --font-Poppins :"Poppins", sans-serif;
+}
+
+.offer-page{
+     background-color: var(--color-secondary-black);
+     height: 550px;
+     width: 100%;
+     /* border: 1px solid; */
+     display: flex;
+}
+
+.offer-page .offer-image{
+     position: relative;
+     /* border: 1px solid; */
+     width: 50%;
+     overflow: hidden;
+}
+.offer-page .offer-image img{
+     position: absolute;
+     top: 0px;
+     right: 50px;
+     width: 600px;
+}
+.offer-page .offer-details{
+     /* border: 1px solid; */
+     width: 50%;
+     display: flex;
+     flex-direction: column;
+     gap: 1.5rem;
+     align-items:start;
+     justify-content: center;
+}
+.offer-page .header{
+     font-size: 2rem;
+     font-family: var(--font-Poppins);
+     font-weight: 300;
+}
+.offer-page .title{
+     font-size: 3rem;
+     font-weight: 500;
+     font-family: var(--font-Poppins);
+}
+.offer-page .sub-title{
+     font-family: var(--font-Poppins);
+     font-weight: 300;
+     font-size: 18px;
+     opacity: 0.8;
+}
+.offer-page .shop-now-btn{
+     font-family: var(--font-Poppins);
+     font-size: 1.2rem;
+     /* font-weight: 500; */
+     color: white;
+     background: var(--color-4);
+     border: none;
+     padding: 0.8rem 1.5rem;
+     display: flex;
+     align-items: center;
+     gap: 0.8rem;
+     border-radius: 5px;
+     cursor: pointer;
+}
+.offer-page .shop-now-btn i{
+     font-size: 1.3rem;
+}

@@ -1,9 +1,31 @@
-
-
-.brnads-page{
-     display: flex;
+:root {
+     --color-1: #0487E2;
+     --color-2: #0463CA;
+     --color-3: #09B1EC;
+     --color-4: #D91656;
+     --display-font-Montserrat :"Montserrat", sans-serif;
+     --display-font-OpenSans : "Open Sans", sans-serif;
+     --font-Poppins :"Poppins", sans-serif;
 }
-.brnads-page .image{
-     height:50px;
+
+.brands-name-page{
+     display: flex;
+     gap: 4rem;
+     justify-content: center;
+     align-items: center;
+     padding: 2rem 0;
+}
+
+.brands-name-page .brand {
+     text-align: center;
+}
+.brands-name-page .brand img{
+     height: 50px;
      width: 100px;
+     object-fit: contain;
+}
+.brands-name-page .brand p{
+     font-family: var(--font-Poppins);
+     font-size: 15px;
+     color: rgba(0, 0, 0, 0.83);
 }
