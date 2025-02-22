@@ -1,18 +1,15 @@
-import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import axios from 'axios'
+import React from 'react'
 
 
 import Nav from '../Nav/Nav'
 import Display from '../Display/Display'
-import Banner from '../Banner/Banner'
-import Contact from '../Contact/Contact'
 import Footer from '../Footer/Footer'
 
 import BestSellers from '../Outlate/BestSellers/BestSellers'
 import Brands from '../Brands/Brands'
 import Layout from '../LayOut/Layout'
 import Offer from '../Offers/Offer'
+import Deals from '../deal_today/Deals'
 
 
 
@@ -21,11 +18,12 @@ const Home = () => {
   return (
     <div>
         <Nav />
+          <Display />
         <div className='app-main'>
-          {/* <Display /> */}
           <Brands />
-          {/* <Layout /> */}
+          <Layout />
           <BestSellers />
+          <Deals />
         </div>
           <Offer />
         <Footer />
