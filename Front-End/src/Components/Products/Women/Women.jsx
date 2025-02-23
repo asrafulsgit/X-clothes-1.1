@@ -8,7 +8,7 @@ import womensBanner from '../../../assets/banners/womens-banner.webp'
 
 import { subCategory,categoryCheck } from '../../../utils/categoryCheck';
 
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import Card from '../Card';
 import Modal from '../Modal';
 
@@ -56,8 +56,13 @@ const Women =() => {
     <>
       <div className='womens-page'>
       <Nav navBgSetWithModal={isModal && true}/>
-      <div className="womens-banner">
-        <img src={womensBanner} alt="womens-banner" />
+      <div className="winter-banner">
+                         <h1>Women's Shop</h1>
+                         <div className="header-links">
+                          <Link to='/'>Home</Link>|
+                          <Link to='/women/201230'>Women's</Link>
+                       </div>
+        
       </div>
       <div className="womens-section">
           {pageLoading ? <p style={{textAlign : 'center'}}>Loaging...</p>

@@ -65,7 +65,7 @@ const Deals = () => {
             <p className="brand">Lerve</p>
             <p className="title">Mens t-shirt</p>
             <p className="price">
-              $450 <p className="prev-price">$452</p>
+              $450 <span className="prev-price">$452</span>
             </p>
             <p className="rating"> 4.5</p>
             <p className="descripton">
@@ -131,7 +131,7 @@ const Deals = () => {
             <p className="brand">Lerve</p>
             <p className="title">Mens t-shirt</p>
             <p className="price">
-              $450 <p className="prev-price">$452</p>
+              $450 <span className="prev-price">$452</span>
             </p>
             <p className="rating"> 4.5</p>
             <p className="descripton">

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
-import axios from "axios";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 import "./Winter.css";
 import Nav from "../../App/Nav/Nav";
@@ -63,8 +62,13 @@ const Winter = () => {
     <>
       <div className="womens-page">
         <Nav navBgSetWithModal={isModal && true} />
-        <div className="womens-banner">
-          <img src={womensBanner} alt="womens-banner" />
+        <div className="winter-banner">
+           <h1>Winter Shop</h1>
+           <div className="header-links">
+            <Link to='/'>Home</Link>|
+            <Link to='/winter/12233342'>Winter</Link>
+           </div>
+          {/* <img src={womensBanner} alt="womens-banner" /> */}
         </div>
         <div className="womens-section">
             {pageLoading ? (
@@ -87,6 +91,8 @@ const Winter = () => {
         </div>
         <Footer />
       </div>
+
+      {/* cart-modal */}
       <div className={isModal ? "modal-open" : "add-to-cart-modal"}>
         {!modalLoading && isModal ? (
           <Modal product={modalInfo} clearCartModal={clearCartModal} />

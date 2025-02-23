@@ -6,7 +6,7 @@ import Nav from "../../App/Nav/Nav";
 import Footer from "../../App/Footer/Footer";
 import mensBanner from "../../../assets/banners/mens-banner.jpg";
 
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Card from "../Card";
 import Modal from "../Modal";
 import { categoryCheck, subCategory } from "../../../utils/categoryCheck";
@@ -62,9 +62,14 @@ const Men = () => {
       <div className="mens-page">
         <Nav navBgSetWithModal={isModal && true} />
 
-        <div className="mens-banner">
-          <img src={mensBanner} alt="Mens-banner" />
-        </div>
+        <div className="winter-banner">
+                   <h1>Men's Shop</h1>
+                   <div className="header-links">
+                    <Link to='/'>Home</Link>|
+                    <Link to='/men/101120'>Men's</Link>
+                 </div>
+  
+       </div>
         <div className="mens-section">
           {pageLoading ? (
             <p style={{ textAlign: "center" }}>Loaging...</p>

@@ -5,7 +5,7 @@ import "./Kids.css";
 import Nav from "../../App/Nav/Nav";
 import Footer from "../../App/Footer/Footer";
 import kidsBanner from "../../../assets/banners/kids-banner.png";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Card from "../Card";
 import Modal from "../Modal";
 import { categoryCheck, subCategory } from "../../../utils/categoryCheck";
@@ -61,9 +61,14 @@ const Kids = () => {
     <>
       <div className="kids-page">
         <Nav navBgSetWithModal={isModal && true} />
-        <div className="kids-banner">
-          <img src={kidsBanner} alt="Kids-banner" />
-        </div>
+        <div className="winter-banner">
+                           <h1>Kid's Shop</h1>
+                           <div className="header-links">
+                            <Link to='/'>Home</Link>|
+                            <Link to='/kids/301401'>Kid's</Link>
+                         </div>
+          
+               </div>
 
         <div className="kids-section">
           {pageLoading ? (

@@ -63,3 +63,29 @@
      width: 180px;
      height: 210px;
 }
+.winter-banner{
+     margin-top: 4rem;
+     margin-bottom: 2rem;
+     background:  rgba(0, 0, 0, 0.256);
+     height: 230px;
+     width: 100%;
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     flex-direction: column;
+     font-family: var(--font-Poppins);
+}
+.winter-banner h1{
+     font-weight: 500;
+}
+.winter-banner .header-links{
+     color: var(--color-4);
+     display: flex;
+     gap: 5px;
+}
+.winter-banner .header-links a{
+     color: var(--color-4);
+}
+.winter-banner .header-links a:hover{
+     text-decoration: underline;
+}
