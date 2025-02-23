@@ -23,7 +23,7 @@ const Layout = () => {
                <div className="mans-layout-details">
                <p className='item-count'>2500+ Items</p>
                <h1>For Men's</h1>
-               <div className='items-name'>
+               <div className='item-name'>
                     <p>Blazers</p>
                     <p>T-Shtirts and Shirts</p>
                     <p>Jackets & Hoodie</p>

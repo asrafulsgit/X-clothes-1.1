@@ -1,0 +1,93 @@
+:root {
+     --color-1: #0487E2;
+     --color-2: #0463CA;
+     --color-3: #09B1EC;
+     --color-4: #D91656;
+     --color-secondary-black : rgba(0, 0, 0, 0.05);
+     --display-font-Montserrat :"Montserrat", sans-serif;
+     --display-font-OpenSans : "Open Sans", sans-serif;
+     --font-Poppins :"Poppins", sans-serif;
+}
+
+.discount-page{
+     display: flex;
+     gap: 1.5rem;
+     align-items: center;
+     padding: 2rem 0;
+     font-family: var(--font-Poppins);
+}
+.discount-page .discount-card{
+     /* border: 1px solid; */
+     padding: 2rem;
+}
+.discount-page .discount-card .discount{
+     font-size: 1.5rem;
+     font-weight: 400;
+     opacity: 0.9;
+}
+.discount-page .discount-card .title{
+     font-size: 2.5rem;
+     font-weight: 600;
+     margin: 1rem 0;
+}
+.discount-page .discount-card .description{
+     opacity: 0.9;
+}
+.discount-page .discount-card button{
+   font-size: 1rem;
+   padding: 0.8rem 1rem;
+   margin-top: 2rem;
+   /* color: white; */
+   font-weight: 600;
+   border-radius: 5px;
+   border: none;
+   cursor: pointer;
+}
+.discount-page .discount-card-mens  button{
+   bottom: 50px;
+   background-color:#d9165750 ;
+}
+.discount-page .discount-card-womens  button{
+   
+}
+.discount-page .discount-card-mens{
+     background-color: var(--color-secondary-black);
+     width: 50%;
+     overflow: hidden;
+     position: relative;
+     z-index: 1;
+}
+.discount-page .discount-card-mens::before{
+     position: absolute;
+     content: '';
+     top: 0;
+     right: -20px;
+     width: 100%;
+     height: 100%;
+     background-image: url('../../../assets/discount/men.png');
+     background-position: right;
+     background-repeat: no-repeat;
+     background-size: contain;
+     z-index: -1;
+}
+.discount-page .discount-card-womens  {
+     background-color:#d9165750;
+     width: 50%;
+     overflow: hidden;
+     position: relative;
+     z-index: 1;
+}
+
+.discount-page .discount-card-womens::before{
+     position: absolute;
+     content: '';
+     top: 0;
+     right: -20px;
+     width: 100%;
+     height: 100%;
+     background-image: url('../../../assets/discount/women.png');
+     background-position: right;
+     background-repeat: no-repeat;
+     background-size: contain;
+     z-index: -1;
+}

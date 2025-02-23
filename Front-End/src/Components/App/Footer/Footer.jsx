@@ -1,63 +1,82 @@
-import React from 'react'
-
-import { Link } from 'react-router-dom'
-import './Footer.css'
-import ExtraFooter from './ExtraFooter'
+import React from "react";
+import "./Footer.css";
 
 const Footer = () => {
   return (
-    <div className='footer'>
-        <div className="social-media">
-          <button className='socialMedia-btn'><i className="fa-brands fa-facebook"></i></button>
-          <button className='socialMedia-btn'><i className="fa-brands fa-youtube"></i></button>
-          <button className='socialMedia-btn'><i className="fa-brands fa-x-twitter"></i></button>
-          <button className='socialMedia-btn'><i className="fa-brands fa-instagram"></i></button>
-        </div>
-        <div className="footer-main">
-          <div className="footer-links">
-              <div className="footer-mens">
-                  <h1>Mens</h1>
-                  <div className="mens-links">
-                    <Link to=''>Summer</Link>
-                    <Link to='/winter'>Winter</Link>
-                  </div>
-              </div>
-              <div className="footer-womens">
-                    <h1>Womens</h1>
-                    <div className="mens-links">
-                      <Link to=''>Summer</Link>
-                      <Link to='/winter'>Winter</Link>
-                    </div>
-              </div>
-              <div className="footer-kids">
-                    <h1>Kids</h1>
-                    <div className="mens-links">
-                      <Link to=''>Summer</Link>
-                      <Link to='/winter'>Winter</Link>
-                    </div>
-              </div>
+    <footer className="footer">
+      <div className="footer-container">
+        <div className="footer-left">
+          <div className="logo">
+            <span className="logo-x">X</span>
+            <span className="logo-text">Clothes.</span>
           </div>
-          <div className="footer-location">
-              <h1>Location</h1>
-              <div className='location'>
-                <h3>Bangladesh</h3>
-                <p>Feni</p>
-                <p>Dactar Para, Feni Sadar.</p>
-              </div>
-          </div>
-          <div className="footer-developers">
-              <h1>Developers</h1>
-              <div className='developers'>
-                <h3>MD. ASRAFUL ISLAM</h3>
-                <p>FPI</p>
-              </div>
+          <p className="footer-description">
+            Discover stylish and comfortable clothing for every occasion. Our
+            collection blends quality, fashion, and affordability to elevate
+            your wardrobe.
+          </p>
+          <div className="social-media">
+            <button className="socialMedia-btn">
+              <i className="fa-brands fa-facebook"></i>
+            </button>
+            <button className="socialMedia-btn">
+              <i className="fa-brands fa-youtube"></i>
+            </button>
+            <button className="socialMedia-btn">
+              <i className="fa-brands fa-x-twitter"></i>
+            </button>
+            <button className="socialMedia-btn">
+              <i className="fa-brands fa-instagram"></i>
+            </button>
           </div>
         </div>
-        <div>
-          <ExtraFooter />
-        </div>
-    </div>
-  )
-}
 
-export default Footer
+        <div className="footer-links">
+          <div className="footer-column">
+            <h4>Company</h4>
+            <ul>
+              <li>About Us</li>
+              <li>Blog</li>
+              <li>Contact Us</li>
+              <li>Career</li>
+            </ul>
+          </div>
+
+          <div className="footer-column">
+            <h4>Customer Services</h4>
+            <ul>
+              <li>My Account</li>
+              <li>Track Your Order</li>
+              <li>Return</li>
+              <li>FAQ</li>
+            </ul>
+          </div>
+
+          <div className="footer-column">
+            <h4>Our Information</h4>
+            <ul>
+              <li>Privacy</li>
+              <li>User Terms & Condition</li>
+              <li>Return Policy</li>
+            </ul>
+          </div>
+
+          <div className="footer-column">
+            <h4>Contact Info</h4>
+            <ul>
+              <li>+0123-456-789</li>
+              <li>example@gmail.com</li>
+              <li>8502 Preston Rd. Inglewood, Maine 98380</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div className="footer-bottom">
+        <p>Copyright © 2024 Xclothes . All Rights Reserved.</p>
+      </div>
+    </footer>
+  );
+};
+
+export default Footer;

@@ -16,6 +16,7 @@
      grid-gap: 1.5rem;
      margin-top: 2rem;
      padding: 2rem 0;
+     font-family: var(--font-Poppins);
 }
 .product-layout-page .womens-layout{
      grid-row: 1 / span 2;
@@ -60,7 +61,6 @@
      color: rgba(0, 0, 0, 0.767);
 }
 .product-layout-page  .item-name p{
-     font-family: var(--font-Poppins);
      margin: 0.8rem 0;
      font-weight: 400;
      color: rgba(0, 0, 0, 0.681);

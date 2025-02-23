@@ -15,6 +15,7 @@
      width: 100%;
      /* border: 1px solid; */
      display: flex;
+     margin: 2rem 0;
 }
 
 .offer-page .offer-image{

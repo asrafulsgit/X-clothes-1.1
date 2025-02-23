@@ -1,0 +1,70 @@
+:root {
+     --color-1: #0487E2;
+     --color-2: #0463CA;
+     --color-3: #09B1EC;
+     --color-4: #D91656;
+     --color-secondary-black : rgba(0, 0, 0, 0.05);
+     --display-font-Montserrat :"Montserrat", sans-serif;
+     --display-font-OpenSans : "Open Sans", sans-serif;
+     --font-Poppins :"Poppins", sans-serif;
+}
+
+.subscription-page{
+     padding: 6rem 0 3rem 0;
+     text-align: center;
+     font-family: var(--font-Poppins);
+}
+.subscription-page .subscription-header .title{
+     font-size: 1.2rem;
+}
+.subscription-page .subscription-header h1{
+     font-size: 2.5rem;
+     font-weight: 500;
+     margin: 1rem 0;
+}
+.subscription-page .subscription-header .sub-title{
+     margin: 2rem 0;
+     opacity: 0.9;
+}
+.subscription-page .subscription-body{
+     display: flex;
+     justify-content: center;
+}
+.subscription-page .subscription-body form{
+     display: flex;
+     gap: 1rem;
+}
+.subscription-page .subscription-body .substription-field {
+     border: 1px solid #d9165720;
+     display:flex;
+     gap: 1rem;
+     padding: 0.5rem;
+}
+.subscription-page .subscription-body .message-box{
+     padding: 0.4rem 0.6rem;
+     background-color:#d9165767;
+}
+.subscription-page .subscription-body .message-box i{
+     font-size: 1.2rem;
+     display: flex;
+     color: white;
+}
+.subscription-page .subscription-body input{
+     outline: none;
+     border: none;
+     font-size: 1rem;
+     width: 350px;
+     font-family: var(--font-Poppins);
+}
+.subscription-page .subscription-body input::placeholder{
+     opacity: 0.6;
+}
+.subscription-page .subscription-body form button{
+     font-size: 1rem;
+     font-family: var(--font-Poppins);
+     padding: 0 1rem;
+     border: none;
+     background-color: var(--color-4);
+     cursor: pointer;
+     color: white;
+}
