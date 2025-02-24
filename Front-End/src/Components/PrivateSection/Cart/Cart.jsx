@@ -146,6 +146,12 @@ const Cart = () => {
                        <td className="order-summary-table-name">Total</td>
                        <td className="order-summary-table-value">54230</td>
                    </tr>
+                   <tr className="coupon-code-field">
+                      <td colSpan={2}>
+                          <input type="text" placeholder="Coupone Code" />
+                          <button>Apply</button>
+                      </td>
+                   </tr>
                    <tr >
                      <td colSpan={2}><button className="order-submit-btn">Proceed to Checkout</button></td>
                    </tr>

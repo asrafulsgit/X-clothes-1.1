@@ -13,10 +13,10 @@ const Modal = ({ product, clearCartModal }) => {
   const [modalThunailImage, setModalthumnailImage] = useState(
     product.images[0]
   );
-  const [quantity, setQuantity] = useState(1);
-  const [selectedSize, setSelectedSize] = useState("");
-  const [color, setColor] = useState("");
   const { _id, brand, title, price, sizes, images, description } = productInfo;
+  const [quantity, setQuantity] = useState(1);
+  const [selectedSize, setSelectedSize] = useState(sizes[0]);
+  const [color, setColor] = useState("");
   const [favorites,setFavorites]=useState(
     JSON.parse(localStorage.getItem('favorites')) || []
   )
@@ -59,6 +59,9 @@ const Modal = ({ product, clearCartModal }) => {
         size: selectedSize,
         color,
       });
+      setSelectedSize('')
+      setColor('')
+      setQuantity(1)
       setAddToCartLoading(false);
     } catch (error) {
       console.log(error);
