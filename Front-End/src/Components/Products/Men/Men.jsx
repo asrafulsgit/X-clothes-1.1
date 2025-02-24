@@ -11,6 +11,7 @@ import Card from "../Card";
 import Modal from "../Modal";
 import { categoryCheck, subCategory } from "../../../utils/categoryCheck";
 import {apiRequiest} from "../../../utils/ApiCall";
+import Header from "../header/Header";
 
 const Men = () => {
   const { category } = useParams();
@@ -61,15 +62,8 @@ const Men = () => {
     <>
       <div className="mens-page">
         <Nav navBgSetWithModal={isModal && true} />
+        <Header param={'/men/101120'} name={`Men's`} header={`Men's Shop`} />
 
-        <div className="winter-banner">
-                   <h1>Men's Shop</h1>
-                   <div className="header-links">
-                    <Link to='/'>Home</Link>|
-                    <Link to='/men/101120'>Men's</Link>
-                 </div>
-  
-       </div>
         <div className="mens-section">
           {pageLoading ? (
             <p style={{ textAlign: "center" }}>Loaging...</p>

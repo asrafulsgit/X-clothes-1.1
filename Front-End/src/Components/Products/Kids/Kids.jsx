@@ -11,6 +11,7 @@ import Modal from "../Modal";
 import { categoryCheck, subCategory } from "../../../utils/categoryCheck";
 import {apiRequiest} from "../../../utils/ApiCall";
 import { useSelector } from "react-redux";
+import Header from "../header/Header";
 
 const Kids = () => {
   const { category } = useParams();
@@ -61,15 +62,8 @@ const Kids = () => {
     <>
       <div className="kids-page">
         <Nav navBgSetWithModal={isModal && true} />
-        <div className="winter-banner">
-                           <h1>Kid's Shop</h1>
-                           <div className="header-links">
-                            <Link to='/'>Home</Link>|
-                            <Link to='/kids/301401'>Kid's</Link>
-                         </div>
-          
-               </div>
-
+        <Header param={'/kids/301401'} name={`Kid's`} header={`Kid's Shop`}/>
+       
         <div className="kids-section">
           {pageLoading ? (
             <p style={{ textAlign: "center" }}>Loaging...</p>

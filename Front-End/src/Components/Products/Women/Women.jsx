@@ -14,6 +14,7 @@ import Modal from '../Modal';
 
 
 import {apiRequiest} from '../../../utils/ApiCall';
+import Header from '../header/Header';
 
 const Women =() => {
   const {category}= useParams()
@@ -56,14 +57,7 @@ const Women =() => {
     <>
       <div className='womens-page'>
       <Nav navBgSetWithModal={isModal && true}/>
-      <div className="winter-banner">
-                         <h1>Women's Shop</h1>
-                         <div className="header-links">
-                          <Link to='/'>Home</Link>|
-                          <Link to='/women/201230'>Women's</Link>
-                       </div>
-        
-      </div>
+      <Header  param={'/women/201230'} name={`Women's`} header={`Women's Shop`}/>
       <div className="womens-section">
           {pageLoading ? <p style={{textAlign : 'center'}}>Loaging...</p>
           : <div className='womens-shop'>
