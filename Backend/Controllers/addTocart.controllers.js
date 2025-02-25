@@ -1,3 +1,4 @@
+const { default: mongoose } = require("mongoose");
 const addToCartModel = require("../Models/addToCart.model");
 const Product = require("../Models/products.model");
 const User = require("../Models/user.model");
@@ -5,7 +6,6 @@ const { getIo } = require("../socket");
 
 const addNewCart = async (req, res) => {
   const { productId, quantity, size, color } = req.body;
-  console.log(quantity, size, color);
   const userId = req.userInfo.id;
   const io = getIo();
   try {
@@ -44,38 +44,98 @@ const addNewCart = async (req, res) => {
 };
 
 const getUserCarts = async (req, res) => {
-  const { id } = req.userInfo;
-  const userId = id;
+  const userId = req.userInfo.id;
   const isUser = await User.findById(userId);
   try {
     if (!isUser) {
       return res.status(404).send({ message: "User is not found!" });
     }
-    const cartProducts = await addToCartModel.find({ userId });
-    if (!cartProducts) {
+    const cartProducts = await addToCartModel.find({ userId }).populate('productId', 'title images price stock')
+    
+    if (cartProducts.length === 0) {
       return res.status(404).send({ message: "You have no cart!" });
     }
-    const productIds = cartProducts.map((item) => item.productId);
-    const products = await Product.find({ _id: { $in: productIds } });
-    const addingQuantityWithProduct = products.map((product) => {
-    const machingProductId = cartProducts.find(
-        (item) => item.productId.toString() === product._id.toString()
-      );
-      if (machingProductId) {
-        return {
-          ...product.toObject(),
-          quantity: machingProductId.quantity,
-        };
-      }
-      return product;
-    });
+   
     return res.status(200).send({
-      carts: addingQuantityWithProduct,
+      carts: cartProducts,
     });
   } catch (error) {
     return res.status(500).send({ message: "somthing broke!" });
   }
 };
+const removeCartItem = async (req, res) => {
+  const { productId } = req.params;
+  const userId = req.userInfo.id;
+  const io = getIo();
+
+  try {
+  
+    if (!mongoose.Types.ObjectId.isValid(productId) || !mongoose.Types.ObjectId.isValid(userId)) {
+      return res.status(400).send({ message: "Invalid product ID or User ID" });
+    }
+
+    const objectProductId = new mongoose.Types.ObjectId(productId);
+    const objectUserId = new mongoose.Types.ObjectId(userId);
+
+    const isCartExist = await addToCartModel.deleteOne({
+      userId: objectUserId,
+      productId: objectProductId,
+    });
+
+
+    if (isCartExist.deletedCount === 0) {
+      return res.status(404).send({ message: "Cart item not found!" });
+    }
+
+    const totalCart = await addToCartModel.find({ userId });
+
+    io.emit("carts", totalCart.length);
+
+    res.status(200).send({
+      message: "Cart item deleted successfully",
+      carts: totalCart,
+    });
+  } catch (error) {
+    console.error("Error deleting cart item:", error);
+    res.status(500).send({ message: "Something broke!" });
+  }
+};
+
+const quantityChange =async(req,res)=>{
+  const { productId } = req.params;
+  const {quantity}= req.body;
+  const userId = req.userInfo.id;
+  try {
+    if(quantity < 1){
+      return res.status(400).send({ message: "Minimum Qunatity 1" });
+    }
+    if (!mongoose.Types.ObjectId.isValid(productId) || !mongoose.Types.ObjectId.isValid(userId)) {
+      return res.status(400).send({ message: "Invalid product ID or User ID" });
+    }
+
+    const objectProductId = new mongoose.Types.ObjectId(productId);
+    const objectUserId = new mongoose.Types.ObjectId(userId);
+
+    const isCartExist = await addToCartModel.findOne({
+      userId: objectUserId,
+      productId: objectProductId,
+    });
+    if (isCartExist.deletedCount === 0) {
+      return res.status(404).send({ message: "Cart item not found!" });
+    }
+    isCartExist.quantity = quantity;
+    await isCartExist.save()
+
+    res.status(200).send({
+      message: "updated quantity",
+      carts: isCartExist,
+    });
+  } catch (error) {
+    console.error("Error update quantity cart item:", error);
+    res.status(500).send({ message: "Something broke!" });
+  }
+}
+
 
 const getTotalCart = async (req, res) => {
   try {
@@ -88,32 +148,16 @@ const getTotalCart = async (req, res) => {
   }
 };
 
-const removeCartItem = async (req, res) => {
-  const { productId } = req.params;
-  const { id } = req.userInfo;
-  const userId = id;
-  const io = getIo();
-  try {
-    const isCartExist = await addToCartModel.deleteOne({
-      $and: [{ userId }, { productId }],
-    });
-    if (!isCartExist) {
-      return res.status(404).send({ message: "Cart is not found!" });
-    }
-    const totalCart = await addToCartModel.find({ userId });
-    io.emit("carts", totalCart.length);
-    res.status(200).send({
-      message: "Cart is deleted",
-      carts: totalCart,
-    });
-  } catch (error) {
-    res.status(500).send({ message: "somthing broke!" });
-  }
-};
+
+
+
+
+
 
 module.exports = {
   addNewCart,
   getUserCarts,
   removeCartItem,
   getTotalCart,
+  quantityChange
 };

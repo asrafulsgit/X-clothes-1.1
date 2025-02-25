@@ -5,6 +5,7 @@ import Nav from "../../App/Nav/Nav";
 import Footer from "../../App/Footer/Footer";
 import Header from "../../Products/header/Header";
 import { apiRequiestWithCredentials } from "../../../utils/ApiCall";
+import axios from "axios";
 
 const Cart = () => {
   const [carts, setCarts] = useState([]);
@@ -15,7 +16,6 @@ const Cart = () => {
       try {
         const data = await apiRequiestWithCredentials("get", "/get-user-carts");
         setCarts(data?.carts || []);
-        console.log(data.carts);
         setLoading(false);
       } catch (error) {
         console.log(error);
@@ -27,18 +27,51 @@ const Cart = () => {
 
   const handleDelete = async (productId) => {
     setLoading(true);
-    const filteredCarts = carts.filter((item) => item._id !== productId);
+    const filteredCarts = carts.filter((item) => item.productId._id !== productId);
     setCarts(filteredCarts);
     try {
       await apiRequiestWithCredentials(
         "delete",
         `/remove-cart-item/${productId}`
       );
-      setLoading(false);
+    setLoading(false)
     } catch (error) {
       console.log(error);
     }
   };
+
+  // quantity setup
+
+  const handleQuantity =async(productId,quantity)=>{
+    const updatedCarts = carts.map((item) => {
+      if (item.productId._id === productId) {
+        return { ...item, quantity };
+      }
+      return item;
+    });
+    setCarts(updatedCarts);
+    try {
+    await apiRequiestWithCredentials('put',`/update-cart-quantity/${productId}`,{quantity})
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  const handleIncrement =(productId,quantity)=>{
+      handleQuantity(productId,quantity+1)   
+  }
+  const handleDecrement =(productId,quantity)=>{
+      if(quantity > 1){
+        handleQuantity(productId,quantity-1)
+      }
+  }
+  
+  const handleQuantityInput =(productId,e)=>{
+      const {value}=e.target;
+      const quantity = value ? Math.max(1,parseInt(value,10)): 1;
+      handleQuantity(productId,quantity)
+  }
+
+
   const orderSummary=[
     {name : 'Items', value : 3},
     {name : 'Sub Total', value : 4052},
@@ -69,56 +102,59 @@ const Cart = () => {
                 </tr>
               </thead>
               <tbody className="cart-cards">
-                {carts.map((item) => {
+                {carts.map((item,index) => {
+                  const {productId,quantity,color,size}=item;
+                  const {_id,title,price,images,stock}=productId;
                   return (
-                    <tr key={item._id} className="cart-card">
+                    <tr key={index} className="cart-card">
                       <td className="remove-data">
                         <button
-                          onClick={() => handleDelete(item._id)}
+                          onClick={() => handleDelete(_id)}
                           className="remove-cart-item-btn"
                         >
                           <i className="fa-solid fa-x"></i>
                         </button>
                       </td>
                       <td className="product">
-                        <img src={item.images?.[0]} alt="" />
+                        <img src={images?.[0]} alt="" />
                         <div className="product-details">
                           <h2 className="title">
-                            {item.title.length > 30
-                              ? item.title.slice(0, 25) + "..."
-                              : item.title}
+                            {title.length > 30
+                              ? title.slice(0, 25) + "..."
+                              : title}
                           </h2>
                           <div>
-                            <p>Color : white</p>
-                            <p>Size : xl </p>
+                            <p>Color : {color}</p>
+                            <p>Size : {size} </p>
                           </div>
                         </div>
                       </td>
-                      <td>${item.price}</td>
+                      <td>BDT {price}</td>
                       <td>
                         <div className="cart-table-quantity">
                           <button
-                            // onClick={() => setQuantity(quantity - 1)}
-                            // disabled={quantity === 1}
+                            disabled={quantity === 1}
+                            onClick={()=> handleDecrement(_id,quantity)}
                             className="inc-dec-btn"
                           >
                             <i className="fa-solid fa-minus"></i>
                           </button>
                           <input
                             type="number"
-                            // onChange={handleQuantity}
-                            // value={quantity}
+                            onChange={(e)=>handleQuantityInput(_id,e)}
+                            value={quantity}
                             name="quantity"
                           />
                           <button
-                            // onClick={() => setQuantity(quantity + 1)}
+                            disabled={quantity == stock}
+                            onClick={() => handleIncrement(_id,quantity)}
                             className="inc-dec-btn"
                           >
                             <i className="fa-solid fa-plus"></i>
                           </button>
-                        </div>
+                        </div> 
                       </td>
-                      <td>$500</td>
+                      <td>BDT {price*quantity}</td>
                     </tr>
                   );
                 })}
