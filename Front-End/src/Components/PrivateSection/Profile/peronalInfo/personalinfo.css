@@ -1,0 +1,82 @@
+:root {
+     --color-1: #0487E2;
+     --color-2: #0463CA;
+     --color-3: #09B1EC;
+     --color-4: #D91656;
+     --display-font-OpenSans : "Open Sans", sans-serif;
+     --font-family-Poppins :"Poppins", sans-serif;
+}
+.personal-info-section{
+     font-family: var(--font-family-Poppins);
+     /* border: 1px solid; */
+}
+
+.personal-info-section .profile-image-field{
+     height: 120px;
+     width: 120px;
+     /* border: 1px solid; */
+     border-radius: 50%;
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     position: relative;
+}
+.personal-info-section .profile-image{
+     border-radius: 50%;
+     overflow: hidden;
+     height: 100%;
+     width: 100%;
+}
+.personal-info-section .profile-image img{
+     height: 100%;
+     width: 100%;
+     object-fit: cover;
+}
+.personal-info-section .profile-image-field .profile-image-edit{
+     background-color: var(--color-4);
+     position: absolute;
+     bottom: 10px;
+     right: -8px;
+     padding: 0.5rem;
+     border-radius: 50%;
+     border: 2px solid white;
+     cursor: pointer;
+}
+.personal-info-section .profile-image-field .profile-image-edit i{
+     color: white;
+     font-size: 1.1rem;
+}
+.personal-info-section .information-section{
+     margin-top: 2rem;
+     display: flex;
+     flex-direction: column;
+     gap: 1.5rem;
+}
+.personal-info-section .information-section .input-field{
+     display: flex;
+     flex-direction: column;
+     gap: 1rem;
+}
+.personal-info-section .information-section .input-field label{
+     font-weight: 500;
+     font-size: 1.1rem;
+     opacity: 0.9;
+}
+.personal-info-section .information-section .input-field input{
+     padding: 0.8rem ;
+     font-size: 1rem;
+     font-family: var(--font-family-Poppins);
+     border: 1px solid rgba(0, 0, 0, 0.083);
+     outline: none;
+     background-color: transparent;
+}
+.personal-info-section  .info-update-btn button{
+     margin-top: 2rem;
+     font-family: var(--font-family-Poppins);
+     font-size: 1rem;
+     background-color: var(--color-4);
+     border: none;
+     color: white;
+     padding: 0.8rem 1.5rem;
+     cursor: pointer;
+}

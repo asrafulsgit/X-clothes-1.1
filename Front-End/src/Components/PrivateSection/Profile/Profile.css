@@ -13,11 +13,13 @@
 .profile-page .main-profile-section{
      padding: 2rem 4rem;
      display: flex;
-     gap: 1rem;
+     gap: 1.5rem;
 }
 .profile-page .main-profile-section .user-account-sidebar{
-     border: 1px solid rgba(0, 0, 0, 0.083);
      width: 25%;
+}
+.profile-page .main-profile-section .user-account-setting{
+     width: 75%;
 }
 
 

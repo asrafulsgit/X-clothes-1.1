@@ -7,6 +7,7 @@
      --font-family-Poppins :"Poppins", sans-serif;
 }
 .sidebar{
+     border: 1px solid rgba(0, 0, 0, 0.083);
      display: flex;
      flex-direction: column;
      font-family: var(--font-family-Poppins);

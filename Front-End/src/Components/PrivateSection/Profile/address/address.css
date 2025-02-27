@@ -1,0 +1,93 @@
+:root {
+     --color-1: #0487E2;
+     --color-2: #0463CA;
+     --color-3: #09B1EC;
+     --color-4: #D91656;
+     --display-font-OpenSans : "Open Sans", sans-serif;
+     --font-family-Poppins :"Poppins", sans-serif;
+}
+
+.manage-address-section{
+     /* border: 1px solid; */
+     font-family: var(--font-family-Poppins);
+}
+.manage-address-section .previous-addresses{
+}
+.manage-address-section .previous-addresses table {
+     width: 100%;
+}
+.manage-address-section .previous-addresses table, tr{
+     border: 1px solid rgba(0, 0, 0, 0.083);
+     border-collapse: collapse;
+     
+}
+.manage-address-section .previous-addresses table tr td{
+     padding: 1rem 0;
+}
+.manage-address-section .previous-addresses table tr td:nth-child(1){
+     padding-left: 1rem;
+}
+.manage-address-section .previous-addresses table .house-name{
+     font-size: 1.1rem;
+     font-weight: 500;
+     opacity: 0.9;
+}
+.manage-address-section .previous-addresses table .house-address{
+     opacity: 0.8;
+}
+.manage-address-section .previous-addresses table .edit-address-btn,
+.manage-address-section .previous-addresses table .delete-address-btn{
+     font-size: 1rem;
+     font-family: var(--font-family-Poppins);
+     font-weight: 500;
+     opacity: 0.9;
+     padding: 0.3rem 0;
+     width: 80px;
+     border: 0;
+     cursor: pointer;
+     background: transparent;
+}
+.manage-address-section .previous-addresses table .delete-address-btn{
+     color: red;
+}
+.manage-address-section .previous-addresses table .edit-address-btn{
+     color: var(--color-4);
+}
+.manage-address-section .new-address-title{
+     font-weight: 500;
+     opacity: 0.8;
+     font-size: 1.4rem;
+     margin-top: 1rem;
+}
+
+.manage-address-section .address-section .input-field{
+     display: flex;
+     flex-direction: column;
+     gap: 1rem;
+     margin-top: 1rem;
+}
+.manage-address-section .address-section .input-field label{
+     font-weight: 500;
+     font-size: 1.1rem;
+     opacity: 0.8;
+}
+.manage-address-section .address-section .input-field input,
+.manage-address-section .address-section .input-field select{
+     padding: 0.8rem ;
+     font-size: 1rem;
+     font-family: var(--font-family-Poppins);
+     border: 1px solid rgba(0, 0, 0, 0.083);
+     outline: none;
+     background-color: transparent;
+     opacity: 0.8;
+}
+.manage-address-section  .info-update-btn button{
+     margin-top: 2rem;
+     font-family: var(--font-family-Poppins);
+     font-size: 1rem;
+     background-color: var(--color-4);
+     border: none;
+     color: white;
+     padding: 0.8rem 1.5rem;
+     cursor: pointer;
+}

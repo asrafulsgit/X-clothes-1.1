@@ -12,6 +12,7 @@ import PersonalInfo from './peronalInfo/PersonalInfo'
 import Orders from './orders/Orders'
 import Address from './address/Address'
 import Password from './password/Password'
+import Logout from './logout/logout'
 
 const Profile = () => {
    const navigate = useNavigate();
@@ -57,6 +58,7 @@ const Profile = () => {
               : acitveInfo === 'orders' ? <Orders />
               : acitveInfo === 'address' ? <Address />
               : acitveInfo === 'password' ? <Password />
+              : acitveInfo === 'logout' ?  <Logout />
               : <PersonalInfo />
              }
          </div>
