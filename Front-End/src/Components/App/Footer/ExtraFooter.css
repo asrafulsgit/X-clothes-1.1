@@ -3,23 +3,44 @@
      --color-2: #0463CA;
      --color-3: #09B1EC;
      --color-4: #D91656;
-     --display-font-01 :"Montserrat", sans-serif;
-     --display-font-02 : "Open Sans", sans-serif;
-     --font-family:"Afacad Flux", sans-serif;
-     --font-family2 :"Poppins", sans-serif;
+     --display-font-Montserrat :"Montserrat", sans-serif;
+     --display-font-OpenSans : "Open Sans", sans-serif;
+     --font-family-AfacadFlux:"Afacad Flux", sans-serif;
+     --font-family-Poppins :"Poppins", sans-serif;
+     --display-font-section-header : "Courgette", cursive;
 }
 
-.extra-footer-links{
+.extra-footer{
      display: flex;
-     gap: 2rem;
-     font-size: 1rem;
-     font-family: var(--display-font-02);
-     padding-top: 2rem;
+     padding: 3rem 4rem;
+     justify-content: center;
+     align-items: center;
+     gap: 1rem;
+     font-family: var(--font-family-Poppins);
 }
-.extra-footer-links a{
-     color: white;
-     transition: 0.2s;
+.extra-footer .extra-footer-itmes{
+   display: flex;
+   gap: 1.5rem;
+   /* border: 1px solid; */
+   /* background-color: #d916570e; */
+   border-radius: 5px;
+   padding: 0.5rem;
 }
-.extra-footer-links a:hover{
-     text-decoration:underline;
+.extra-footer .extra-footer-itmes img{
+     width: 80px;
+     height: 80px;
+     object-fit: cover;
+     /* border: 1px solid; */
+     background-color: white;
+     border-radius: 10px;
+     padding: 0.5rem;
+}
+
+.extra-footer .extra-footer-itmes .extra-footer-details h2{
+     font-size: 1.2rem;
+     opacity: 0.9;
+     margin-bottom: 0.5rem;
+}
+.extra-footer .extra-footer-itmes .extra-footer-details p{
+     opacity: 0.9;
 }

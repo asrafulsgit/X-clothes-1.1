@@ -1,20 +1,44 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
 
 import './ExtraFooter.css'
 
-
+import payment from '../../../assets/vectors/payment.png'
+import shipping from '../../../assets/vectors/shipping.png'
+import support from '../../../assets/vectors/support.png'
 
 const ExtraFooter = () => {
+  const extraFooter = [
+    {
+      image : shipping, 
+      title : 'Free Shipping', 
+      subtitle : 'Free Shipping for order above BDT 1k'
+    },
+    {
+      image : payment, 
+      title : 'Flexible payment', 
+      subtitle : 'Multiple secure payment options'
+    },
+    {
+      image : support, 
+      title : '24/7 Support', 
+      subtitle : 'We support online all days'
+    }
+  ]
   return (
     <div className='extra-footer'>
-      <div className="extra-footer-links">
-          <Link to='/aboutus'>About Us</Link>
-          <Link to='/return-policy'>Return Policy</Link>
-          <Link to='/terms-and-conditions'>Terms & Condition</Link>
-          <Link to='/privacy-policy'>Privacy Policy</Link>
-          <Link to='/faq'>FAQ</Link>
-      </div>
+         {extraFooter.map((item,index)=>{
+          const {image,title,subtitle}= item;
+          return(
+          <div className="extra-footer-itmes" key={index}>
+            <img src={image} alt="vector" />
+            <div className="extra-footer-details">
+                 <h2>{title}</h2>
+                 <p>{subtitle}</p>
+            </div>
+          </div>
+          )
+         })}
+        
     </div>
   )
 }

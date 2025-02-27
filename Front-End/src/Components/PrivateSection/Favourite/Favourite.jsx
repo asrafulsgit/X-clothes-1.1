@@ -5,6 +5,7 @@ import Nav from '../../App/Nav/Nav';
 import Footer from '../../App/Footer/Footer';
 import { apiRequiestWithCredentials } from '../../../utils/ApiCall';
 import Header from '../../Products/header/Header';
+import ExtraFooter from '../../App/Footer/ExtraFooter';
 
 const Favourite = () => {
    const [favorites,setFavorites]=useState([])
@@ -23,7 +24,6 @@ const Favourite = () => {
           }
         apiCalling()
     },[])
-
     const handleDelete=async(id)=>{
       setLoading(true)
       const filteredFavorites = favorites.filter(item => item._id !== id)
@@ -36,8 +36,6 @@ const Favourite = () => {
       }
 
     }
-    
-  
     return (
       <div className='favorite-page'>
         <Nav />
@@ -48,7 +46,7 @@ const Favourite = () => {
         ) : !loading && (favorites?.length <= 0 || !favorites) ? (
           <p className="empty-message">{message}</p>
         ) : (
-          <div className="cart-table">
+          <div className="favorite-cart-table">
             <table>
               <thead>
                 <tr>
@@ -62,6 +60,7 @@ const Favourite = () => {
               </thead>
               <tbody className="cart-cards">
                 {favorites.map((item) => {
+                  const {title,stock,images,price} =item.productId;
                   return (
                     <tr key={item._id} className="cart-card">
                       <td className="remove-data">
@@ -73,12 +72,12 @@ const Favourite = () => {
                         </button>
                       </td>
                       <td className="product">
-                        <img src={item.images?.[0]} alt="" />
+                        <img src={images?.[0]} alt="image" />
                         <div className="product-details">
                           <h2 className="title">
-                            {item.title.length > 30
-                              ? item.title.slice(0, 25) + "..."
-                              : item.title}
+                            {title.length > 30
+                              ? title.slice(0, 25) + "..."
+                              : title}
                           </h2>
                           <div>
                             <p>Color : white</p>
@@ -86,9 +85,9 @@ const Favourite = () => {
                           </div>
                         </div>
                       </td>
-                      <td className='price-td'>${item.price}</td>
-                      <td className='date-td'>date</td>
-                      <td className='stock-td'>{item.stock >=0 ? 'Instock' : ''}</td>
+                      <td className='price-td'>${price}</td>
+                      <td className='date-td'>{item?.createdAt.split('T')[0]}</td>
+                      <td className='stock-td'>{stock >=0 ? 'Instock' : ''}</td>
                       <td className='add-to-cart-btn-td'><button className='add-to-cart-btn'>Add to Cart</button></td>
                     </tr>
                   );
@@ -98,6 +97,7 @@ const Favourite = () => {
           </div>
         )}
       </div>
+        <ExtraFooter />
         <Footer />
       </div>
     )
@@ -106,15 +106,3 @@ const Favourite = () => {
 export default Favourite
 
 
-{/* // favorites.map((item)=>{
-              //   const {_id,images,title,price}= item;
-              //     return  (
-              //         <div key={_id} className='cart-card'>
-              //           <img src={images[0]} alt="" />
-              //           <h1 className='title'>{title.length > 30 ? item.title.slice(0,25)+'...' : item.title}</h1>
-              //           <p className='price'>BDT : {price}</p>
-              //           <button onClick={()=>handleDelete(_id)} className='remove-cart-item-btn'>Remove</button>
-              //         </div>
-              //     )
-              //   })
-              // } */}

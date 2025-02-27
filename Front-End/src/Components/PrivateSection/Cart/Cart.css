@@ -130,18 +130,22 @@
      width: 100%;
 }
 .cart-page .order-summary-table table thead tr{
-     border-bottom: 1px solid rgba(0, 0, 0, 0.092);
-     
+     border: none;
 }
-.cart-page .order-summary-table table thead tr th h2{
+.cart-page .order-summary-table table thead tr th{
+     border-bottom : 1px solid rgba(0, 0, 0, 0.15);
+}
+.cart-page .order-summary-table  table tbody tr{
+     border: none;
+}
+.cart-page .order-summary-table table thead tr th h3{
      text-align: left;
-     font-size: 1.2rem;
-     font-weight: 600;
-     opacity: 0.8;
-     padding-bottom: 1rem;
+     font-size: 1.1rem;
+     font-weight: 500;
+     opacity: 0.9;
+     padding-bottom: .8rem;
 }
 
-.cart-page .order-summary-table table, th 
 .cart-page .order-summary-table table, tr {
      border: none;
      border-collapse: collapse;

@@ -5,12 +5,14 @@ import Nav from "../../App/Nav/Nav";
 import Footer from "../../App/Footer/Footer";
 import Header from "../../Products/header/Header";
 import { apiRequiestWithCredentials } from "../../../utils/ApiCall";
-import axios from "axios";
+import ExtraFooter from "../../App/Footer/ExtraFooter";
 
 const Cart = () => {
   const [carts, setCarts] = useState([]);
   const [message, setMessage] = useState("Your cart is empty!");
   const [loading, setLoading] = useState(true);
+  const [totalAmount, setTotalAmount]=useState(0)
+  const [totalItems,setTotalItems]=useState(0)
   useEffect(() => {
     const apiCalling = async () => {
       try {
@@ -23,8 +25,14 @@ const Cart = () => {
       }
     };
     apiCalling();
+    
   }, []);
-
+  useEffect(()=>{
+    const calculateTotalItems = carts.reduce((acc,item)=> acc + item.quantity ,0)
+    setTotalItems(calculateTotalItems)
+    const calculateTotalAmount = carts.reduce((acc,item)=> acc + (item.quantity * item.productId.price),0)
+    setTotalAmount(calculateTotalAmount)
+  },[carts])
   const handleDelete = async (productId) => {
     setLoading(true);
     const filteredCarts = carts.filter((item) => item.productId._id !== productId);
@@ -39,7 +47,6 @@ const Cart = () => {
       console.log(error);
     }
   };
-
   // quantity setup
 
   const handleQuantity =async(productId,quantity)=>{
@@ -71,13 +78,12 @@ const Cart = () => {
       handleQuantity(productId,quantity)
   }
 
-
   const orderSummary=[
-    {name : 'Items', value : 3},
-    {name : 'Sub Total', value : 4052},
-    {name : 'Shipping', value : 402},
-    {name : 'Taxes', value : 20},
-    {name : 'Coupon Discount', value : 20}
+    {name : 'Items', value : totalItems},
+    {name : 'Sub Total', value : totalAmount},
+    {name : 'Shipping', value : 0},
+    {name : 'Taxes', value : 0},
+    {name : 'Coupon Discount', value : 0}
   ]
   return (
     <div className="cart-page">
@@ -165,7 +171,7 @@ const Cart = () => {
                 <table>
                   <thead>
                     <tr>
-                    <th colSpan={2}><h2>Order Summary</h2></th>
+                    <th colSpan={2}><h3>Order Summary</h3></th>
                     </tr>
                   </thead>
 
@@ -180,7 +186,7 @@ const Cart = () => {
                    })} 
                    <tr className="order-submit-row">
                        <td className="order-summary-table-name">Total</td>
-                       <td className="order-summary-table-value">54230</td>
+                       <td className="order-summary-table-value">{totalAmount}</td>
                    </tr>
                    <tr className="coupon-code-field">
                       <td colSpan={2}>
@@ -198,6 +204,7 @@ const Cart = () => {
           </div>
         )}
       </div>
+      <ExtraFooter />
       <Footer />
     </div>
   );

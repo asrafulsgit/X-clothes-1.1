@@ -41,23 +41,21 @@ const addToFavourite = async (req, res) => {
   }
 };
 const getFavouriteProducts = async (req, res) => {
-  const { id } = req.userInfo;
-  const userId = id;
+  const userId = req.userInfo.id;
   try {
     const userExist = await User.findById(userId);
     if (!userExist) {
      return res.status(404).send({ message: "User is not valid!" });
     }
 
-    const favouriteProducts = await Favourite.find({ userId });
-    const productIds = favouriteProducts.map((item) => item.productId);
-    const products = await Product.find({ _id: { $in: productIds } });
+    const favouriteProducts = await Favourite.find({ userId }).populate('productId', 'title images stock price');
+    
     if (!favouriteProducts) {
       return res.status(404).send({ message: "Favourite is empty!" });
     }
 
     return res.status(201).send({
-      products: products,
+      products: favouriteProducts,
     });
   } catch (error) {
     res.status(500).send({ message: "somthing broke!" });
