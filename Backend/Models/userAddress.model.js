@@ -5,8 +5,8 @@ const userAddressSchema = new mongoose.Schema({
      house : {type : String},
      state : {type : String},
      zip : {type : String},
-     email : {type : String,unique : true, trim : true},
-     phone : {type : String,unique : true},
+     email : {type : String, trim : true},
+     phone : {type : String},
      user  : {
           type : mongoose.Schema.Types.ObjectId,
           ref : 'User',

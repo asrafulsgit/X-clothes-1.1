@@ -21,6 +21,11 @@
      align-items: center;
      position: relative;
 }
+.personal-info-section .profile-image .loadingio-spinner-rolling-nq4q5u6dq7r{
+     position: absolute;
+     top: 50px;
+     left: 50px;
+}
 .personal-info-section .profile-image{
      border-radius: 50%;
      overflow: hidden;
@@ -31,7 +36,7 @@
 .personal-info-section .profile-image img{
      height: 100%;
      width: 100%;
-     object-fit: cover;
+     object-fit: contain;
 }
 .personal-info-section .profile-image-field .profile-image-edit{
      background-color: var(--color-4);

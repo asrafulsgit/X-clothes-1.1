@@ -40,12 +40,15 @@ const PersonalInfo = () => {
       }
     })
       setPersonalInfo({...personalInfo,avatar : data.avatar})
-    setImageLoading(false)
+      setImageLoading(false)
     } catch (error) {
       console.log(error)
     }
+    setImageLoading(false)
   };
-
+  const handleChange =()=>{
+    
+  }
   return (
     <div className="personal-info-section">
       {apiLoading ? (
@@ -54,9 +57,15 @@ const PersonalInfo = () => {
         <>
           <div className="profile-image-field">
             <div className="profile-image">
-              <img src={personalInfo.avatar} alt="image" />
+              {imageLoading ? 
+                <div style={{padding: '0 4px'}} className="loadingio-spinner-rolling-nq4q5u6dq7r">
+                 <div  className="ldio-x2uulkbinbj ">
+                   <div style={{width : '30px',height : '30px'}}></div>
+                 </div>
+                </div> 
+               : <img src={personalInfo.avatar} alt="image" />}
             </div>
-            <form encType="multipart/form-data" className="profile-image-edit">
+            {!imageLoading && <form encType="multipart/form-data" className="profile-image-edit">
               <input
                 type="file"
                 onChange={changeAvater}
@@ -66,20 +75,20 @@ const PersonalInfo = () => {
               <label htmlFor="fileInput" className="custom-file-label">
                 <i className="fa-solid fa-pen-to-square"></i>
               </label>
-            </form>
+            </form>}
           </div>
           <div className="information-section">
             <div className="input-field">
               <label htmlFor="name"> Name</label>
-              <input type="text" value={personalInfo.name} name="name" />
+              <input type="text" onChange={handleChange} value={personalInfo.name} name="name" />
             </div>
             <div className="input-field">
               <label htmlFor="email">Email</label>
-              <input type="email" value={personalInfo.email} name="email" />
+              <input type="email" onChange={handleChange} value={personalInfo.email} name="email" />
             </div>
             <div className="input-field">
               <label htmlFor="number">Phone</label>
-              <input type="number" value={personalInfo.phone} name="number" />
+              <input type="number" onChange={handleChange} value={personalInfo.phone} name="number" />
             </div>
           </div>
           <div className="info-update-btn">

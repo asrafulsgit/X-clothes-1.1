@@ -1,5 +1,6 @@
 const { v2 : cloudinary } = require('cloudinary') ;
 const fs =require('fs')
+const bcrypt = require('bcrypt')
 const User = require("../Models/user.model");
 const Address = require("../Models/userAddress.model");
 
@@ -78,14 +79,17 @@ const personalInfoUpdate =async(req,res)=>{
 const addNewAddress = async(req,res)=>{
     const userId = req.userInfo.id;
     const {house,state,zip,email,phone} = req.body;
+    console.log(house,state,zip,email,phone)
     try {
         const isUser = await User.findById(userId)
+        // console.log(isUser)
         if(!isUser){
           return res.status(400).send({
             message : 'user not found . please try again!'
           })
         }
         const newAddress = new Address({
+          user : userId,
           house,
           state,
           zip,
@@ -111,9 +115,10 @@ const getUserAddresses = async(req,res)=>{
             message : 'user not found . please try again!'
           })
         }
-        const addresses = await Address.find({userId})
+        const addresses = await Address.find({user : userId})
         return res.status(200).send({
-          addresses
+          addresses,
+          success : true
         })
     } catch (error) {
       return res.status(500).send({ message: "somthing broke!" });
@@ -130,12 +135,11 @@ const removeAddress = async(req,res)=>{
             message : 'user not found . please try again!'
           })
         }
-        const addresses = await Address.findByIdAndDelete(addressId)
-        if (addresses.deletedCount === 0) {
+        const address = await Address.findByIdAndDelete(addressId)
+        if (address.deletedCount === 0) {
           return res.status(404).send({ message: "address not delete!" });
         }
         return res.status(200).send({
-          addresses,
           message : 'address is deleted'
         })
     } catch (error) {
@@ -156,7 +160,6 @@ const updateAddress = async(req,res)=>{
         })
       }
       const address = await Address.findById(addressId)
-      
       if (!address) {
         return res.status(404).send({ message: "address not found!" });
       }
@@ -171,10 +174,53 @@ const updateAddress = async(req,res)=>{
   }
 }
 
+//reset-password
+
+const  userResetPassword = async(req,res)=>{
+  const userId = req.userInfo.id;
+  const {oldPassword,newPassword,confirmPassword} =req.body; 
+  console.log(oldPassword,newPassword,confirmPassword)
+  try {
+      const isUser = await User.findById(userId)
+      if(!isUser){
+        return res.status(400).send({
+          message : 'user not found . please try again!'
+        })
+      }
+      const isPassword = await bcrypt.compare(oldPassword,isUser.password)
+      if(!isPassword){
+        return res.status(400).send({
+          field : 'password',
+          message : 'Wrong password!'
+        })
+      }
+    if(newPassword !== confirmPassword){
+      return  res.status(400).send({
+        field : 'password',
+        message :  'new password did not match'
+      })
+    } 
+    const updatedPassword = await bcrypt.hash(newPassword,10)
+    isUser.password = updatedPassword;
+    await isUser.save();
+    return res.status(200).send({
+      success : true,
+      message : 'password changed'
+    })
+  } catch (error) {
+    return res.status(500).send({ message: "somthing broke!" });
+  }
+}
+
  
 
 
 module.exports ={
      userPersonalInformation,
-     avaterUpdate
+     avaterUpdate,
+     addNewAddress,
+     getUserAddresses,
+     updateAddress,
+     removeAddress,
+     userResetPassword
 }

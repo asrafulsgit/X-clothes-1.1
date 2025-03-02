@@ -1,54 +1,75 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import './address.css'
+import { apiRequiestWithCredentials } from '../../../../utils/ApiCall'
+import AddAddress from './AddAddress'
+import UpdateAddress from './UpdateAddress'
 const Address = () => {
+  
+  const [addresses,setAddresses]=useState([])
+
+  useEffect(()=>{
+    const apiCalling =async()=>{
+      try {
+      const data =  await apiRequiestWithCredentials('get','/user-addresses')
+       setAddresses(data.addresses)
+      } catch (error) {
+      console.log(error)
+      }
+    }
+    apiCalling()
+  },[])
+
+  const newAddress=(address)=>{
+    setAddresses([...addresses,address])
+  }
+
+  
+  const handleAddressDelete =async(id)=>{
+    const filteredAddress = addresses.filter(item => item._id !== id)
+    try {
+      await apiRequiestWithCredentials('delete',`/user-delete-address/${id}`)
+      setAddresses(filteredAddress)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const [isUpdate,setIsUpdate]=useState(false)
+  const [oldAddress,setOldAddress]=useState({})
+  const handleAddressEdit=(address)=>{
+    setIsUpdate(true)
+    setOldAddress(address)
+  }
+
+  const isUpdated =(value)=>{
+    setIsUpdate(value)
+  }
+
   return (
     <div className='manage-address-section'>
       <div className="previous-addresses">
          <table>
               <tbody>
-                    <tr> 
+                {addresses?.map((item,index)=>{
+                  return(
+                    <tr key={index}> 
                         <td>
-                          <h2 className='house-name'>Asraful House</h2>
-                          <p className='house-address'>2462 house,master para, feni, bangladesh</p>
+                          <h2 className='house-name'>{item?.house}</h2>
+                          <p className='house-address'>Division : {item?.state}, zip : {item?.zip}</p>
                         </td>
-                        <td style={{width:'100px'}}><button className='edit-address-btn'>Edit</button></td>
-                        <td style={{width:'100px'}}><button className='delete-address-btn'>Delete</button></td>
+                        <td style={{width:'100px'}}><button className='edit-address-btn' onClick={()=>handleAddressEdit(item)} >Edit</button></td>
+                        <td style={{width:'100px'}}><button className='delete-address-btn' onClick={()=> handleAddressDelete(item._id)}>Delete</button></td>
                     </tr>
+                  )
+                })}
+                    
               </tbody>
          </table>
       </div>
-      <h1 className='new-address-title'>Add New Address</h1>
-      <div className="address-section">
-                <div className="input-field">
-                  <label htmlFor="house">House</label>
-                    <input type="text" name='house' placeholder='House Name'  />
-                </div>
-                <div className="input-field">
-                  <label htmlFor="state">State</label>
-                      <select name="state" id="state">
-                        <option value="feni">Feni</option>
-                        <option value="dhaka">dhaka</option>
-                      </select>
-                </div>
-                <div className="input-field">
-                  <label htmlFor="zip">Zip Code</label>
-                    <select name="zip" id="zip">
-                    <option value="3900">aftab bibir hat</option>
-                    <option value="1200">Dhaka</option>
-                    </select>
-                </div>
-                <div className="input-field">
-                  <label htmlFor="email">Email</label>
-                    <input type="email" name='email' />
-                </div>
-                <div className="input-field">
-                  <label htmlFor="number">Phone</label>
-                    <input type="number" name='number' />
-                </div>
-      </div>
-      <div className="info-update-btn">
-            <button>Save change</button>
-      </div>
+      <h1 className='new-address-title'>{isUpdate ? 'Updating ' : 'Add New'} Address</h1>
+      {isUpdate ? <UpdateAddress oldAddress={oldAddress} isUpdated={isUpdated}/>
+      : <AddAddress newAddress={newAddress}/>}
+      
     </div>
   )
 }

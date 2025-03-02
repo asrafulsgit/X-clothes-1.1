@@ -320,5 +320,5 @@ export const   mensNavData =[
      },
    ]
 
+export const divisions = ["Barisal", "Chittagong", "Dhaka", "Khulna", "Mymensingh", "Rajshahi", "Rangpur", "Sylhet"];
 
-// export default AllProduct;

@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import './password.css'
+import { apiRequiestWithCredentials } from '../../../../utils/ApiCall'
 const Password = () => {
      const [message,setMessage] =useState('')
      const [resetInfo, setResetInfo]= useState(
@@ -11,7 +12,6 @@ const Password = () => {
      )
      const [showPassword,setShowpassword]=useState('')
      const [seePassword,setSeePassword]=useState(false)
-     console.log(showPassword)
      const handlePasswords =(value)=>{
         if(!seePassword){
           setShowpassword(value)
@@ -27,22 +27,16 @@ const Password = () => {
           setMessage('')
      }
      console.log(resetInfo)
-     const handleSubmit =(e)=>{
+     const handleResetPassword =async(e)=>{
           e.preventDefault()
-          const {password,rePassword} = resetInfo;
-          if(password === rePassword){
-               axios.put('http://localhost:8000/reset-password',resetInfo)
-               .then((res)=>{
-                    navigate('/login')
-                    dispatch(setEmail(''))
-                    dispatch(setEmailVerificationCode(''))
-                    dispatch(setIsReadyForResetPassword(false))
-                    dispatch(setIsReadyForEmailVerify(false))
-                    dispatch(setEmail(''))
-               })
-               .catch((err)=>{
-                    setMessage(err.response.data.message)
-               })
+          const {oldPassword,newPassword,confirmPassword} = resetInfo;
+          if(newPassword === confirmPassword){
+               try {
+               const data = await apiRequiestWithCredentials('put','/user-manage-password',resetInfo)
+               console.log(data)
+               } catch (error) {
+                    console.log(error)
+               }
           }else{
                setMessage('Password is not match!')
           }
@@ -50,7 +44,7 @@ const Password = () => {
 
 return (
       <div className='password-manager-section'>
-               <form >
+               <form onSubmit={handleResetPassword}>
                     <div className='input-field'>
                         <label htmlFor="password">Old Password</label>
                          <div className="inputs">
@@ -67,7 +61,7 @@ return (
                          <label htmlFor="password">New Password</label>
                          <div className="inputs">
                          <input  type={`${showPassword === 'oldPassword' ? 'text' :'password' }`} name="newPassword" 
-                         onChange={handleChange} id="password" placeholder='new password'/>
+                         onChange={handleChange} id="new-password" placeholder='new password'/>
                         {resetInfo.newPassword.length > 0 && 
                           <button type='button' onClick={()=>handlePasswords('oldPassword')} className='seePassword-btn'>
                               <i className={`fa-solid fa-eye${seePassword && showPassword === 'oldPassword' ? '': '-slash'}`}></i>
