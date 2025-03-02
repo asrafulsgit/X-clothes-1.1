@@ -6,9 +6,14 @@ const userAddressSchema = new mongoose.Schema({
      state : {type : String},
      zip : {type : String},
      email : {type : String,unique : true, trim : true},
-     phone : {type : String,unique : true}
+     phone : {type : String,unique : true},
+     user  : {
+          type : mongoose.Schema.Types.ObjectId,
+          ref : 'User',
+          required : true
+     }
 },{timestamps : true})
 
-const address = mongoose.model('Address',userAddressSchema)
+const Address = mongoose.model('Address',userAddressSchema)
 
-module.exports = address;
+module.exports = Address;

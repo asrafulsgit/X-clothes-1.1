@@ -4,7 +4,8 @@ const userRouter  = express.Router();
 
 const userAuthentication = require('../Middlewares/userAuth-middleware');
 const {userRegister, userLogin,resetPassword, EmailVerification, findUserAndSendEmail, tokenRefresh, userLogout} = require('../Controllers/user.controllers');
-const { userPersonalInformation } = require('../Controllers/user.account.controllers');
+const { userPersonalInformation, avaterUpdate } = require('../Controllers/user.account.controllers');
+const upload = require('../Middlewares/product.middleware');
 
 
 
@@ -12,9 +13,11 @@ const { userPersonalInformation } = require('../Controllers/user.account.control
 userRouter.post('/register', userRegister)
 userRouter.post('/login', userLogin)
 userRouter.get('/access/token/refresh',tokenRefresh)
+ 
 
 // user account
 userRouter.get('/user-personal-information',userAuthentication, userPersonalInformation)
+userRouter.put('/user-avater',userAuthentication,upload.single('avatar'), avaterUpdate)
 
 
 // logout

@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
 import "./personalInfo.css";
-import profile from "../../../../assets/profile.jpg";
 import { apiRequiestWithCredentials } from "../../../../utils/ApiCall";
 const PersonalInfo = () => {
   const [apiLoading, setApiLoading] = useState(true);
+  const [imageLoading, setImageLoading] = useState(false);
   const [personalInfo, setPersonalInfo] = useState({
-    avater : '',
-    name : '',
-    email : '',
-    phone : ''
+    avatar : "",
+    name: "",
+    email: "",
+    phone: "",
   });
-  console.log(personalInfo);
+  
   useEffect(() => {
     const apiCalling = async () => {
       try {
@@ -26,6 +26,26 @@ const PersonalInfo = () => {
     };
     apiCalling();
   }, []);
+  
+  const changeAvater = async(e) => {
+    setImageLoading(true)
+    const file = e.target.files[0];
+    if(!file) return;
+    const formData = new FormData();
+    formData.append('avatar',file)
+    try {
+    const data =  await apiRequiestWithCredentials('put','/user-avater',formData,{
+      headers: {
+        "Content-Type": "multipart/form-data",
+      }
+    })
+      setPersonalInfo({...personalInfo,avatar : data.avatar})
+    setImageLoading(false)
+    } catch (error) {
+      console.log(error)
+    }
+  };
+
   return (
     <div className="personal-info-section">
       {apiLoading ? (
@@ -34,11 +54,19 @@ const PersonalInfo = () => {
         <>
           <div className="profile-image-field">
             <div className="profile-image">
-              <img src={personalInfo.avater} alt="image" />
+              <img src={personalInfo.avatar} alt="image" />
             </div>
-            <button className="profile-image-edit">
-              <i className="fa-solid fa-pen-to-square"></i>
-            </button>
+            <form encType="multipart/form-data" className="profile-image-edit">
+              <input
+                type="file"
+                onChange={changeAvater}
+                id="fileInput"
+                className="hidden"
+              />
+              <label htmlFor="fileInput" className="custom-file-label">
+                <i className="fa-solid fa-pen-to-square"></i>
+              </label>
+            </form>
           </div>
           <div className="information-section">
             <div className="input-field">

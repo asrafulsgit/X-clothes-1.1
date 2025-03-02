@@ -1,6 +1,5 @@
 const express = require('express')
 const productRouter = express.Router();
-const { v2 : cloudinary } = require('cloudinary') ;
 const upload = require('../Middlewares/product.middleware');
 const {newProduct,getAllProduct, deleteProduct, getProductByCategory, getOneProduct, getProductByCategories,updateProduct} = require('../Controllers/product.controllers');
 
@@ -15,6 +14,9 @@ productRouter.get('/admin/all-product', getAllProduct)
 productRouter.delete('/admin/delete-product',deleteProduct)
 // update product for admin
 productRouter.put('/admin/update-product',updateProduct)
+
+
+
 
 // get product by subcategory for all users
 productRouter.post('/get-product-by-subcategory',getProductByCategory )

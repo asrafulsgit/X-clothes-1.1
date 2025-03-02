@@ -3,7 +3,7 @@ const multer = require('multer')
 const storage = multer.diskStorage({
      destination: function (req, file, cb) {
        cb(null, './images')
-     },
+     }, 
      filename: function (req, file, cb) {
       const date = Date.now()
       const randomNumber = Math.floor((Math.random()+1)*100000)
@@ -18,4 +18,5 @@ const upload = multer({
     fileSize: 2 * 1024 * 1024 // 2 MB limit
   }
 })
+
 module.exports= upload;

@@ -45,6 +45,7 @@ const newProduct = async (req, res) => {
          subcategory: Number(subcategory),
          description,
        });
+       
        await newProduct.save();
        res.status(201).send({
          success: true,
@@ -58,8 +59,8 @@ const newProduct = async (req, res) => {
      }
 };
 const deleteProduct = async(req,res)=>{
+     const {id} = req.body;
      try {
-          const {id} = req.body;
           const deleteProduct = await Product.findByIdAndDelete({_id : id})
           res.send({
                success : true,
@@ -71,14 +72,14 @@ const deleteProduct = async(req,res)=>{
      }
 }
 const updateProduct = async(req,res)=>{
+     const {id,...updatedData} = req.body;
      try {
-       const {id,...updatedData} = req.body;
           if(!id){
                res.status(404).send({message : 'Product Id required!'})
           }
           const isProduct = await Product.findById(id)
           if(!isProduct){
-               res.status(404).send({message : 'Product not find!'})
+               res.status(404).send({message : 'Product not found!'})
           }else{
                Object.assign(isProduct,updatedData)
                await isProduct.save()
