@@ -7,7 +7,7 @@ const AddAddress = ({ newAddress }) => {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setAddress({ ...address, [name]: value });
-  };
+  }; 
   const handleAddAddress = async (e) => {
     e.preventDefault();
     try {
