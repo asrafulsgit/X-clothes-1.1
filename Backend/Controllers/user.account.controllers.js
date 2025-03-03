@@ -190,13 +190,13 @@ const  userResetPassword = async(req,res)=>{
       const isPassword = await bcrypt.compare(oldPassword,isUser.password)
       if(!isPassword){
         return res.status(400).send({
-          field : 'password',
+          field : 'oldPassword',
           message : 'Wrong password!'
         })
       }
     if(newPassword !== confirmPassword){
       return  res.status(400).send({
-        field : 'password',
+        field : 'newPassword',
         message :  'new password did not match'
       })
     } 
@@ -205,7 +205,8 @@ const  userResetPassword = async(req,res)=>{
     await isUser.save();
     return res.status(200).send({
       success : true,
-      message : 'password changed'
+      field : 'success',
+      message : 'Password changed'
     })
   } catch (error) {
     return res.status(500).send({ message: "somthing broke!" });

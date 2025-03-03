@@ -2,11 +2,11 @@ const mongoose = require('mongoose')
 
 
 const userAddressSchema = new mongoose.Schema({
-     house : {type : String},
-     state : {type : String},
-     zip : {type : String},
+     house : {type : String,required : true},
+     state : {type : String,required : true},
+     zip : {type : String,required : true},
      email : {type : String, trim : true},
-     phone : {type : String},
+     phone : {type : String,required : true},
      user  : {
           type : mongoose.Schema.Types.ObjectId,
           ref : 'User',
