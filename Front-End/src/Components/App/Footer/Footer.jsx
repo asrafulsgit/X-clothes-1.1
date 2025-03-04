@@ -1,5 +1,6 @@
 import React from "react";
 import "./Footer.css";
+import { Link } from "react-router-dom";
  
 const Footer = () => {
   return (
@@ -35,29 +36,29 @@ const Footer = () => {
           <div className="footer-column">
             <h4>Company</h4>
             <ul>
-              <li>About Us</li>
-              <li>Blog</li>
-              <li>Contact Us</li>
-              <li>Career</li>
+              <Link to='/aboutus'><li>About Us</li></Link>  
+              <Link to=''><li>Blog</li></Link>
+              <Link to=''><li>Contact Us</li></Link>
+              <Link to=''><li>Career</li></Link>
             </ul>
           </div>
 
           <div className="footer-column">
             <h4>Customer Services</h4>
             <ul>
-              <li>My Account</li>
-              <li>Track Your Order</li>
-              <li>Return</li>
-              <li>FAQ</li>
+              <Link to='/profile'><li>My Account</li></Link>
+              <Link to=''><li>Track Your Order</li></Link>
+              <Link to='/return-policy'><li>Return</li></Link>
+              <Link to='/faq'><li>FAQ</li></Link>
             </ul>
           </div>
 
           <div className="footer-column">
             <h4>Our Information</h4>
             <ul>
-              <li>Privacy</li>
-              <li>User Terms & Condition</li>
-              <li>Return Policy</li>
+              <Link to='/privacy-policy'><li>Privacy</li></Link>
+              <Link to='/terms-and-conditions'><li>User Terms & Condition</li></Link>
+              <Link to='/return-policy'><li>Return Policy</li></Link>
             </ul>
           </div>
 
