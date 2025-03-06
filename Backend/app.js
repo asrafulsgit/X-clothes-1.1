@@ -24,13 +24,10 @@ app.use(cors({
 
 
 app.use((err, req, res, next) => {
-     console.log('my error handler',err)
-     if (err instanceof multer.MulterError) {
-         return res.status(400).send({ message: err.message });
-     } else if (err) {
-         console.error(err.stack);
-         return res.status(500).send({ message: 'Something went wrong' });
-     }
+    if (err) {
+        console.error(err.stack);
+        return res.status(500).send({ message: 'Something went wrong' });
+    }
      next();
  });
 

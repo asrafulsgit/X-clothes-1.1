@@ -63,7 +63,7 @@ const getFavouriteProducts = async (req, res) => {
 };
 
 const removeFavouriteItem = async (req, res) => {
-  const { productId } = req.params;
+  const { productId } = req.params; 
   const userId = req.userInfo.id;
   const io = getIo();
   try {
