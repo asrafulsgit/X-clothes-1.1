@@ -8,16 +8,18 @@ const userRegister = async (req, res) => {
     const { name, email, password } = req.body;
     const isExist = await User.findOne({ email });
     if (isExist) {
-      res.status(400).send({
+    return res.status(400).send({errors : [{
         message: "email is already exist!",
         field: "email",
-      });
-    } else if (password.length < 6) {
-      res.status(400).send({
+      }]});
+    } 
+    if (password.length < 6) {
+    return res.status(400).send({
         message: "Password must be 6 digit!",
         field: "password",
       });
-    } else {
+    }
+    
       const hash = await bcrypt.hash(password, 10);
       const newUser = new User({
         name,
@@ -25,38 +27,35 @@ const userRegister = async (req, res) => {
         password: hash,
       });
       await newUser.save();
-      res.status(201).send({ message: "Register completed" });
-    }
+    return  res.status(201).send({success : true, message: "Register completed" });
+    
   } catch (error) {
-    res.status(500).send({
+    return  res.status(500).send({
       message: "somthing broke!",
       field: "server",
     });
   }
 };
+
 const userLogin = async (req, res) => {
   const { email, password } = req.body;
   try {
     const isExist = await User.findOne({ email });
     if (!isExist) {
-      return res.status(404).send({
+      return res.status(404).send({ errors :[{
         message: "email is not valid!",
         field: "email",
-      });
+      }]});
     }
 
-    if (password.length < 6) {
-      return res.status(404).send({
-        message: "Password must be 6 digit!",
-        field: "password",
-      });
-    }
     const existedUser = await bcrypt.compare(password, isExist.password);
     if (!existedUser) {
-      return res.status(404).send({
-        message: "wrong password!",
-        field: "password",
-      });
+      return res.status(404).send(
+        { success: false, 
+          errors :[{
+          message: "wrong password!",
+          field: "password",
+        }]});
     }
     const accessToken = jwt.sign(
       {

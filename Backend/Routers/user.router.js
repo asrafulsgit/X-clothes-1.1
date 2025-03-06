@@ -6,18 +6,21 @@ const userAuthentication = require('../Middlewares/userAuth-middleware');
 const {userRegister, userLogin,resetPassword, EmailVerification, findUserAndSendEmail, tokenRefresh, userLogout} = require('../Controllers/user.controllers');
 const { userPersonalInformation, avaterUpdate, addNewAddress, getUserAddresses, updateAddress, removeAddress, userResetPassword } = require('../Controllers/user.account.controllers');
 const upload = require('../Middlewares/product.middleware');
+const { validateSignup,vlidateLogin } = require('../validators/user.validators'); 
+const {validationMiddleware } = require('../Middlewares/validation.result.middleware');
+const {fileErrorHandlerMiddleware } = require('../Middlewares/fileErrorHandle.middleware');
 
 
 
 
-userRouter.post('/register', userRegister)
-userRouter.post('/login', userLogin)
+userRouter.post('/register',validateSignup,validationMiddleware, userRegister)
+userRouter.post('/login',vlidateLogin,validationMiddleware, userLogin)
 userRouter.get('/access/token/refresh',tokenRefresh)
  
 
 // user account
 userRouter.get('/user-personal-information',userAuthentication, userPersonalInformation)
-userRouter.put('/user-avater',userAuthentication,upload.single('avatar'), avaterUpdate)
+userRouter.put('/user-avater',userAuthentication,upload.single('avatar'),fileErrorHandlerMiddleware, avaterUpdate)
 userRouter.post('/user-new-address',userAuthentication, addNewAddress)
 userRouter.get('/user-addresses',userAuthentication, getUserAddresses)
 userRouter.put('/user-update-address/:addressId',userAuthentication,updateAddress)

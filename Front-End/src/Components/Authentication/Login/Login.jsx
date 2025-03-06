@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
-import axios from 'axios'
 import './Login.css'
 import { Link, useNavigate } from 'react-router-dom'
 import Nav from '../../App/Nav/Nav'
 import Footer from '../../App/Footer/Footer'
+import {apiRequiestWithCredentials } from '../../../utils/ApiCall'
 const Login = () => {
      const [message,setMessage]=useState('')
      const [errorField,setErrorField] = useState('')
@@ -17,9 +17,13 @@ const Login = () => {
      const [user, setUser]=useState(initialValue);
      const handleChange =(e)=>{
           const {name, value}= e.target;
+          if(name === errorField){
+               setMessage('')
+               setErrorField('')
+          }
           setUser({...user,[name]:value})
      }
-     const handleSubmit =(e)=>{
+     const handleSubmit =async(e)=>{
           e.preventDefault();
           if(user.password.length < 6){
                setMessage('password Must be 6 digits!')
@@ -27,17 +31,26 @@ const Login = () => {
                return;
           }
           // login 
-               axios.post(`${import.meta.env.VITE_BACKEND_URL}/login`,user,{
-                    withCredentials : true
-               })
-               .then((res)=>{
-                    navigate('/')    
-                    window.location.reload()
-               }).catch((err)=>{
-                    console.log(err)
-                    setMessage(err.response.data.message)
-                    setErrorField(err.response.data.field)
-               })  
+          try {
+               await apiRequiestWithCredentials('post','/login',user)
+               navigate('/')    
+               window.location.reload()
+          } catch (error) {
+               console.log(error)
+               setMessage(error.response?.data?.errors[0].message)
+               setErrorField(error.response?.data?.errors[0].field)
+          }
+               // axios.post(`${import.meta.env.VITE_BACKEND_URL}/login`,user,{
+               //      withCredentials : true
+               // })
+               // .then((res)=>{
+               //      navigate('/')    
+               //      window.location.reload()
+               // }).catch((err)=>{
+               //      console.log(err)
+               //      setMessage(err.response.data.message)
+               //      setErrorField(err.response.data.field)
+               // })  
      }
      const handlePassword=(e)=>{
           e.preventDefault()
@@ -61,7 +74,7 @@ const Login = () => {
                     onChange={handleChange} required autoComplete='off' />
                     {user.password.length > 0 && 
                     <button type='button' onClick={handlePassword} className='seePassword-btn'>
-                         <i className={`fa-solid fa-eye${seePassword ? '-slash': ''}`}></i>
+                         <i className={`fa-solid fa-eye${seePassword ? '' : '-slash'}`}></i>
                     </button>}
                </div>
                <p className='message'>{errorField === 'password' && message}</p>

@@ -4,6 +4,8 @@ import { apiRequiestWithCredentials } from "../../../../utils/ApiCall";
 const PersonalInfo = () => {
   const [apiLoading, setApiLoading] = useState(true);
   const [imageLoading, setImageLoading] = useState(false);
+  const [message, setMessage]= useState('')
+  const [errorField,setErrorField]= useState('')
   const [personalInfo, setPersonalInfo] = useState({
     avatar : "",
     name: "",
@@ -29,6 +31,11 @@ const PersonalInfo = () => {
   
   const changeAvater = async(e) => {
     setImageLoading(true)
+    console.log(message)
+    if(errorField === 'avatar'){
+      setMessage('')
+      setErrorField('')
+    }
     const file = e.target.files[0];
     if(!file) return;
     const formData = new FormData();
@@ -43,6 +50,8 @@ const PersonalInfo = () => {
       setImageLoading(false)
     } catch (error) {
       console.log(error)
+      setMessage(error.response?.data?.errors[0].message)
+      setErrorField(error.response?.data?.errors[0].field)
     }
     setImageLoading(false)
   };
@@ -65,7 +74,8 @@ const PersonalInfo = () => {
                 </div> 
                : <img src={personalInfo.avatar} alt="image" />}
             </div>
-            {!imageLoading && <form encType="multipart/form-data" className="profile-image-edit">
+            {!imageLoading && 
+            <form encType="multipart/form-data" className="profile-image-edit">
               <input
                 type="file"
                 onChange={changeAvater}
@@ -77,6 +87,7 @@ const PersonalInfo = () => {
               </label>
             </form>}
           </div>
+            {errorField === 'avatar' && <p className="message" style={{marginTop : '1rem'}}>{message}</p>}
           <div className="information-section">
             <div className="input-field">
               <label htmlFor="name"> Name</label>
