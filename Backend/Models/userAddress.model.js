@@ -6,7 +6,7 @@ const userAddressSchema = new mongoose.Schema({
      state : {type : String,required : true},
      zip : {type : String,required : true},
      email : {type : String, trim : true},
-     phone : {type : String,required : true},
+     phone : {type : String, required : true},
      user  : {
           type : mongoose.Schema.Types.ObjectId,
           ref : 'User',

@@ -97,7 +97,6 @@ const removeFavouriteItem = async (req, res) => {
   }
 };
 
-
 const getTotalfavorite = async (req, res) => {
   try {
     const userId = req.userInfo.id;

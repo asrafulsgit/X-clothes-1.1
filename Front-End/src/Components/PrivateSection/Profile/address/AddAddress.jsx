@@ -4,8 +4,14 @@ import { apiRequiestWithCredentials } from "../../../../utils/ApiCall";
 
 const AddAddress = ({ newAddress }) => {
   const [address, setAddress] = useState({});
+  const [message,setMessage]=useState('')
+  const [errorMessageField,setErrorMessageField]=useState('')
   const handleInputChange = (e) => {
     const { name, value } = e.target;
+    if(name === errorMessageField){
+      setMessage('')
+      setErrorMessageField('')
+    }
     setAddress({ ...address, [name]: value });
   }; 
   const handleAddAddress = async (e) => {
@@ -16,10 +22,14 @@ const AddAddress = ({ newAddress }) => {
         "/user-new-address",
         address
       );
-      data && newAddress(data?.newAddress);
+      newAddress(data.newAddress);
       setAddress({});
+      setMessage('')
+      setErrorMessageField('')
     } catch (error) {
       console.log(error);
+      setMessage(error.response?.data?.errors[0].message || "Something went wrong")
+      setErrorMessageField(error.response?.data?.errors[0].field || '')
     }
   };
 
@@ -37,6 +47,7 @@ const AddAddress = ({ newAddress }) => {
             placeholder="Asraful House"
           />
         </div>
+        {errorMessageField === 'house' && <p className='message'>{message}</p>}
         <div className="input-field">
           <label htmlFor="state">State</label>
           <select
@@ -46,6 +57,7 @@ const AddAddress = ({ newAddress }) => {
             onChange={handleInputChange}
             id="state"
           >
+            <option value="">Select Option</option>
             {divisions.map((item, index) => {
               return (
                 <option value={item.toLowerCase()} key={index}>
@@ -55,6 +67,7 @@ const AddAddress = ({ newAddress }) => {
             })}
           </select>
         </div>
+        {errorMessageField === 'state' && <p className='message'>{message}</p>}
         <div className="input-field">
           <label htmlFor="zip">Zip Code</label>
           <input
@@ -67,6 +80,7 @@ const AddAddress = ({ newAddress }) => {
             placeholder="3900"
           />
         </div>
+        {errorMessageField === 'zip' && <p className='message'>{message}</p>}
         <div className="input-field">
           <label htmlFor="email">Email</label>
           <input
@@ -77,6 +91,7 @@ const AddAddress = ({ newAddress }) => {
             placeholder="example@gmail.com"
           />
         </div>
+        {errorMessageField === 'email' && <p className='message'>{message}</p>}
         <div className="input-field">
           <label htmlFor="phone">Phone</label>
           <input
@@ -88,6 +103,7 @@ const AddAddress = ({ newAddress }) => {
             placeholder="+8801825643258"
           />
         </div>
+        {errorMessageField === 'phone' && <p className='message'>{message}</p>}
         <div className="info-update-btn">
           <button type="submit" >Save change</button>
         </div>

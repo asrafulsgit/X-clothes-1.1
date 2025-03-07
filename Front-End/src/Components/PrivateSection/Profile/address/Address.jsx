@@ -20,10 +20,10 @@ const Address = () => {
   },[])
 
   const newAddress=(address)=>{
+    console.log(address)
     setAddresses([...addresses,address])
   }
 
-  
   const handleAddressDelete =async(id)=>{
     const filteredAddress = addresses.filter(item => item._id !== id)
     try {
@@ -41,7 +41,12 @@ const Address = () => {
     setOldAddress(address)
   }
 
-  const isUpdated =(value)=>{
+  const isUpdated =(value,updatedAddress)=>{
+    setAddresses(prevAddresses => 
+      prevAddresses.map(address => 
+          address._id === updatedAddress._id ? updatedAddress : address
+      )
+  );
     setIsUpdate(value)
   }
 

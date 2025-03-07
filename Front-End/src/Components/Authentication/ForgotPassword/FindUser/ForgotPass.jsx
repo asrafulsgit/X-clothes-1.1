@@ -7,41 +7,42 @@ import Footer from '../../../App/Footer/Footer'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { setEmail, setIsReadyForEmailVerify } from '../../../../utils/Controllers/UserSlice'
+import { apiRequiest } from '../../../../utils/ApiCall'
 
 const ForgotPass = () => {
+             
      const navigate = useNavigate()
      const dispatch = useDispatch()
      const [message,setMessage] = useState('')
      const [isLoading,setIsLoading]=useState(false)
      const [email, setUserEmail] = useState('')
+
      const handleChange=(e)=>{
           const {value} = e.target;
           setUserEmail(value)
           setMessage('')
      }
-     const handleSubmit=(e)=>{
+
+     const handleSubmit = async(e)=>{
           e.preventDefault() 
           setIsLoading(true)
-          axios.post('http://localhost:8000/forgot-password-email',{email})
-          .then((res)=>{
-               const {message,email}= res.data;
+          try {
+               const data = await apiRequiest('post','/forgot-password-email',{email})
                setIsLoading(false)
                dispatch(setIsReadyForEmailVerify(true))
-               dispatch(setEmail(email))
+               dispatch(setEmail(data.email))
                navigate('/eamil-verication')
-          }).catch((err)=>{
-               console.log(err)
+          } catch (error) {
                dispatch(setIsReadyForEmailVerify(false))
-               setMessage(err.response?.data?.message)
+               setMessage(error.response?.data?.errors[0].message)
                setIsLoading(false)
-          })
+          }
      }
 
   return (
      <div>
           <Nav />
-          <div className='forgot-password-section'>
-               
+          <div className='forgot-password-section'>    
                <form action="" onSubmit={handleSubmit} >
                     <div className='forgot-email'>
                          <label htmlFor="email">Email</label>

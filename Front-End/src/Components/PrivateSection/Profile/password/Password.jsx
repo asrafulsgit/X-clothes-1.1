@@ -4,13 +4,12 @@ import { apiRequiestWithCredentials } from "../../../../utils/ApiCall";
 
 const Password = () => {
   const [message, setMessage] = useState("");
-  const [messageField, setMessageField] = useState("");
+  const [errorMessageField, setErrorMessageField] = useState("");
   const [resetInfo, setResetInfo] = useState({
     oldPassword: "",
     newPassword: "",
     confirmPassword: "",
   });
-
   const [showPassword, setShowPassword] = useState({
     oldPassword: false,
     newPassword: false,
@@ -26,19 +25,19 @@ const Password = () => {
 
   const handleChange = useCallback((e) => {
     const { name, value } = e.target;
-    setResetInfo((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-    setMessage("");
+    if(name === errorMessageField){
+      setErrorMessageField('');
+      setMessage('');
+    }
+    setResetInfo((prev) => ({...prev,[name]: value}));
   }, []);
 
   const handleResetPassword = async (e) => {
     e.preventDefault();
     const { newPassword, confirmPassword } = resetInfo;
-
     if (newPassword !== confirmPassword) {
       setMessage("Passwords do not match!");
+      setErrorMessageField('newPassword')
       return;
     }
 
@@ -48,18 +47,19 @@ const Password = () => {
         "/user-manage-password",
         resetInfo
       );
-      setMessageField(data.field);
-      setMessage(data.message);
       setResetInfo({ oldPassword: "", newPassword: "", confirmPassword: "" });
+      setErrorMessageField('');
+      setMessage('');
     } catch (error) {
       console.error(error);
-      setMessage("An error occurred. Please try again.");
+      setMessage( error.response?.data?.errors[0].message);
+      setErrorMessageField( error.response?.data?.errors[0].field);
     }
   };
 
   return (
     <div className="password-manager-section">
-      {messageField === "success" && (
+      {errorMessageField === "success" && (
         <p className="message success-message">{message}</p>
       )}
       <form onSubmit={handleResetPassword}>
@@ -87,9 +87,9 @@ const Password = () => {
               </button>
             )}
           </div>
-          {messageField === "oldPassword" && <p className="message">{message}</p>}
+          <button className="forgot-password-btn">Forget Password</button>
+          {errorMessageField === "oldPassword" && <p className="message">{message}</p>}
         </div>
-
         <div className="input-field">
           <label htmlFor="newPassword">New Password</label>
           <div className="inputs">
@@ -142,7 +142,7 @@ const Password = () => {
           </div>
         </div>
 
-        {messageField === "newPassword" && <p className="message">{message}</p>}
+        {errorMessageField === "newPassword" && <p className="message">{message}</p>}
 
         {/* Submit Button */}
         <button type="submit" className="update-password-btn">

@@ -278,7 +278,6 @@ const EmailVerification = async (req, res) => {
 const resetPassword = async (req, res) => {
   try {
     const { email, code, password, rePassword } = req.body;
-    console.log(email, typeof code, password, rePassword);
     const user = await User.findOne({ email });
     if (!user) {
      return res.status(404).send({ message: "email is not found!" });

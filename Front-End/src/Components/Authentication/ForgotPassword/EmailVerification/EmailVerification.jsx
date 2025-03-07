@@ -19,9 +19,7 @@ const EmailVerification = () => {
      const [verificationInfo, setVerificationInfo]= useState({email:email,code : ''})
      const handleChange =(e)=>{
           const {value} =e.target;
-          console.log(value)
           setVerificationInfo({...verificationInfo,code: value})
-          
      }
      const handleSubmit=(e)=>{
           e.preventDefault()

@@ -79,15 +79,14 @@ const personalInfoUpdate =async(req,res)=>{
 const addNewAddress = async(req,res)=>{
     const userId = req.userInfo.id;
     const {house,state,zip,email,phone} = req.body;
-    console.log(house,state,zip,email,phone)
     try {
         const isUser = await User.findById(userId)
-        // console.log(isUser)
         if(!isUser){
           return res.status(400).send({
             message : 'user not found . please try again!'
           })
         }
+        
         const newAddress = new Address({
           user : userId,
           house,
@@ -102,6 +101,7 @@ const addNewAddress = async(req,res)=>{
           message : 'new address added!'
         })
     } catch (error) {
+      console.log(error)
       return res.status(500).send({ message: "somthing broke!" });
     }
 }
