@@ -4,13 +4,11 @@ import { v4 as uuidv4 } from "uuid";
 import "./Kids.css";
 import Nav from "../../App/Nav/Nav";
 import Footer from "../../App/Footer/Footer";
-import kidsBanner from "../../../assets/banners/kids-banner.png";
 import { Link, useParams } from "react-router-dom";
 import Card from "../Card";
 import Modal from "../Modal";
 import { categoryCheck, subCategory } from "../../../utils/categoryCheck";
 import {apiRequiest} from "../../../utils/ApiCall";
-import { useSelector } from "react-redux";
 import Header from "../header/Header";
 
 const Kids = () => {

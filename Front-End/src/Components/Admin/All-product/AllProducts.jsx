@@ -14,8 +14,8 @@ const AllProducts = () => {
     })
   },[])
   
-  const handleDelete =(id)=>{
-    axios.delete('http://localhost:8000/admin/delete-product', {data :{id : id}})
+  const handleDelete =(productId)=>{
+    axios.delete(`http://localhost:8000/admin/delete-product/${productId}`)
     .then((res)=>{
       console.log(res)
       window.location.reload();

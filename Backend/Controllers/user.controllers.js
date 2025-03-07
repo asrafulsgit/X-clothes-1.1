@@ -209,7 +209,10 @@ const findUserAndSendEmail = async (req, res) => {
   try {
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(404).send({ message: "user is not found!" });
+      return res.status(404).send({
+        success : false,
+        errors : [{ message: "user is not found!" }]
+      });
     }
 
     const createVerificationCode = Math.floor(100000 + Math.random() * 900000);
@@ -257,50 +260,76 @@ const EmailVerification = async (req, res) => {
 
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(404).send({ message: "user is not found!" });
+      return res.status(404).send( {
+          success : false,
+          errors : [{ message: "user is not found!" }]
+      });
     }
     if (Date.now() > user.resetpasswordexpiries) {
-      return res.status(404).send({ message: "this code is expired!" });
+      return res.status(404).send( {
+        success : false,
+        errors :[{ message: "this code is expired!" }]
+      });
     }
     const isVerified = await bcrypt.compare(code, user.resetpasswordcode);
     if (!isVerified) {
-      return res.status(404).send({ message: "Code is not match!" });
+      return res.status(404).send({
+        success : false,
+        errors : [{ message: "Code is not match!" }]
+      });
     }
 
     return res.status(200).send({
-      message: "verification is complited",
       success: true,
+      message: "verification is complited"
     });
   } catch (error) {
-    return res.status(500).send({ message: "somthing broke!" });
+    return res.status(500).send({
+      success : false,
+      field : 'server',
+      errors :[{ message: "somthing broke!" }]
+    });
   }
 };
 const resetPassword = async (req, res) => {
   try {
     const { email, code, password, rePassword } = req.body;
+
     const user = await User.findOne({ email });
     if (!user) {
-     return res.status(404).send({ message: "email is not found!" });
-     }
-    if(password !== rePassword){
-     return res.status(404).send({ message: "Password is not match!" });
-    }
-    const verificationCode = user.resetpasswordcode;
-    const verifyCode = await bcrypt.compare(code,verificationCode)
-    if(!verifyCode){
-     return res.status(404).send({ message: "your verfication is timeout . please try again!" });
+      return res.status(404).send({ success: false, errors: [{ message: "Email not found!" }] });
     }
 
-    const hashedPassword = await bcrypt.hash(password, 10);
-    user.password = hashedPassword;
-    user.resetpasswordcode = '';
-    user.resetpasswordexpiries = '';
+    if (password !== rePassword) {
+      return res.status(400).send({ success: false, errors: [{ message: "Passwords do not match!" }] });
+    }
+
+    if (!user.resetpasswordcode || !user.resetpasswordexpiries || Date.now() > user.resetpasswordexpiries) {
+      return res.status(400).send({ success: false, errors: [{ message: "Your verification code has expired. Please try again!" }] });
+    }
+
+    const isCodeValid = await bcrypt.compare(code, user.resetpasswordcode);
+    if (!isCodeValid) {
+      return res.status(400).send({ success: false, errors: [{ message: "Invalid verification code!" }] });
+    }
+
+    user.password = await bcrypt.hash(password, 10);
+    user.resetpasswordcode = null; 
+    user.resetpasswordexpiries = null; 
     await user.save();
-    res.status(200).send({ message: "password is successfully reset" });
+
+    return res.status(200).send({ success: true, message: "Password has been successfully reset." });
+
   } catch (error) {
-    res.status(500).send({ message: "somthing broke!" });
+    console.error(error);
+    return res.status(500).send({
+      success: false,
+      field: 'server',
+      errors: [{ message: "Something broke!" }]
+    });
   }
 };
+
 
 module.exports = {
   userRegister,

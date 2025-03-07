@@ -59,15 +59,16 @@ const newProduct = async (req, res) => {
      }
 };
 const deleteProduct = async(req,res)=>{
-     const {id} = req.body;
+     const {productId} = req.params;
+
      try {
-          const deleteProduct = await Product.findByIdAndDelete({_id : id})
+          const deleteProduct = await Product.findByIdAndDelete({_id : productId})
           res.send({
                success : true,
                message : deleteProduct
           })
           
-         } catch (error) {
+     }catch (error) {
               res.status(500).send({ message : 'Somthing broke!'})
      }
 }
@@ -128,10 +129,11 @@ const getProductByCategory = async(req,res)=>{
           res.status(500).send({ message : 'Somthing broke!'})
      }
 }
+
 const getOneProduct = async(req,res)=>{
      try {
-          const {id} = req.body;
-          const isProduct = await Product.findById(id);
+          const {productId} = req.params;
+          const isProduct = await Product.findById(productId);
           if(!isProduct){
                res.status(404).send({message : 'Product is not found!'})
           }else{

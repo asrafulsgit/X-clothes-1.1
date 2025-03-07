@@ -4,12 +4,14 @@ import './ResetPassword.css'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import {setEmail, setEmailVerificationCode, setIsReadyForEmailVerify, setIsReadyForResetPassword } from '../../../../utils/Controllers/UserSlice'
+import { apiRequiest } from '../../../../utils/ApiCall'
 
 const ResetPassword = () => {
      const navigate = useNavigate()
      const dispatch = useDispatch()
      const [message,setMessage] =useState('')
      const {email,emailVerficationCode} = useSelector((state)=> state.authInfo)
+
      const [resetInfo, setResetInfo]= useState(
           { 
             email:email, 
@@ -23,25 +25,36 @@ const ResetPassword = () => {
           setResetInfo({...resetInfo,[name] : value})
           setMessage('')
      }
-     const handleSubmit =(e)=>{
+     const handleSubmit =async(e)=>{
           e.preventDefault()
           const {password,rePassword} = resetInfo;
-          if(password === rePassword){
-               axios.put('http://localhost:8000/reset-password',resetInfo)
-               .then((res)=>{
-                    navigate('/login')
-                    dispatch(setEmail(''))
-                    dispatch(setEmailVerificationCode(''))
-                    dispatch(setIsReadyForResetPassword(false))
-                    dispatch(setIsReadyForEmailVerify(false))
-                    dispatch(setEmail(''))
-               })
-               .catch((err)=>{
-                    setMessage(err.response.data.message)
-               })
-          }else{
+          if(password !== rePassword){
                setMessage('Password is not match!')
           }
+          try {
+               await apiRequiest('put','/reset-password',resetInfo)
+               navigate('/login')
+               dispatch(setIsReadyForResetPassword(false))
+               dispatch(setIsReadyForEmailVerify(false))
+               dispatch(setEmailVerificationCode(''))
+               dispatch(setEmail(''))
+          } catch (error) {
+               console.log(error)
+               setMessage(error.response?.data?.errors[0].message)
+          }
+               // axios.put('http://localhost:8000/reset-password',resetInfo)
+               // .then((res)=>{
+               //      navigate('/login')
+               //      dispatch(setEmail(''))
+               //      dispatch(setEmailVerificationCode(''))
+               //      dispatch(setIsReadyForResetPassword(false))
+               //      dispatch(setIsReadyForEmailVerify(false))
+               //      dispatch(setEmail(''))
+               // })
+               // .catch((err)=>{
+               //      setMessage(err.response.data.message)
+               // })
+         
      }
 
 return (

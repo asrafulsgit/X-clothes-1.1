@@ -5,6 +5,7 @@ import './EmailVerification.css'
 import Nav from '../../../App/Nav/Nav'
 import Footer from '../../../App/Footer/Footer'
 import { useDispatch, useSelector } from 'react-redux'
+import { apiRequiest } from "../../../../utils/ApiCall";
 
 import { useNavigate } from 'react-router-dom'
 import { setEmailVerificationCode, setIsReadyForResetPassword } from '../../../../utils/Controllers/UserSlice'
@@ -20,21 +21,32 @@ const EmailVerification = () => {
      const handleChange =(e)=>{
           const {value} =e.target;
           setVerificationInfo({...verificationInfo,code: value})
+          setMessage('')
      }
-     const handleSubmit=(e)=>{
+     const handleSubmit=async(e)=>{
           e.preventDefault()
-          if(verificationInfo.code.length === 6){
-               axios.post('http://localhost:8000/forgot-password-email-verification',verificationInfo)
-               .then((res)=>{
-                    dispatch(setEmailVerificationCode(verificationInfo.code))
-                    dispatch(setIsReadyForResetPassword(true))
-                    navigate('/reset-password')
-               }).catch((err)=>{
-                    setMessage(err.response.data.message)
-               })
-          }else{
+          if(verificationInfo.code.length !== 6){
                setMessage('Verification Code Must be 6 Digit!')
+               return;
           }
+          try {
+               await apiRequiest('post','/forgot-password-email-verification',verificationInfo)
+               dispatch(setEmailVerificationCode(verificationInfo.code))
+               dispatch(setIsReadyForResetPassword(true))
+               navigate('/reset-password')
+          } catch (error) {
+               console.log(error)
+               setMessage(error.response?.data?.errors[0].message)
+          }
+               // axios.post('http://localhost:8000/forgot-password-email-verification',verificationInfo)
+               // .then((res)=>{
+               //      dispatch(setEmailVerificationCode(verificationInfo.code))
+               //      dispatch(setIsReadyForResetPassword(true))
+               //      navigate('/reset-password')
+               // }).catch((err)=>{
+               //      setMessage(err.response.data.message)
+               // })
+          
      }
      const handleResend =()=>{
           setIsLoading(true)

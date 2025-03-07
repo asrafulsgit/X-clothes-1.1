@@ -6,7 +6,7 @@ import "./Productinfo.css";
 import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
 import { useParams } from "react-router-dom";
-
+import {apiRequiest} from '../../../utils/ApiCall'
 import Nav from "../../App/Nav/Nav";
 import Footer from "../../App/Footer/Footer";
 
@@ -21,19 +21,21 @@ const Productinfo = React.memo(() => {
   const [selectedSize, setSelectedSize] = useState("");
 
   useEffect(() => {
-    axios
-      .post(`${import.meta.env.VITE_BACKEND_URL}/get-one-product`, { id })
-      .then((res) => {
-        const { images } = res.data.product;
+    const apiCalling =async()=>{
+      try {
+        const productId = id;
+        const data = await apiRequiest('get',`/get-one-product/${productId}`)
+        const { images } = data.product;
         setThumbImage(images[0]);
-        setProduct(res.data.product);
+        setProduct(data.product);
         setIsLoading(false);
-      })
-      .catch((err) => {
-        setIsLoading(false);
-        setMessage(err.response.data.message);
-      });
-  }, [id]);
+        
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    apiCalling()
+  },[id]);
 
   const handleSize = (e) => {
     setSelectedSize(e.target.value);

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import axios from 'axios'
 
 import './ForgotPass.css'
 import Nav from '../../../App/Nav/Nav'
@@ -33,8 +32,8 @@ const ForgotPass = () => {
                dispatch(setEmail(data.email))
                navigate('/eamil-verication')
           } catch (error) {
-               dispatch(setIsReadyForEmailVerify(false))
                setMessage(error.response?.data?.errors[0].message)
+               dispatch(setIsReadyForEmailVerify(false))
                setIsLoading(false)
           }
      }
