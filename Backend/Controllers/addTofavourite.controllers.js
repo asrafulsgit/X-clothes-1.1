@@ -29,8 +29,8 @@ const addToFavourite = async (req, res) => {
     });
 
     await addToFavourite.save();
-    const totalFavourite = await Favourite.find({ userId });
-    io.emit("favourites", totalFavourite.length);
+    const totalFavourite = await Favourite.countDocuments({ userId });
+    io.emit("favourites", totalFavourite);
 
     res.status(201).send({
       message: "Product is added on favourite",
@@ -40,6 +40,7 @@ const addToFavourite = async (req, res) => {
     return res.status(500).send({ message: "somthing broke!" });
   }
 };
+
 const getFavouriteProducts = async (req, res) => {
   const userId = req.userInfo.id;
   try {
@@ -64,33 +65,38 @@ const getFavouriteProducts = async (req, res) => {
 
 const removeFavouriteItem = async (req, res) => {
   const { productId } = req.params; 
-  const userId = req.userInfo.id;
+  const userId = req.userInfo?.id; 
+
+  if (!userId) {
+    return res.status(400).send({ message: "User ID is required" });
+  }
   const io = getIo();
+
   try {
-    const isProduct = await Product.findById(productId);
-    if (!isProduct) {
-      return res
-        .status(404)
-        .send({ message: "Product is not found in store!" });
+    const productExist = await Product.findById(productId);
+    if (!productExist) {
+      return res.status(404).send({ message: "Product is not found in store!" });
     }
-    const isFavouriteExist = await Favourite.deleteOne({
-      $and: [{ userId }, { productId }],
-    });
-    if (!isFavouriteExist) {
-      return res
-        .status(404)
-        .send({ message: "Product is not found in favorite!" });
+
+    const isFavouriteExist = await Favourite.deleteOne({ userId, productId });
+
+    if (isFavouriteExist.deletedCount === 0) {
+      return res.status(404).send({ message: "Product is not found in favorite!" });
     }
-    const totalFavourite = await Favourite.find({ userId });
-    io.emit("favourites", totalFavourite.length);
+
+    const totalFavourite = await Favourite.countDocuments({ userId });
+    io.emit("favourites", totalFavourite);
+
     res.status(200).send({
       message: "Favourite item is deleted",
-      product: isProduct,
+      product: productExist,
     });
   } catch (error) {
-    res.status(500).send({ message: "somthing broke!" });
+    console.error(error);
+    res.status(500).send({ message: "Something broke!" });
   }
 };
+
 
 const getTotalfavorite = async (req, res) => {
   try {

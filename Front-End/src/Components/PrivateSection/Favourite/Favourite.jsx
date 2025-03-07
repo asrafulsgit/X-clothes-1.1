@@ -9,7 +9,7 @@ import ExtraFooter from '../../App/Footer/ExtraFooter';
 
 const Favourite = () => {
    const [favorites,setFavorites]=useState([])
-    const [message,setMessage]=useState(localStorage.getItem('message') || 'Your cart is empty!')
+   const [message,setMessage]=useState('Your cart is empty!')
    const [loading,setLoading]=useState(true)
     useEffect(()=>{
       const apiCalling =async()=>{
@@ -21,15 +21,15 @@ const Favourite = () => {
               console.log(error)
               setLoading(false)
             }
-          }
+        }
         apiCalling()
     },[])
     const handleDelete=async(id)=>{
       setLoading(true)
-      const filteredFavorites = favorites.filter(item => item._id !== id)
-      setFavorites(filteredFavorites)
+      const filteredFavorites = favorites.filter(item => item.productId._id !== id)
       try {
         await apiRequiestWithCredentials('delete',`/remove-from-favourite/${id}`);
+        setFavorites(filteredFavorites)
         setLoading(false)
       } catch (error) {
         console.log(error)
@@ -60,12 +60,12 @@ const Favourite = () => {
               </thead>
               <tbody className="cart-cards">
                 {favorites.map((item) => {
-                  const {title,stock,images,price} =item.productId;
+                  const {_id,title,stock,images,price} =item.productId;
                   return (
-                    <tr key={item._id} className="cart-card">
+                    <tr key={_id} className="cart-card">
                       <td className="remove-data">
                         <button
-                          onClick={() => handleDelete(item._id)}
+                          onClick={() => handleDelete(_id)}
                           className="remove-cart-item-btn"
                         >
                           <i className="fa-solid fa-x"></i>
