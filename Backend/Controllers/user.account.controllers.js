@@ -179,26 +179,25 @@ const updateAddress = async(req,res)=>{
 const  userResetPassword = async(req,res)=>{
   const userId = req.userInfo.id;
   const {oldPassword,newPassword,confirmPassword} =req.body; 
-  console.log(oldPassword,newPassword,confirmPassword)
   try {
       const isUser = await User.findById(userId)
       if(!isUser){
-        return res.status(400).send({
+        return res.status(400).send({success :false, errors :[{
           message : 'user not found . please try again!'
-        })
+        }]})
       }
       const isPassword = await bcrypt.compare(oldPassword,isUser.password)
       if(!isPassword){
-        return res.status(400).send({
+        return res.status(400).send({success :false,errors : [{
           field : 'oldPassword',
           message : 'Wrong password!'
-        })
+        }]})
       }
     if(newPassword !== confirmPassword){
-      return  res.status(400).send({
+      return  res.status(400).send({success : false,errors : [{
         field : 'newPassword',
         message :  'new password did not match'
-      })
+      }]})
     } 
     const updatedPassword = await bcrypt.hash(newPassword,10)
     isUser.password = updatedPassword;
@@ -209,7 +208,10 @@ const  userResetPassword = async(req,res)=>{
       message : 'Password changed'
     })
   } catch (error) {
-    return res.status(500).send({ message: "somthing broke!" });
+    return res.status(500).send({
+      success : false,
+      errors :[{field : 'server', message: "somthing broke!" }]
+    });
   }
 }
 

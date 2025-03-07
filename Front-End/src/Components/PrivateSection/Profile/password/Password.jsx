@@ -87,8 +87,8 @@ const Password = () => {
               </button>
             )}
           </div>
-          <button className="forgot-password-btn">Forget Password</button>
           {errorMessageField === "oldPassword" && <p className="message">{message}</p>}
+          <button className="forgot-password-btn">Forget Password</button>
         </div>
         <div className="input-field">
           <label htmlFor="newPassword">New Password</label>

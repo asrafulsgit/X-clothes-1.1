@@ -5,18 +5,23 @@ const {newProduct,getAllProduct, deleteProduct, getProductByCategory, getOneProd
 const { fileErrorHandlerMiddleware } = require('../Middlewares/fileErrorHandle.middleware');
 const { validateDeleteProduct, validateUpdateProduct, validateSubCategory, validateGetProductInfo, validateCategories } = require('../validators/product.validators');
 const { validationMiddleware } = require('../Middlewares/validation.result.middleware');
+const adminAuthentication = require('../Middlewares/adminAuth.middleware');
 
 
 // add product for admin 
-productRouter.post('/admin/add-product',upload.array('images'),fileErrorHandlerMiddleware, newProduct)
+productRouter.post('/admin/add-product',adminAuthentication,
+upload.array('images'),fileErrorHandlerMiddleware,
+validateUpdateProduct,validationMiddleware, newProduct)
 
 // get all product  for admin
-productRouter.get('/admin/all-product', getAllProduct)
+productRouter.get('/admin/all-product',adminAuthentication, getAllProduct)
 
 // delete product  for admin
-productRouter.delete('/admin/delete-product/:productId',validateDeleteProduct,validationMiddleware,deleteProduct)
+productRouter.delete('/admin/delete-product/:productId',adminAuthentication,
+     validateDeleteProduct,validationMiddleware,deleteProduct)
 // update product for admin
-productRouter.put('/admin/update-product',validateUpdateProduct,validationMiddleware,updateProduct)
+productRouter.put('/admin/update-product',adminAuthentication,validateUpdateProduct,
+validationMiddleware,updateProduct)
 
 
 

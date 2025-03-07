@@ -6,8 +6,11 @@ import { NavLink } from 'react-router-dom'
 const AllProducts = () => {
   const [allProduct,setAllProduct] = useState([])
   useEffect(()=>{
-    axios.get('http://localhost:8000/admin/all-product')
+    axios.get('http://localhost:8000/admin/all-product',{
+      withCredentials : true
+    })
     .then((res)=>{
+      console.log(res)
       setAllProduct(res.data.products)
     }).catch((err)=>{
       alert(err.response.data.message)
@@ -26,7 +29,7 @@ const AllProducts = () => {
 
   return (
     <div className='all-product-page'>
-       <div className='all-product-section'>
+       {/* <div className='all-product-section'>
           <div className="product-cards">
 
             {allProduct.map((item)=>{
@@ -49,7 +52,7 @@ const AllProducts = () => {
             })}
               
           </div>
-       </div>
+       </div> */}
     </div>
   )
 }

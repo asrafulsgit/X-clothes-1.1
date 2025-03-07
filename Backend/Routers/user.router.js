@@ -3,19 +3,22 @@ const express = require('express');
 const userRouter  = express.Router();
 
 const userAuthentication = require('../Middlewares/userAuth-middleware');
-const {userRegister, userLogin,resetPassword, EmailVerification, findUserAndSendEmail, tokenRefresh, userLogout} = require('../Controllers/user.controllers');
+const {userRegister, userLogin,resetPassword, EmailVerification, findUserAndSendEmail, tokenRefresh, userLogout, getAdminAuthentication} = require('../Controllers/user.controllers');
 const { userPersonalInformation, avaterUpdate, addNewAddress, getUserAddresses, updateAddress, removeAddress, userResetPassword } = require('../Controllers/user.account.controllers');
 const upload = require('../Middlewares/product.middleware');
 const { validateSignup,vlidateLogin, validateAddress, validateDeleteAddress, validateResetPassword, emailValidation, EmailVerificationCode, validateEmailVerificationCode, validateEmailValidation, validateForgetPassword } = require('../validators/user.validators'); 
 const {validationMiddleware } = require('../Middlewares/validation.result.middleware');
 const {fileErrorHandlerMiddleware } = require('../Middlewares/fileErrorHandle.middleware');
+const adminAuthentication = require('../Middlewares/adminAuth.middleware');
 
 
 
 
 userRouter.post('/register',validateSignup,validationMiddleware, userRegister)
 userRouter.post('/login',vlidateLogin,validationMiddleware, userLogin)
+
 userRouter.get('/access/token/refresh',tokenRefresh)
+userRouter.get('/admin-authentication',adminAuthentication,getAdminAuthentication)
  
 
 // user account

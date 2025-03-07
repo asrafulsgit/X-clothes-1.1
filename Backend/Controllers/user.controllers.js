@@ -59,7 +59,7 @@ const userLogin = async (req, res) => {
     }
     const accessToken = jwt.sign(
       {
-        id: isExist._id,
+        id: isExist._id, role : isExist.role
       },
       process.env.JWT_ACCESS_TOEKN,
       { expiresIn: "15m" }
@@ -67,7 +67,7 @@ const userLogin = async (req, res) => {
 
     const refreshToken = jwt.sign(
       {
-        id: isExist._id,
+        id: isExist._id, role : isExist.role
       },
       process.env.JWT_REFRESH_TOKEN,
       { expiresIn: "7d" }
@@ -160,6 +160,35 @@ const tokenRefresh = async (req, res) => {
     });
   }
 };
+
+const getAdminAuthentication=async(req,res)=>{
+    const adminId = req.adminInfo.id;
+    const adminRole = req.adminInfo.role;
+    try {
+      const isAdmin = await User.findById(adminId)
+      if(!isAdmin){
+        return res.status(404).send({
+          success : false,
+          message : 'admin not found!'
+        })
+      }
+      if(adminRole !== isAdmin.role){
+        return res.status(400).send({
+          success : false,
+          message : 'unauthorize admin!'
+        })
+      }
+      return res.status(200).send({
+        success : true,
+        message : 'authenticated admin'
+      })
+    } catch (error) {
+      return res.status(500).send({
+        success: false,
+        message: "something broke!"
+      });
+    }
+}
 
 
 
@@ -339,4 +368,5 @@ module.exports = {
   resetPassword,
   tokenRefresh,
   userLogout,
+  getAdminAuthentication
 };

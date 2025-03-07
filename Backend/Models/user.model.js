@@ -21,6 +21,7 @@ const userSchema = new mongoose.Schema({
           required : [true, 'password is required!'],
           trim : true
      },
+     role : {type : String, enum : ['user','admin'],default : 'user'},
      phone : String,
      refreshtoken : String,
      resetpasswordcode : String,

@@ -40,6 +40,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { setIsLoggedIn} from './utils/Controllers/UserSlice'
 import IsVerified from './Components/Authentication/ForgotPassword/PrivateRoute/IsVerify'
 import ScrollProblem from './utils/ScrollProblem'
+import Private_admin from './Components/Admin/Private_admin'
 // import Shop from './Components/Shops/Shop'
 const App = () => {
   const dispatch = useDispatch()
@@ -91,12 +92,12 @@ const App = () => {
           </Route>
 
           // admin Route
-
-          <Route path='/admin/add-product' element={<AddProduct />} />
-          <Route path='/admin/all-product' element={<AllProducts />} />
-          <Route path='/admin/dashboard' element={<DashBoard />} />
-          <Route path='/admin/update-product/:id' element={<UpdateProduct />} />
-
+          <Route element={<Private_admin />}>
+            <Route path='/admin/add-product' element={<AddProduct />} />
+            <Route path='/admin/all-product' element={<AllProducts />} />
+            <Route path='/admin/dashboard' element={<DashBoard />} />
+            <Route path='/admin/update-product/:id' element={<UpdateProduct />} />
+          </Route>
 
     // Others Route
           <Route path='/aboutus' element={<AboutUs />} />

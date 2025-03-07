@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 
-const userAuthentication = async(req,res,next)=>{
+const adminAuthentication = async(req,res,next)=>{
      const {accesstoken} =req.cookies;
      
      try {
@@ -11,16 +11,21 @@ const userAuthentication = async(req,res,next)=>{
                })
           }
           const verifytoken =  jwt.verify(accesstoken, process.env.JWT_ACCESS_TOEKN)
-          req.userInfo = verifytoken;
+          if(verifytoken.role !== 'admin'){
+               return res.status(400).send({
+                    success : false,
+                    message : 'unauthorize user!'
+               })
+          }
+          req.adminInfo = verifytoken;
           next();
-          
      } catch (error) {
           return res.status(500).send({
-               success : false,
-               message : 'somthing broke!'
+               message : 'somthing broke!',
+               success : false
           })
      }
 }
 
-module.exports = userAuthentication ;
+module.exports = adminAuthentication ;
 
