@@ -14,7 +14,8 @@ import ResetPassword from './Components/Authentication/ForgotPassword/ResetPassw
 import AddProduct from './Components/Admin/Add-product/AddProduct'
 import AllProducts from './Components/Admin/All-product/AllProducts'
 
-import DashBoard from './Components/Admin/Dash-Board/DashBoard'
+import Product from './Components/Admin/product/Product'
+import DashBoard from './Components/Admin/dashboard/Dashboard'
 import UpdateProduct from './Components/Admin/Update-product/UpdateProduct'
 
 import AboutUs from './Components/Others/AboutUs/AboutUs'
@@ -92,6 +93,8 @@ const App = () => {
           </Route>
 
           // admin Route
+          <Route path='/product' element={<Product />} />
+          <Route path='/dashboard' element={<DashBoard />} />
           <Route element={<Private_admin />}>
             <Route path='/admin/add-product' element={<AddProduct />} />
             <Route path='/admin/all-product' element={<AllProducts />} />
