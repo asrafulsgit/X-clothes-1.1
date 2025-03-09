@@ -1,0 +1,105 @@
+:root {
+     --color-1: #0487E2;
+     --color-2: #0463CA;
+     --color-3: #09B1EC;
+     --color-4: #D91656;
+     --display-font-OpenSans : "Open Sans", sans-serif;
+     --font-family-Poppins :"Poppins", sans-serif;
+}
+  .sales-container {
+     padding: 20px;
+     background-color: #f8f9fa;
+     font-family: var(--font-family-Poppins);
+   }
+   
+   .sales-title {
+     font-size: 24px;
+     font-weight: bold;
+     margin-bottom: 5px;
+     
+   }
+   
+   .sales-subtitle {
+     font-size: 14px;
+     color: #6c757d;
+     margin-bottom: 20px;
+   }
+   
+   .sales-grid {
+    width: 100%;
+    /* border: 1px solid; */
+    display: flex;
+    gap: 20px;
+    padding: 0 10px;
+     margin-top: 2rem;
+   }
+   .circle-cart{
+     flex: 0.3;
+     width: 250px;
+   }
+   .carve-chart{
+     flex: 0.7;
+   }
+   .sales-card {
+     background: white;
+     padding: 15px;
+     border-radius: 10px;
+     box-shadow: 0 1px 2px 0 rgba(0, 0, 0, .05);
+     border: 1px solid #e5e5e5;
+   }
+   
+   .card-title {
+     font-size: 18px;
+     font-weight: bold;
+     opacity: 0.85;
+   }
+   
+   .card-subtitle {
+     font-size: 14px;
+     color: #6c757d;
+     margin-bottom: 10px;
+   }
+   
+   .sales-summary {
+     display: flex;
+     justify-content: space-between;
+     margin-top: 20px;
+   }
+   
+   .summary-card {
+     background: white;
+     padding: 14px;
+     border-radius: 10px;
+     box-shadow: 0 1px 2px 0 rgba(0, 0, 0, .05);
+     border: 1px solid #e5e5e5;
+     flex: 1;
+   }
+   
+   .summary-value {
+     font-size: 26px;
+     font-weight: 600;
+     opacity: 0.85;
+   }
+   .summary-title{
+     display: flex;
+     justify-content: space-between;
+     color: #6c757d;
+     font-size: 14px;
+   }
+   .summary-label .increment{
+    color:#4caf50 ; 
+    font-weight: 600;
+   }
+   .summary-label {
+     font-size: 14px;
+     color: #6c757d;
+   }
+
+  .horizontal {
+    border: none;
+    height: 1px;
+    opacity: .5;
+    margin: 8px 0;
+     background-image: linear-gradient(90deg, transparent, rgba(0, 0, 0, .4), transparent);
+ }
+ 
