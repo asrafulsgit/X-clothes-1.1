@@ -14,8 +14,6 @@ import ResetPassword from './Components/Authentication/ForgotPassword/ResetPassw
 import AddProduct from './Components/Admin/Add-product/AddProduct'
 import AllProducts from './Components/Admin/All-product/AllProducts'
 
-import Product from './Components/Admin/product/Product'
-import DashBoard from './Components/Admin/dashboard/Dashboard'
 import UpdateProduct from './Components/Admin/Update-product/UpdateProduct'
 
 import AboutUs from './Components/Others/AboutUs/AboutUs'
@@ -42,6 +40,7 @@ import { setIsLoggedIn} from './utils/Controllers/UserSlice'
 import IsVerified from './Components/Authentication/ForgotPassword/PrivateRoute/IsVerify'
 import ScrollProblem from './utils/ScrollProblem'
 import Private_admin from './Components/Admin/Private_admin'
+import Admin_Home from './Components/Admin/Home/Admin_Home'
 // import Shop from './Components/Shops/Shop'
 const App = () => {
   const dispatch = useDispatch()
@@ -93,13 +92,12 @@ const App = () => {
           </Route>
 
           // admin Route
-          <Route path='/product' element={<Product />} />
-          <Route path='/dashboard' element={<DashBoard />} />
           <Route element={<Private_admin />}>
-            <Route path='/admin/add-product' element={<AddProduct />} />
+            <Route path='admin' element={<Admin_Home />} />
+            {/* <Route path='/admin/add-product' element={<AddProduct />} />
             <Route path='/admin/all-product' element={<AllProducts />} />
             <Route path='/admin/dashboard' element={<DashBoard />} />
-            <Route path='/admin/update-product/:id' element={<UpdateProduct />} />
+            <Route path='/admin/update-product/:id' element={<UpdateProduct />} /> */}
           </Route>
 
     // Others Route

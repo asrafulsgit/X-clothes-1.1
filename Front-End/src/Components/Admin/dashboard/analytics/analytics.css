@@ -7,7 +7,6 @@
      --font-family-Poppins :"Poppins", sans-serif;
 }
   .analytics-container {
-     padding: 20px;
      background-color: #f8f9fa;
      font-family: var(--font-family-Poppins);
    }

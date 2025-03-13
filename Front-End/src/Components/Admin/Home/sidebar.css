@@ -1,0 +1,34 @@
+:root {
+     --color-1: #0487E2;
+     --color-2: #0463CA;
+     --color-3: #09B1EC;
+     --color-4: #D91656;
+     --display-font-OpenSans : "Open Sans", sans-serif;
+     --font-family-Poppins :"Poppins", sans-serif;
+}
+.admin-sidebar-section{
+     border: 1px solid rgba(0, 0, 0, 0.083);
+     display: flex;
+     flex-direction: column;
+     font-family: var(--font-family-Poppins);
+}
+.admin-sidebar-section .sidebar-btn{
+     border: none;
+     border-bottom: 1px solid rgba(0, 0, 0, 0.083);
+     padding: 0.2rem;
+     font-family: var(--font-family-Poppins);
+     font-size: 1rem;
+     font-weight: 400;
+     text-align: left;
+     background-color: transparent;
+     cursor: pointer;
+     transition: 0.2s;
+     opacity: 0.9;
+}
+.admin-sidebar-section button:hover{
+     background-color: var(--color-4);
+}
+.admin-sidebar-section .active{
+     color: white;
+     background-color: var(--color-4);
+}

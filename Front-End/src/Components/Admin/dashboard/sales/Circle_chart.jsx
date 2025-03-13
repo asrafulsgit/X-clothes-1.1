@@ -19,12 +19,28 @@ const doughnutData = {
     },
   ],
 };
-
+const options = {
+  cutout: "40%",
+  plugins: {
+    legend: {
+      position: "bottom", 
+      labels: {
+        padding: 0, 
+      },
+    },
+  },
+  layout: {
+    padding: {
+      top: 0, 
+      bottom: 0, 
+    },
+  },
+};
 const Circle_chart = () => {
   return (
-     <div className="monthly-chart-container" style={{marginTop : '2rem'}}>
-         <Doughnut data={doughnutData} />
-       </div>
+     <div className="monthly-chart-container">
+         <Doughnut data={doughnutData} height='100%'  options={options}/>
+      </div>
   )
 }
 

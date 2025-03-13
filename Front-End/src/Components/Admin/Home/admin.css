@@ -1,0 +1,50 @@
+
+.admin-page .admin-page-section{
+     padding: 1rem 2rem;
+     display: flex;
+     gap: 1.5rem;
+}
+.admin-page .admin-page-section .admin-sidebar{
+     width: 15%;
+     height: 100%;
+     /* border: 1px solid; */
+     position: fixed;
+     left: 0px;
+     top: 50px;
+     background-color: #fff;
+     z-index: 10;
+     animation: sidebar-open 0.3s ease-in-out;
+}
+@keyframes sidebar-open {
+     0% {
+         left: -350px;
+     }
+     100% {
+         left: 0;
+     }
+}
+
+.admin-page .admin-page-section .admin-sidebar-control{
+     animation: sidebar 0.3s ease-in-out;
+     left: -350px;
+}
+
+@keyframes sidebar {
+     0%{
+          left:0px;   
+     }
+     100%{
+          left: -350px;
+     }
+}
+
+.admin-page .admin-page-section .admin-setting{
+     width:100%;
+}
+
+.admin-sidebar-btn{
+      position: fixed;
+      top: 5px;
+      left: 5px;
+      padding: 0.2rem 0.3rem;
+}

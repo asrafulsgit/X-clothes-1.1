@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import { NavLink, useNavigate } from 'react-router-dom'
 import './Profile.css'
 import Nav from '../../App/Nav/Nav'
 import Footer from '../../App/Footer/Footer'

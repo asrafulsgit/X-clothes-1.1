@@ -7,7 +7,6 @@
      --font-family-Poppins :"Poppins", sans-serif;
 }
   .sales-container {
-     padding: 20px;
      background-color: #f8f9fa;
      font-family: var(--font-family-Poppins);
    }
@@ -63,7 +62,6 @@
    .sales-summary {
      display: flex;
      justify-content: space-between;
-     margin-top: 20px;
    }
    
    .summary-card {
@@ -102,4 +100,5 @@
     margin: 8px 0;
      background-image: linear-gradient(90deg, transparent, rgba(0, 0, 0, .4), transparent);
  }
+
  
