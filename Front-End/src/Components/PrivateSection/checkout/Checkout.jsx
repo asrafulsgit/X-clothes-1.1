@@ -6,7 +6,8 @@ import Header from "../../Products/header/Header";
 import { apiRequiestWithCredentials } from "../../../utils/ApiCall";
 import ExtraFooter from "../../App/Footer/ExtraFooter";
 import { useLocation } from "react-router-dom";
-import { divisions } from "../../../allProductDetails/ProductCategories";
+import { bangladeshUpazila, bangladeshZilas, divisions } from "../../../allProductDetails/ProductCategories";
+import adress_image from '../../../assets/shpping_address.jpg'
 import "./checkout.css";
 
 const Checkout = () => {
@@ -19,6 +20,21 @@ const Checkout = () => {
   const [taxes, setTaxes] = useState(0);
   const [totalItems, setTotalItems] = useState(0);
 
+  const [upazilas, setUpazilas] = useState([]);
+  const [address, setAddress] = useState({});
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    if(name === errorMessageField){
+      setMessage('')
+      setErrorMessageField('')
+    }
+    setAddress({ ...address, [name]: value });
+    if(name === 'zila'){
+      const selectedZila = bangladeshUpazila.find(item => item.zila.toLowerCase() === value);
+       setUpazilas(selectedZila.upazilas)
+    }
+  }; 
+  
   useEffect(() => {}, []);
 
   const orderSummary = [
@@ -35,6 +51,11 @@ const Checkout = () => {
         {loading ? (
           <p>loading...</p>
         ) : (
+           <> 
+          <div className="shipping-header">
+            <img src={adress_image} alt="address" />
+            <h1>Shipping Address</h1>
+          </div>
           <div className="checkout-body">
             <form action="">
               <div className="input-field">
@@ -42,9 +63,9 @@ const Checkout = () => {
                 <input
                   type="text"
                   required
-                  value={""}
+                  value={address.name || ""}
                   name="name"
-                  //     onChange={handleInputChange}
+                  onChange={handleInputChange}
                   placeholder="Asraful Islam"
                 />
                 {errorMessageField === "name" && (
@@ -57,10 +78,10 @@ const Checkout = () => {
                   <label htmlFor="phone">Phone</label>
                   <input
                     type="number"
-                    value={""}
+                    value={address.phone || ''}
                     required
                     name="phone"
-                    //     onChange={handleInputChange}
+                        onChange={handleInputChange}
                     placeholder="+8801825643258"
                   />
                   {errorMessageField === "phone" && (
@@ -68,16 +89,16 @@ const Checkout = () => {
                   )}
                 </div>
                 <div className="input-field">
-                  <label htmlFor="phone">Phone</label>
+                  <label htmlFor="alt_phone">Alternative Phone</label>
                   <input
                     type="number"
-                    value={""}
+                    value={address.alt_phone || ''}
                     required
-                    name="phone"
-                    //     onChange={handleInputChange}
-                    placeholder="+8801825643258"
+                    name="alt_phone"
+                    onChange={handleInputChange}
+                    placeholder="+880182564523"
                   />
-                  {errorMessageField === "phone" && (
+                  {errorMessageField === "alt_phone" && (
                     <p className="message">{message}</p>
                   )}
                 </div>
@@ -89,8 +110,8 @@ const Checkout = () => {
                   <input
                     type="email"
                     name="email"
-                    value={""}
-                    //     onChange={handleInputChange}
+                    value={address.email || ""}
+                        onChange={handleInputChange}
                     placeholder="example@gmail.com"
                   />
                   {errorMessageField === "email" && (
@@ -98,53 +119,48 @@ const Checkout = () => {
                   )}
                 </div>
                 <div className="input-field">
-                  <label htmlFor="house">House</label>
-                  <input
-                    type="text"
-                    required
-                    value={""}
-                    name="house"
-                    //     onChange={handleInputChange}
-                    placeholder="Asraful House"
-                  />
-                  {errorMessageField === "house" && (
-                    <p className="message">{message}</p>
-                  )}
-                </div>
-                <div className="input-field">
-                  <label htmlFor="state">State</label>
+                  <label htmlFor="zila">Zila</label>
                   <select
-                    name="state"
-                    value={""}
+                    name="zila"
+                    value={address.zila ||""}
                     required
-                    //     onChange={handleInputChange}
-                    id="state"
+                        onChange={handleInputChange}
+                    id="zila"
                   >
                     <option value="">Select Option</option>
-                    {divisions.map((item, index) => {
+                    {bangladeshUpazila.map((item, index) => {
+                      const {zila}=item;
                       return (
-                        <option value={item.toLowerCase()} key={index}>
-                          {item}
+                        <option value={zila.toLowerCase()} key={index}>
+                          {zila}
                         </option>
                       );
                     })}
                   </select>
-                  {errorMessageField === "state" && (
+                  {errorMessageField === "zila" && (
                     <p className="message">{message}</p>
                   )}
                 </div>
                 <div className="input-field">
-                  <label htmlFor="zip">Zip Code</label>
-                  <input
+                  <label htmlFor="upazila">Upazila</label>
+                  <select
+                    name="upazila"
+                    value={ address.upazila || ""}
                     required
-                    type="number"
-                    name="zip"
-                    //     onChange={handleInputChange}
-                    value={""}
-                    id="zip"
-                    placeholder="3900"
-                  />
-                  {errorMessageField === "zip" && (
+                        onChange={handleInputChange}
+                    id="upazila"
+                  >
+                    <option value="">Select Option</option>
+                    
+                    {address.zila &&
+                      upazilas.map((item,index )=>{
+                        return(
+                          <option value={item} key={index}>{item}</option>
+                        )}
+                      )
+                    }
+                  </select>
+                  {errorMessageField === "upazila" && (
                     <p className="message">{message}</p>
                   )}
                 </div>
@@ -194,6 +210,7 @@ const Checkout = () => {
               </table>
             </div>
           </div>
+          </>
         )}
       </div>
       <ExtraFooter />

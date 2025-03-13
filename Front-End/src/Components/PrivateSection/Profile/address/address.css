@@ -11,8 +11,7 @@
      /* border: 1px solid; */
      font-family: var(--font-family-Poppins);
 }
-.manage-address-section .previous-addresses{
-}
+
 .manage-address-section .previous-addresses table {
      width: 100%;
 }

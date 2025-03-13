@@ -15,6 +15,25 @@
      padding: 4rem;
      font-family: var(--font-family-Poppins);
 }
+.checkout-page .checkout-main .shipping-header{
+     display: flex;
+     align-items: center;
+     gap: 0.5rem;
+     /* border: 1px solid; */
+}
+.checkout-page .checkout-main .shipping-header img{
+     height: 50px;
+     width: 50px;
+     margin-bottom: 11px;
+     /* border: 1px solid; */
+
+}
+.checkout-page .checkout-main .shipping-header h1{
+     opacity: 0.8;
+     font-weight: 600;
+     font-size: 1.7rem;
+     margin-top: auto;
+}
 .checkout-page .checkout-body{
      display: flex;
      align-items:start;
@@ -22,8 +41,46 @@
 }
 .checkout-page form{
      width: 70%;
-     border: 1px solid;
+     /* border: 1px solid; */
 }
+.checkout-page form .input-field{
+     display: flex;
+     flex-direction: column;
+     gap: 1rem;
+     margin-top: 1rem;
+}
+.checkout-page form .input-field label{
+     font-weight: 500;
+     font-size: 1.1rem;
+     opacity: 0.8; 
+}
+.checkout-page form .mobile-field{
+     display: flex;
+     gap: 1rem;
+     width: 100%;
+}
+.checkout-page form .mobile-field .input-field{
+     width: 50%;
+}
+
+.checkout-page form .input-field input,
+.checkout-page form .input-field select{
+     padding: 0.8rem ;
+     font-size: 1rem;
+     font-family: var(--font-family-Poppins);
+     border: 1px solid rgba(0, 0, 0, 0.083);
+     outline: none;
+     background-color: transparent;
+     opacity: 0.8;
+}
+
+
+
+
+
+
+
+
 
 .checkout-page .order-summary-table{
      width: 27%;

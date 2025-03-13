@@ -23,6 +23,7 @@ const Cart = () => {
         setLoading(false);
       } catch (error) {
         console.log(error);
+        setMessage(error.response?.data?.message)
         setLoading(false);
       }
     };
