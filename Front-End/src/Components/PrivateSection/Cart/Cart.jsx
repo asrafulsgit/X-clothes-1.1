@@ -6,12 +6,14 @@ import Footer from "../../App/Footer/Footer";
 import Header from "../../Products/header/Header";
 import { apiRequiestWithCredentials } from "../../../utils/ApiCall";
 import ExtraFooter from "../../App/Footer/ExtraFooter";
+import { Link } from "react-router-dom";
 
 const Cart = () => {
   const [carts, setCarts] = useState([]);
   const [message, setMessage] = useState("Your cart is empty!");
   const [loading, setLoading] = useState(true);
   const [totalAmount, setTotalAmount]=useState(0)
+  const [taxes,setTaxes]=useState(0)
   const [totalItems,setTotalItems]=useState(0)
   useEffect(() => {
     const apiCalling = async () => {
@@ -32,6 +34,7 @@ const Cart = () => {
     setTotalItems(calculateTotalItems)
     const calculateTotalAmount = carts.reduce((acc,item)=> acc + (item.quantity * item.productId.price),0)
     setTotalAmount(calculateTotalAmount)
+    setTaxes(Math.floor((calculateTotalAmount/100)*10))
   },[carts])
   const handleDelete = async (productId) => {
     setLoading(true);
@@ -81,14 +84,13 @@ const Cart = () => {
   const orderSummary=[
     {name : 'Items', value : totalItems},
     {name : 'Sub Total', value : totalAmount},
-    {name : 'Shipping', value : 0},
-    {name : 'Taxes', value : 0},
-    {name : 'Coupon Discount', value : 0}
+    {name : 'Taxes', value : taxes}
   ]
+  const total=totalAmount+taxes;
   return (
     <div className="cart-page">
       <Nav />
-      <Header parm={"/cart"} name={"Cart"} header={"Shoping Cart"} />
+      <Header param={"/cart"} name={"Cart"} header={"Shoping Cart"} />
       <div className="cart-main">
         {loading ? (
           <p>loading...</p>
@@ -186,7 +188,7 @@ const Cart = () => {
                    })} 
                    <tr className="order-submit-row">
                        <td className="order-summary-table-name">Total</td>
-                       <td className="order-summary-table-value">{totalAmount}</td>
+                       <td className="order-summary-table-value">{total}</td>
                    </tr>
                    <tr className="coupon-code-field">
                       <td colSpan={2}>
@@ -195,7 +197,7 @@ const Cart = () => {
                       </td>
                    </tr>
                    <tr >
-                     <td colSpan={2}><button className="order-submit-btn">Proceed to Checkout</button></td>
+                     <td colSpan={2}><button className="order-submit-btn"> <Link to='/checkout' state={carts}>Proceed to Checkout</Link> </button></td>
                    </tr>
                   </tbody>
            

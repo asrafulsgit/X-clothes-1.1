@@ -1,0 +1,124 @@
+:root {
+     --color-1: #0487E2;
+     --color-2: #0463CA;
+     --color-3: #09B1EC;
+     --color-4: #D91656;
+     --display-font-Montserrat :"Montserrat", sans-serif;
+     --display-font-OpenSans : "Open Sans", sans-serif;
+     --font-family-AfacadFlux:"Afacad Flux", sans-serif;
+     --font-family-Poppins :"Poppins", sans-serif;
+     --display-font-section-header : "Courgette", cursive;
+}
+
+
+.checkout-page .checkout-main{
+     padding: 4rem;
+     font-family: var(--font-family-Poppins);
+}
+.checkout-page .checkout-body{
+     display: flex;
+     align-items:start;
+     justify-content: space-between;
+}
+.checkout-page form{
+     width: 70%;
+     border: 1px solid;
+}
+
+.checkout-page .order-summary-table{
+     width: 27%;
+     border: 1px solid rgba(0, 0, 0, 0.15);
+     padding: 1rem;
+}
+.checkout-page .order-summary-table table{
+     width: 100%;
+}
+.checkout-page .order-summary-table table thead tr{
+     border: none;
+}
+.checkout-page .order-summary-table table thead tr th{
+     border-bottom : 1px solid rgba(0, 0, 0, 0.15);
+}
+.checkout-page .order-summary-table  table tbody tr{
+     border: none;
+}
+.checkout-page .order-summary-table table thead tr th h3{
+     text-align: left;
+     font-size: 1.1rem;
+     font-weight: 500;
+     opacity: 0.9;
+     padding-bottom: .8rem;
+}
+
+.checkout-page .order-summary-table table, tr {
+     border: none;
+     border-collapse: collapse;
+}
+.checkout-page .order-summary-table table tbody tr{
+     height: 35px;
+}
+.checkout-page .order-summary-table .order-summary-table-body{
+     padding: 1rem 0;
+}
+
+.checkout-page .order-summary-table .order-summary-table-name{
+     opacity: 0.7;
+}
+.checkout-page .order-summary-table .order-summary-table-value{
+     text-align: right;
+}
+.checkout-page .order-summary-table  .order-submit-row{
+     border-top: 1px solid rgba(0, 0, 0, 0.092);
+     height: 50px;
+
+}
+.checkout-page .order-summary-table  .order-submit-btn{
+     width: 100%;
+     border: none;
+     margin-top: 0.5rem;
+     background-color: var(--color-4);
+     padding: 0.6rem 0;
+     font-family: var(--font-family-Poppins);
+     font-size: 1rem;
+     color: white;
+     letter-spacing: .5px;
+     cursor: pointer;
+}
+
+.checkout-page .order-summary-table .coupon-code-field tr{
+     width: 100%;
+     display: flex;
+}
+.checkout-page .order-summary-table .coupon-code-field td{
+     border: 1px solid  #d91657dc ;
+}
+.checkout-page .order-summary-table .coupon-code-field input{
+     padding: 0.2rem;
+     width: 80%;
+     border: none;
+     font-family: var(--font-family-Poppins);
+     outline: none;
+     font-size: 1rem;
+     opacity: 0.7;
+}
+.checkout-page .order-summary-table .coupon-code-field input::placeholder{
+     opacity: 0.5;
+     font-weight: 300;
+     font-size: 14px;
+}
+.checkout-page .order-summary-table .coupon-code-field button{
+     padding: 0.5rem 0.7rem;
+     width: 20%;
+     border: none;
+     font-family: var(--font-family-Poppins);
+     font-weight: 400;
+     letter-spacing: .5px;
+     background-color: #d91657dc;
+     color: white;
+     cursor: pointer;
+}
+
+
+
+
+

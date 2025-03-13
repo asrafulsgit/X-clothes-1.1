@@ -41,6 +41,7 @@ import IsVerified from './Components/Authentication/ForgotPassword/PrivateRoute/
 import ScrollProblem from './utils/ScrollProblem'
 import Private_admin from './Components/Admin/Private_admin'
 import Admin_Home from './Components/Admin/Home/Admin_Home'
+import Checkout from './Components/PrivateSection/checkout/Checkout'
 // import Shop from './Components/Shops/Shop'
 const App = () => {
   const dispatch = useDispatch()
@@ -89,6 +90,7 @@ const App = () => {
             <Route path='/cart' element={<Cart />} />
             <Route path='/profile' element={<Profile />} />
             <Route path='/favourite' element={<Favourite />} />
+            <Route path='/checkout' element={<Checkout />} />
           </Route>
 
           // admin Route
