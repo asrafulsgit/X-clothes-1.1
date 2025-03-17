@@ -52,7 +52,7 @@ const getUserCarts = async (req, res) => {
     }
     const cartProducts = await addToCartModel.find({ userId }).populate('productId', 'title images price stock')
     
-    if (cartProducts.length === 0) {
+    if (cartProducts.length === 0) { 
       return res.status(404).send({ message: "You have no cart!" });
     }
    

@@ -13,8 +13,8 @@ const Cart = () => {
   const [message, setMessage] = useState("Your cart is empty!");
   const [loading, setLoading] = useState(true);
   const [totalAmount, setTotalAmount]=useState(0)
-  const [taxes,setTaxes]=useState(0)
   const [totalItems,setTotalItems]=useState(0)
+
   useEffect(() => {
     const apiCalling = async () => {
       try {
@@ -28,14 +28,12 @@ const Cart = () => {
       }
     };
     apiCalling();
-    
   }, []);
   useEffect(()=>{
     const calculateTotalItems = carts.reduce((acc,item)=> acc + item.quantity ,0)
     setTotalItems(calculateTotalItems)
     const calculateTotalAmount = carts.reduce((acc,item)=> acc + (item.quantity * item.productId.price),0)
     setTotalAmount(calculateTotalAmount)
-    setTaxes(Math.floor((calculateTotalAmount/100)*10))
   },[carts])
   const handleDelete = async (productId) => {
     setLoading(true);
@@ -51,7 +49,6 @@ const Cart = () => {
       console.log(error);
     }
   };
-  // quantity setup
 
   const handleQuantity =async(productId,quantity)=>{
     const updatedCarts = carts.map((item) => {
@@ -83,11 +80,8 @@ const Cart = () => {
   }
 
   const orderSummary=[
-    {name : 'Items', value : totalItems},
-    {name : 'Sub Total', value : totalAmount},
-    {name : 'Taxes', value : taxes}
+    {name : 'Items', value : totalItems}
   ]
-  const total=totalAmount+taxes;
   return (
     <div className="cart-page">
       <Nav />
@@ -177,7 +171,6 @@ const Cart = () => {
                     <th colSpan={2}><h3>Order Summary</h3></th>
                     </tr>
                   </thead>
-
                   <tbody > 
                    {orderSummary.map((item,index)=>{
                     return(
@@ -189,19 +182,12 @@ const Cart = () => {
                    })} 
                    <tr className="order-submit-row">
                        <td className="order-summary-table-name">Total</td>
-                       <td className="order-summary-table-value">{total}</td>
-                   </tr>
-                   <tr className="coupon-code-field">
-                      <td colSpan={2}>
-                          <input type="text" placeholder="Coupone Code" />
-                          <button>Apply</button>
-                      </td>
+                       <td className="order-summary-table-value">{totalAmount}</td>
                    </tr>
                    <tr >
-                     <td colSpan={2}><button className="order-submit-btn"> <Link to='/checkout' state={carts}>Proceed to Checkout</Link> </button></td>
+                     <td colSpan={2}> <Link to='/checkout' state={{carts,totalItems}}><button className="order-submit-btn">Proceed to Checkout</button></Link> </td>
                    </tr>
                   </tbody>
-           
                 </table>
             </div>
           </div>

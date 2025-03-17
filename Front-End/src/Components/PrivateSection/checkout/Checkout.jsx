@@ -12,16 +12,15 @@ import "./checkout.css";
 
 const Checkout = () => {
   const location = useLocation();
-  const [carts, setCarts] = useState(location.state);
+  const [carts, setCarts] = useState(location.state.carts) || [];
   const [message, setMessage] = useState("");
-  const [errorMessageField, setErrorMessageField] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [totalAmount, setTotalAmount] = useState(0);
-  const [taxes, setTaxes] = useState(0);
-  const [totalItems, setTotalItems] = useState(0);
-
+  const [errorMessageField,setErrorMessageField]=useState('')
+  const [paymentInfo,setPaymentInfo]=useState({})
+  const [loading, setLoading] = useState(true);
+  const [couponCode, setCouponCode] = useState('')
   const [upazilas, setUpazilas] = useState([]);
   const [address, setAddress] = useState({});
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     if(name === errorMessageField){
@@ -34,15 +33,38 @@ const Checkout = () => {
        setUpazilas(selectedZila.upazilas)
     }
   }; 
-  
-  useEffect(() => {}, []);
+  useEffect(() => {
+    const apiCalling =async()=>{
+      try {
+      const data = await apiRequiestWithCredentials('post','/payment/calculator',{carts})
+        setPaymentInfo(data)
+      console.log(data)
+       setLoading(false)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    apiCalling()
+  }, [carts]);
 
-  const orderSummary = [
-    { name: "Items", value: totalItems },
-    { name: "Sub Total", value: totalAmount },
-    { name: "Taxes", value: taxes },
+const orderSummary = [
+    { name: "Items", value: location.state.totalItems },
+    { name: "Sub Total", value: paymentInfo.subTotal },
+    { name: "Product Discount", value: paymentInfo?.discount || 0 },
+    { name: "Coupon Discount", value: paymentInfo?.couponDiscount || 0 },
+    { name: "Shpping", value: paymentInfo.shippingCost},
+    { name: "Taxes", value: paymentInfo.taxes }
   ];
-
+  
+  const handleCoupon =async()=>{
+    try {
+      const data = await apiRequiestWithCredentials('post','/payment/calculator/coupon',{carts,couponCode})
+        setPaymentInfo(data)
+        setCouponCode('')
+      } catch (error) {
+        console.log(error)
+      }
+  }
   return (
     <div className="checkout-page">
       <Nav />
@@ -191,12 +213,12 @@ const Checkout = () => {
                   })}
                   <tr className="order-submit-row">
                     <td className="order-summary-table-name">Total</td>
-                    <td className="order-summary-table-value">2543</td>
+                    <td className="order-summary-table-value">{paymentInfo.total}</td>
                   </tr>
                   <tr className="coupon-code-field">
                     <td colSpan={2}>
-                      <input type="text" placeholder="Coupone Code" />
-                      <button>Apply</button>
+                      <input type="text" value={couponCode} onChange={(e)=> setCouponCode(e.target.value)} placeholder="Coupone Code" />
+                      <button onClick={handleCoupon}>Apply</button>
                     </td>
                   </tr>
                   <tr>
