@@ -13,7 +13,7 @@
 ### 2. Product Management
 - **Product CRUD Operations**: Admin can manage product listings.
   - Product attributes: title, description, images, price, availability, categories, etc.
-  - **Product categories** (e.g., Men, Women, Accessories).
+  - **Product categories** (e.g., Men, Women, kids).
   - **Multiple product images** and product variations (e.g., size, color).
   
 - **Product Search**: Implement search functionality with filters.
