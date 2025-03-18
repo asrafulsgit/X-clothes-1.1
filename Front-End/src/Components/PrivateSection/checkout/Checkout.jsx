@@ -27,7 +27,7 @@ const Checkout = () => {
   })
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    if(name === errorMessageField){
+    if(`shippingAddress.${name}` === errorMessageField){
       setMessage('')
       setErrorMessageField('')
     }
@@ -83,11 +83,14 @@ const orderSummary = [
     try {
       const data = await apiRequiestWithCredentials('post','/payment/create-order',orderInfo)
       console.log(data)
+      window.location.href = data.url.GatewayPageURL
+      setAddress({})
     } catch (error) { 
       console.log(error)
+      setMessage(error.response?.data?.errors[0].message)
+      setErrorMessageField(error.response?.data?.errors[0].field)
     }
   }
-  
   return (
     <div className="checkout-page">
       <Nav />
@@ -113,7 +116,7 @@ const orderSummary = [
                   onChange={handleInputChange}
                   placeholder="Asraful Islam"
                 />
-                {errorMessageField === "name" && (
+                {errorMessageField === "shippingAddress.name" && (
                   <p className="message">{message}</p>
                 )}
               </div>
@@ -129,7 +132,7 @@ const orderSummary = [
                         onChange={handleInputChange}
                     placeholder="+8801825643258"
                   />
-                  {errorMessageField === "phone" && (
+                  {errorMessageField === "shippingAddress.phone" && (
                     <p className="message">{message}</p>
                   )}
                 </div>
@@ -143,7 +146,7 @@ const orderSummary = [
                     onChange={handleInputChange}
                     placeholder="+880182564523"
                   />
-                  {errorMessageField === "alt_phone" && (
+                  {errorMessageField === "shippingAddress.alt_phone" && (
                     <p className="message">{message}</p>
                   )}
                 </div>
@@ -159,7 +162,7 @@ const orderSummary = [
                         onChange={handleInputChange}
                     placeholder="example@gmail.com"
                   />
-                  {errorMessageField === "email" && (
+                  {errorMessageField === "shippingAddress.email" && (
                     <p className="message">{message}</p>
                   )}
                 </div>
@@ -182,7 +185,7 @@ const orderSummary = [
                       );
                     })}
                   </select>
-                  {errorMessageField === "zila" && (
+                  {errorMessageField === "shippingAddress.zila" && (
                     <p className="message">{message}</p>
                   )}
                 </div>
@@ -205,7 +208,7 @@ const orderSummary = [
                       )
                     }
                   </select>
-                  {errorMessageField === "upazila" && (
+                  {errorMessageField === "shippingAddress.upazila" && (
                     <p className="message">{message}</p>
                   )}
                 </div>

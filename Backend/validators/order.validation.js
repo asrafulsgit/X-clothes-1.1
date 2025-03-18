@@ -40,29 +40,8 @@ const validateCreateOrder = [
     .optional()
     .isIn(['SSLCommerz', 'Stripe', 'PayPal', 'Bkash', 'Nagad']).withMessage('Invalid payment method'),
 
-  body('paymentDetails.transactionId').optional().isString().withMessage('Transaction ID must be a string'),
-
-  body('paymentDetails.status')
-    .optional()
-    .isIn(['Pending', 'Paid', 'Failed']).withMessage('Invalid payment status'),
-
-  body('subTotal').isFloat({ min: 0 }).withMessage('Subtotal must be a non-negative number'),
-  body('discount').isFloat({ min: 0 }).withMessage('Discount must be a non-negative number'),
-  body('taxes').isFloat({ min: 0 }).withMessage('Taxes must be a non-negative number'),
-  body('shippingCost').isFloat({ min: 0 }).withMessage('Shipping cost must be a non-negative number'),
-  body('total').isFloat({ min: 0 }).withMessage('Total must be a non-negative number'),
-
   body('couponCode').optional().isString().withMessage('Coupon code must be a string').escape(),
 
-  body('orderStatus')
-    .optional()
-    .isIn(['Processing', 'Shipped', 'Delivered', 'Cancelled', 'Refunded']).withMessage('Invalid order status'),
-
-  body('tracking.carrier').optional().isString().withMessage('Carrier must be a string'),
-  body('tracking.trackingNumber').optional().isString().withMessage('Tracking number must be a string'),
-
-  body('createdAt').optional().isISO8601().withMessage('CreatedAt must be a valid date'),
-  body('updatedAt').optional().isISO8601().withMessage('UpdatedAt must be a valid date'),
 ];
 const validateCoupon =[
      body('couponCode').notEmpty().withMessage('coupon code is required').isString().withMessage('Coupon code must be a string').escape(),
