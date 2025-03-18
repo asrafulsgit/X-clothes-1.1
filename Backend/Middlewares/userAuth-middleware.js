@@ -2,7 +2,6 @@ const jwt = require('jsonwebtoken');
 
 const userAuthentication = async(req,res,next)=>{
      const {accesstoken} =req.cookies;
-     
      try {
           if(!accesstoken){
                return res.status(404).send({

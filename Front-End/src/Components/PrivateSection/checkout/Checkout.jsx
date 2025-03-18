@@ -20,7 +20,11 @@ const Checkout = () => {
   const [couponCode, setCouponCode] = useState('')
   const [upazilas, setUpazilas] = useState([]);
   const [address, setAddress] = useState({});
-
+  const [orderInfo,setOrderInfo]=useState({
+    shippingAddress : {},
+    carts,
+    couponCode : ''
+  })
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     if(name === errorMessageField){
@@ -28,6 +32,10 @@ const Checkout = () => {
       setErrorMessageField('')
     }
     setAddress({ ...address, [name]: value });
+    setOrderInfo((prev=>({
+      ...prev,
+      shippingAddress : { ...address, [name]: value }
+    })))
     if(name === 'zila'){
       const selectedZila = bangladeshUpazila.find(item => item.zila.toLowerCase() === value);
        setUpazilas(selectedZila.upazilas)
@@ -38,7 +46,6 @@ const Checkout = () => {
       try {
       const data = await apiRequiestWithCredentials('post','/payment/calculator',{carts})
         setPaymentInfo(data)
-      console.log(data)
        setLoading(false)
       } catch (error) {
         console.log(error)
@@ -46,7 +53,6 @@ const Checkout = () => {
     }
     apiCalling()
   }, [carts]);
-
 const orderSummary = [
     { name: "Items", value: location.state.totalItems },
     { name: "Sub Total", value: paymentInfo.subTotal },
@@ -57,14 +63,31 @@ const orderSummary = [
   ];
   
   const handleCoupon =async()=>{
+    if(couponCode.length <= 3){
+      return;
+    }
     try {
       const data = await apiRequiestWithCredentials('post','/payment/calculator/coupon',{carts,couponCode})
         setPaymentInfo(data)
+        setOrderInfo((prev) => ({
+          ...prev,
+          couponCode: couponCode, 
+      }));
         setCouponCode('')
       } catch (error) {
         console.log(error)
       }
   }
+  
+  const handleCheckout =async()=>{
+    try {
+      const data = await apiRequiestWithCredentials('post','/payment/create-order',orderInfo)
+      console.log(data)
+    } catch (error) { 
+      console.log(error)
+    }
+  }
+  
   return (
     <div className="checkout-page">
       <Nav />
@@ -223,7 +246,7 @@ const orderSummary = [
                   </tr>
                   <tr>
                     <td colSpan={2}>
-                      <button className="order-submit-btn">
+                      <button onClick={handleCheckout} className="order-submit-btn">
                         Proceed to Checkout
                       </button>
                     </td>

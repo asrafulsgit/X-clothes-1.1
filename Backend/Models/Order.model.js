@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const orderSchema = new mongoose.Schema(
   {
-    userId: {
+    user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
       required: true,
@@ -21,14 +21,15 @@ const orderSchema = new mongoose.Schema(
       }
     ],
     shippingAddress: {
-      fullName: { type: String, required: true },
+      name: { type: String, required: true },
       phone: { type: String, required: true },
+      alt_phone: { type: String},
       email : {type: String},
       zila: { type: String, required: true },
       upazila: { type: String, required: true }
     },
     paymentDetails: {
-      method: { type: String, enum: ['COD', 'Credit Card', 'PayPal', 'Stripe']},
+      method: { type: String,  enum: ["SSLCommerz", "Stripe", "PayPal", "Bkash", "Nagad"]},
       transactionId: { type: String, default: null }, 
       status: { type: String, enum: ['Pending', 'Paid', 'Failed'], default: 'Pending' }
     },

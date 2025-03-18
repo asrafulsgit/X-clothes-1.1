@@ -1,4 +1,6 @@
-const productsModel = require("../Models/products.model");
+const Order = require("../Models/Order.model");
+const Product = require("../Models/products.model");
+const User = require("../Models/user.model");
 
 const calculateTotals = (carts, products) => {
      let subTotal = 0;
@@ -29,13 +31,20 @@ const calculateTotals = (carts, products) => {
    
      return { subTotal, discount, taxes,shippingCost, missingProducts };
    };
+
+const couponDiscountCalculator = (couponCode)=>{
+  let couponDiscount = 0;
+       if (couponCode && couponCode === process.env.COUPON_CODE) {
+         couponDiscount = parseFloat(process.env.COUPON_DISCOUNT) || 0;
+       }
+  return couponDiscount;
+}
    
    const paymentCalculator = async (req, res) => {
      try {
        const { carts } = req.body;
-   
        const productIds = carts.map(cart => cart.productId._id);
-       const products = await productsModel.find({ _id: { $in: productIds } }).lean();
+       const products = await Product.find({ _id: { $in: productIds } }).lean();
    
        const { subTotal, discount, taxes,shippingCost, missingProducts } = calculateTotals(carts, products);
    
@@ -71,17 +80,14 @@ const calculateTotals = (carts, products) => {
    const paymentWithCouponDiscount = async (req, res) => {
      try {  
        const { carts, couponCode } = req.body; 
-   
+
        const productIds = carts.map(cart => cart.productId._id);
-       const products = await productsModel.find({ _id: { $in: productIds } }).lean();
+       const products = await Product.find({ _id: { $in: productIds } }).lean();
    
        const { subTotal, discount, taxes,shippingCost} = calculateTotals(carts, products);
    
-       let couponDiscount = 0;
-       if (couponCode && couponCode === process.env.COUPON_CODE) {
-         couponDiscount = parseFloat(process.env.COUPON_DISCOUNT) || 0;
-       }
-   
+       
+       const couponDiscount = couponDiscountCalculator(couponCode);
        const total = (subTotal + taxes + shippingCost) - (discount + couponDiscount);
    
        return res.status(200).send({
@@ -103,14 +109,64 @@ const calculateTotals = (carts, products) => {
        });
      }
    };
-
+ 
    const createOrder = async(req,res) => {
-
+     try {
+       const user = req.userInfo.id;
+       const isUser = await User.findById(user)
+       if(!isUser){
+        return res.status(404).send({
+          success : false,
+          message : 'user not found!'
+        })
+       }
+       const {carts,shippingAddress,couponCode} = req.body;
+       const productIds = carts.map(cart => cart.productId._id);
+       const products = await Product.find({ _id: { $in: productIds } }).lean();
+   
+       const { subTotal, discount, taxes,shippingCost} = calculateTotals(carts, products);
+       
+       const couponDiscount = couponDiscountCalculator(couponCode);
+       const total = (subTotal + taxes + shippingCost) - (discount + couponDiscount);
+       
+       const cartsInfo = carts.map((item) =>{
+        const product = item.productId._id;
+        const quantity = item.quantity;
+        const color = item.color;
+        const size = item.size;
+        const items = {product,quantity,color,size}
+        return items;
+        })
+        console.log(user)
+       const newOrder = new Order({
+        user,
+        items : cartsInfo,
+        shippingAddress,
+        subTotal,
+        couponCode,
+        discount,
+        taxes,
+        shippingCost,
+        total
+       })
+       await newOrder.save()
+       return res.status(201).send({
+        success : true,
+        message : 'order created'
+       })
+      } catch (error) {
+        return res.status(500).send({
+          success: false,
+          message: 'Something broke!',
+          error: error.message
+        });
+      }
    }
    
    
 
 module.exports={
      paymentCalculator,
-     paymentWithCouponDiscount
+     paymentWithCouponDiscount,
+     createOrder
 }
