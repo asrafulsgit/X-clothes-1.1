@@ -3,7 +3,7 @@ const { ObjectId } = require('mongodb');
 const Order = require("../Models/Order.model");
 const Product = require("../Models/products.model");
 const User = require("../Models/user.model");
-
+const Payment = require('../Models/payment.model')
 const calculateTotals = (carts, products) => {
      let subTotal = 0;
      let discount = 0;
@@ -139,7 +139,6 @@ const couponDiscountCalculator = (couponCode)=>{
         const items = {product,quantity,color,size}
         return items;
         })
-        console.log(user)
        const newOrder = new Order({
         user,
         items : cartsInfo,
@@ -173,21 +172,31 @@ const couponDiscountCalculator = (couponCode)=>{
    const SSLCOMMERZ_STORE_ID = process.env.STORE_ID;
    const SSLCOMMERZ_STORE_PASSWD = process.env.STORE_PASSWORD;
   //  const SSLCOMMERZ_API_URL = "https://securepay.sslcommerz.com/gwprocess/v4/api.php";
-   const SUCCESS_URL =`${process.env.FRONTEND_URL}/payment-success/${tran_id}`;
-   const FAIL_URL = `${process.env.FRONTEND_URL}/payment-fail`;
-   const CANCEL_URL = `${process.env.FRONTEND_URL}/payment-cancel`;
-   const IPN_URL = `${process.env.FRONTEND_URL}/ipn`;
+   const SUCCESS_URL =`${process.env.BACKEND_URL}/payment/success/${tran_id}`;
+   const FAIL_URL = `${process.env.BACKEND_URL}/payment/faild`;
+   const CANCEL_URL = `${process.env.BACKEND_URL}/payment/cancel`;
+   const IPN_URL = `${process.env.BACKEND_URL}/ipn`;
    const is_live = false
 
    const paymentSystem = async(req,res)=>{
      try {
+      const userId = req.userInfo.id;
       const { amount,order_id, customer_name, customer_email, customer_phone } = req.orderInfo;
 
+      const createPayment = new Payment({
+            orderId: order_id,
+            userId,
+            amount,
+            transactionId: tran_id
+      })
+      await createPayment.save();
+      
       const orderData = {
+        order_id : order_id,
         total_amount: amount,
         currency: 'BDT',
         tran_id: tran_id, 
-        success_url: `${SUCCESS_URL}`,
+        success_url: SUCCESS_URL,
         fail_url: FAIL_URL,
         cancel_url: CANCEL_URL,
         ipn_url: IPN_URL,
@@ -210,7 +219,7 @@ const couponDiscountCalculator = (couponCode)=>{
         ship_state: 'Dhaka',
         ship_postcode:1200,
         ship_country: 'Bangladesh',
-   };
+      };
 
       const sslcz = new SSLCommerzPayment(SSLCOMMERZ_STORE_ID, SSLCOMMERZ_STORE_PASSWD, is_live)
       const response = await sslcz.init(orderData)  
@@ -225,7 +234,97 @@ const couponDiscountCalculator = (couponCode)=>{
   }
    }
 
+   const payment_Success = async (req, res) => {
+    try {
+        const tran_id = req.params.tranId;
+        const data = req.body;
 
+        if (!data.val_id) {
+            console.error("val_id is missing");
+            return res.redirect(`${process.env.FRONTEND_URL}/payment/error`);
+        }
+
+        const sslcz = new SSLCommerzPayment(SSLCOMMERZ_STORE_ID, SSLCOMMERZ_STORE_PASSWD, is_live);
+        const validationResponse = await sslcz.validate(data);
+
+        console.log("SSLCOMMERZ Validation Response:", validationResponse);
+
+        if (validationResponse.status !== "VALID") {
+            console.error("Invalid Transaction:", validationResponse);
+            return res.redirect(`${process.env.FRONTEND_URL}/payment/error`);
+        }
+
+        const payment = await Payment.findOne({transactionId : tran_id });
+        if (!payment) {
+            console.error("Payment record not found for transaction ID:", tran_id);
+            return res.redirect(`${process.env.FRONTEND_URL}/payment/error`);
+        }
+
+        const order = await Order.findById(payment.orderId );
+
+        if (!order) {
+            console.error("Order not found for order ID:", payment.orderId);
+            return res.redirect(`${process.env.FRONTEND_URL}/payment/error`);
+        }
+
+       order.paymentDetails.status = 'Paid'
+       order.paymentDetails.transactionId = tran_id;
+       await order.save();
+       payment.paymentStatus = 'Paid'
+       payment.paymentDetails = data
+       await payment.save();
+
+       res.redirect(`${process.env.FRONTEND_URL}/payment/success/${tran_id}`);
+
+    } catch (error) {
+        console.error("Payment verification failed:", error);
+        res.redirect(`${process.env.FRONTEND_URL}/payment/error`);
+    }
+};
+
+const getPaymentDetails = async (req, res) => {
+  try {
+      const { tranId } = req.params; 
+
+      if (!tranId) {
+          return res.status(400).json({ error: "Transaction ID is required" });
+      }
+
+      const payment = await Payment.findOne({transactionId : tranId }).populate('orderId', '_id shippingAddress');
+      if (!payment) {
+          return res.status(404).json({ error: "Payment record not found." });
+      }
+
+      return res.status(200).json({
+          success: true,
+          paymentDetails: {
+              tran_id: payment.transactionId,
+              amount: payment.amount,
+              status: payment.paymentStatus,
+              val_id: payment.paymentDetails.val_id,
+              createdAt : payment.createdAt
+          },
+          customerInfo:payment.orderId,
+      });
+  } catch (error) {
+      console.error("Failed to get payment details:", error);
+      res.status(500).json({ error: "Failed to fetch payment details." });
+  }
+};
+
+
+
+
+
+
+
+// async function hello (){
+//   await Order.deleteMany()
+//   await Payment.deleteMany()
+// }
+// hello()
+   
+ 
 
 
 
@@ -236,5 +335,7 @@ module.exports={
      paymentCalculator,
      paymentWithCouponDiscount,
      createOrder,
-     paymentSystem
+     paymentSystem,
+     payment_Success,
+     getPaymentDetails
 }

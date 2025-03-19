@@ -92,8 +92,8 @@ const App = () => {
             <Route path='/profile' element={<Profile />} />
             <Route path='/favourite' element={<Favourite />} />
             //payment routes
+            <Route path='/payment/success/:tranId' element={<Successfull />} />
             <Route path='/checkout' element={<Checkout />} />
-            <Route path='/payment-success/:tran_id' element={<Successfull />} />
           </Route>
 
           // admin Route

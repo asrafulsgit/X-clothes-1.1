@@ -42,13 +42,8 @@ app.use(favouriteRoute)
 app.use(paymentRouter)
 
 
-// app.post("/payment-success/:tranId", async (req, res) => {
-//     const tran_id = req.params.tranId;
-//     console.log('redirect')
-//     res.redirect(
-//         `http://localhost:5173/payment/success/${tran_id}`
-//    );
-// });
+
+
 // app.post("/ipn", async (req, res) => {
 //     try {
 //         const receivedData = req.body;
