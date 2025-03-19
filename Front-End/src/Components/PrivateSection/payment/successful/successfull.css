@@ -1,0 +1,101 @@
+:root {
+     --color-1: #0487E2;
+     --color-2: #0463CA;
+     --color-3: #09B1EC;
+     --color-4: #D91656;
+     --display-font-Montserrat :"Montserrat", sans-serif;
+     --display-font-OpenSans : "Open Sans", sans-serif;
+     --font-family-AfacadFlux:"Afacad Flux", sans-serif;
+     --font-family-Poppins :"Poppins", sans-serif;
+     --display-font-section-header : "Courgette", cursive;
+}
+.payment-success{
+     font-family: var(--font-family-Poppins);
+}
+
+.payment-success .nav{
+     display: flex;
+     justify-content: space-between;
+     align-items: center;
+     padding: 0.3rem 4rem;
+     border-bottom: 1px solid #d9165777;
+}
+
+.payment-success .back-to-home button {
+     border: 1px solid #d9165777;
+     padding: 0.2rem 0.6rem;
+     font-family: var(--font-family-Poppins);
+     font-weight: 500;
+     font-size: 1rem;
+     color: var(--color-4);
+     border-radius: 5px;
+     background-color: transparent;
+     cursor: pointer;
+}
+
+.payment-success .voucher-container {
+     margin: auto;
+     max-width: 700px;
+     margin-top: 3rem;
+     padding: 20px;
+     background: white;
+     border: 1px solid black;
+     /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
+     border-radius: 8px;
+   }
+   
+   .payment-success   .voucher-title {
+     text-align: center;
+     font-size: 24px;
+     font-weight: bold;
+   }
+   
+   .payment-success   .voucher-subtitle {
+     text-align: center;
+     color: gray;
+   }
+   
+   .payment-success   .voucher-section {
+     display: flex;
+     justify-content: space-between;
+     margin-top: 20px;
+     padding: 10px;
+     border: 1px solid #ddd;
+     border-radius: 6px;
+   }
+   
+   .payment-success  .voucher-column {
+     width: 48%;
+   }
+   
+   .payment-success  .voucher-items-title {
+     margin-top: 20px;
+     font-weight: bold;
+   }
+   
+   .payment-success  .voucher-table {
+     width: 100%;
+     border-collapse: collapse;
+     margin-top: 10px;
+   }
+   
+   .payment-success .voucher-table th,
+   .payment-success  .voucher-table td {
+     border: 1px solid #ddd;
+     padding: 8px;
+     text-align: left;
+   }
+   
+   .payment-success  .voucher-table th {
+     background: #f4f4f4;
+   }
+   
+   .payment-success  .voucher-summary {
+     margin-top: 20px;
+     padding-top: 10px;
+     border-top: 1px solid #ddd;
+   }
+   .payment-success strong{
+      font-weight: 600;
+   }
+   

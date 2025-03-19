@@ -140,7 +140,7 @@ const couponDiscountCalculator = (couponCode)=>{
         return items;
         })
        const newOrder = new Order({
-        user,
+        user, 
         items : cartsInfo,
         shippingAddress,
         subTotal,
@@ -300,6 +300,7 @@ const getPaymentDetails = async (req, res) => {
           paymentDetails: {
               tran_id: payment.transactionId,
               amount: payment.amount,
+              payment_type : payment.paymentDetails.card_issuer,
               status: payment.paymentStatus,
               val_id: payment.paymentDetails.val_id,
               createdAt : payment.createdAt
