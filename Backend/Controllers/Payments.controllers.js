@@ -1,5 +1,6 @@
 const SSLCommerzPayment = require('sslcommerz-lts')
 const { ObjectId } = require('mongodb');
+const puppeteer = require('puppeteer');
 const Order = require("../Models/Order.model");
 const Product = require("../Models/products.model");
 const User = require("../Models/user.model");
@@ -145,6 +146,7 @@ const couponDiscountCalculator = (couponCode)=>{
         shippingAddress,
         subTotal,
         couponCode,
+        couponDiscount,
         discount,
         taxes,
         shippingCost,
@@ -290,26 +292,141 @@ const getPaymentDetails = async (req, res) => {
           return res.status(400).json({ error: "Transaction ID is required" });
       }
 
-      const payment = await Payment.findOne({transactionId : tranId }).populate('orderId', '_id shippingAddress');
+      const payment = await Payment.findOne({transactionId : tranId })
+      const OrderDetails = await Order.findById(payment.orderId).populate('items.product', 'title price');
+      
+      
       if (!payment) {
           return res.status(404).json({ error: "Payment record not found." });
       }
 
       return res.status(200).json({
           success: true,
+          orderDetails : JSON.stringify(OrderDetails) ,
           paymentDetails: {
+              order_id : payment.orderId,
               tran_id: payment.transactionId,
               amount: payment.amount,
               payment_type : payment.paymentDetails.card_issuer,
               status: payment.paymentStatus,
               val_id: payment.paymentDetails.val_id,
               createdAt : payment.createdAt
-          },
-          customerInfo:payment.orderId,
+          }
       });
   } catch (error) {
       console.error("Failed to get payment details:", error);
       res.status(500).json({ error: "Failed to fetch payment details." });
+  }
+};
+
+
+
+// Endpoint to generate the PDF
+// app.get('/generate-voucher/:tranId', async (req, res) => {
+//   const { tranId } = req.params;
+const generateVoucher = async (req, res) => {
+  try {
+    const { orderInfo, paymentInfo, customerInfo } = req.body;
+
+    const htmlContent = `
+    <html>
+      <head>
+        <style>
+          body { font-family: "Poppins", sans-serif; background: #f4f4f4; }
+          .voucher-container { max-width: 700px; margin: 20px auto; padding: 20px; background: white; border: 1px solid #ddd; }
+          .voucher-title { text-align: center; font-size: 24px; font-weight: 600; color: #D91656; }
+          .voucher-subtitle { text-align: center; color: gray; font-weight: bold; }
+          .voucher-section { display: flex; justify-content: space-between; margin-top: 20px; padding: 10px; border: 1px solid #ddd; border-radius: 6px; }
+          .voucher-column h3 { font-size: 16px; font-weight: 600; }
+          .voucher-column p { font-size: 14px; }
+          .voucher-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+          .voucher-table th, .voucher-table td { border: 1px solid #ddd; padding: 5px; text-align: left; }
+          .voucher-table th { background: #f4f4f4; font-size: 14px; font-weight: 600; }
+          .payment-date { text-align: right; margin-top: 10px; color: gray; font-weight: 500; }
+        </style>
+      </head>
+      <body>
+        <div class="voucher-container">
+          <h2 class="voucher-title">Disbursement Voucher</h2>
+          <p class="voucher-subtitle">X CLOTHE</p>
+          
+          <div class="voucher-section">
+            <div class="voucher-column">
+              <h3>Bill To:</h3>
+              <p><strong>Name:</strong> ${customerInfo.name}</p>
+              <p><strong>Address:</strong> ${customerInfo.zila}, ${customerInfo.upazila}</p>
+              <p><strong>Email:</strong> ${customerInfo.email ? customerInfo.email : ""}</p>
+              <p><strong>Phone:</strong> ${customerInfo.phone}</p>
+            </div>
+            <div class="voucher-column">
+              <h3>Payment Method:</h3>
+              <p><strong>Payment Type:</strong> ${paymentInfo.payment_type}</p>
+              <p><strong>Tran. ID:</strong> ${paymentInfo.tran_id}</p>
+              <p><strong>Order ID:</strong> ${paymentInfo.order_id}</p>
+              <p><strong>Status:</strong> ${paymentInfo.status}</p>
+            </div>
+          </div>
+          
+          <h3 class="voucher-items-title">Details</h3>
+          <table class="voucher-table">
+            <thead>
+              <tr>
+                <th>SL</th>
+                <th>Description</th>
+                <th>Quantity</th>
+                <th>Unit Price</th>
+                <th>Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${orderInfo.items.map((item, index) => `
+                <tr>
+                  <td>${index + 1}</td>
+                  <td>${item.product.title}</td>
+                  <td>${item.quantity}</td>
+                  <td>${item.product.price}</td>
+                  <td>${item.product.price * item.quantity}</td>
+                </tr>
+              `).join("")}
+            </tbody>
+          </table>
+          
+          <div class="voucher-summary">
+            <table class="voucher-table">
+              <thead><tr><th colspan="2" style="text-align: center;">Summary</th></tr></thead>
+              <tbody>
+                <tr><td><strong>Subtotal</strong></td><td>${orderInfo.subTotal}</td></tr>
+                <tr><td><strong>Tax</strong></td><td>${orderInfo.taxes}</td></tr>
+                <tr><td><strong>Coupon Discount</strong></td><td>${orderInfo.couponDiscount}</td></tr>
+                <tr><td><strong>Discount</strong></td><td>${orderInfo.discount}</td></tr>
+                <tr><td><strong>Shipping Cost</strong></td><td>${orderInfo.shippingCost}</td></tr>
+                <tr><td><strong>Total</strong></td><td>${orderInfo.total}</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="payment-date">
+            <p>${paymentInfo.createdAt.split("T")[0]}</p>
+          </div>
+        </div>
+      </body>
+    </html>`;
+    const browser = await puppeteer.launch({
+      headless: true,
+      args: ["--no-sandbox", "--disable-setuid-sandbox"],
+    });
+    const page = await browser.newPage();
+    await page.setContent(htmlContent, { waitUntil: "load" });
+
+    const pdfBuffer = await page.pdf({ format: "A4" });
+    await browser.close();
+
+    res.setHeader("Content-Type", "application/pdf");
+    res.setHeader("Content-Disposition", 'inline; filename="voucher.pdf"');
+    res.send(Buffer.from(pdfBuffer));
+  } catch (error) {
+    console.error("Error generating PDF:", error);
+    res.status(500).json({ error: "Error generating PDF" });
   }
 };
 
@@ -338,5 +455,6 @@ module.exports={
      createOrder,
      paymentSystem,
      payment_Success,
-     getPaymentDetails
+     getPaymentDetails,
+     generateVoucher
 }
