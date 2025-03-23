@@ -7,8 +7,11 @@ import Header from "../../Products/header/Header";
 import { apiRequiestWithCredentials } from "../../../utils/ApiCall";
 import ExtraFooter from "../../App/Footer/ExtraFooter";
 import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setIsCheckout } from "../../../utils/Controllers/UserSlice";
 
 const Cart = () => {
+  const dispatch = useDispatch()
   const [carts, setCarts] = useState([]);
   const [message, setMessage] = useState("Your cart is empty!");
   const [loading, setLoading] = useState(true);
@@ -78,7 +81,11 @@ const Cart = () => {
       const quantity = value ? Math.max(1,parseInt(value,10)): 1;
       handleQuantity(productId,quantity)
   }
-
+  const handleChecout =(totalCart)=>{
+    if(totalCart === 0) return;
+    dispatch(setIsCheckout(true))
+    
+  }
   const orderSummary=[
     {name : 'Items', value : totalItems}
   ]
@@ -185,7 +192,7 @@ const Cart = () => {
                        <td className="order-summary-table-value">{totalAmount}</td>
                    </tr>
                    <tr >
-                     <td colSpan={2}> <Link to='/checkout' state={{carts,totalItems}}><button className="order-submit-btn">Proceed to Checkout</button></Link> </td>
+                     <td colSpan={2}> <Link to='/checkout' state={{carts,totalItems}} onClick={()=>handleChecout(carts.length)}  ><button className="order-submit-btn">Proceed to Checkout</button></Link> </td>
                    </tr>
                   </tbody>
                 </table>

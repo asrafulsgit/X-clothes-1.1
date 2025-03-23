@@ -1,5 +1,13 @@
 const mongoose = require('mongoose');
 
+const  calculateDefaultDeliveryDate = () => {
+  const orderDate = new Date();
+  orderDate.setDate(orderDate.getDate() + 5); 
+  return orderDate;
+}
+
+
+
 const orderSchema = new mongoose.Schema(
   {
     user: {
@@ -31,7 +39,7 @@ const orderSchema = new mongoose.Schema(
     paymentDetails: {
       method: { type: String,  enum: ["SSLCommerz", "Stripe", "PayPal", "Bkash", "Nagad"]},
       transactionId: { type: String, default: null }, 
-      status: { type: String, enum: ['Pending', 'Paid', 'Failed'], default: 'Pending' }
+      status: { type: String, enum: ['Pending', 'Paid', 'Failed','Cencel'], default: 'Pending' }
     },
     subTotal: { type: Number, required: true },
     discount: { type: Number, default: 0 },
@@ -49,6 +57,7 @@ const orderSchema = new mongoose.Schema(
       carrier: { type: String, default: null },
       trackingNumber: { type: String, default: null }
     },
+    deliveryDate: { type: Date, required : true, default: calculateDefaultDeliveryDate },
     createdAt: { type: Date, default: Date.now, index: true },
     updatedAt: { type: Date, default: Date.now }
   },

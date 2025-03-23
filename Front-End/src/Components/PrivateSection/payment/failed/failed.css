@@ -1,0 +1,85 @@
+:root {
+     --color-1: #0487E2;
+     --color-2: #0463CA;
+     --color-3: #09B1EC;
+     --color-4: #D91656;
+     --display-font-Montserrat :"Montserrat", sans-serif;
+     --display-font-OpenSans : "Open Sans", sans-serif;
+     --font-family-AfacadFlux:"Afacad Flux", sans-serif;
+     --font-family-Poppins :"Poppins", sans-serif;
+     --display-font-section-header : "Courgette", cursive;
+}
+
+.payment-failed-container {
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     height: 90vh ;
+     font-family: var(--font-family-Poppins);
+   }
+   
+   .payment-failed-box {
+     background-color: white;
+     padding: 30px;
+     border-radius: 10px;
+     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+     text-align: center;
+     width: 100%;
+     max-width: 400px;
+   }
+   
+ .payment-failed-container  .icon  i{
+     color: red;
+     font-size: 2rem;
+   }
+   
+   
+   
+   .payment-failed-heading {
+     margin-top: 10px;
+     font-size: 24px;
+     font-weight: bold;
+     color: #333;
+     margin-bottom: 15px;
+   }
+   
+   .payment-failed-message {
+     font-size: 16px;
+     color: #666;
+     margin-bottom: 20px;
+   }
+   
+   .button-container {
+     display: flex;
+     justify-content: center;
+     gap: 20px;
+   }
+   
+   .retry-btn,
+   .contact-btn {
+     font-family: var(--font-family-Poppins);
+     padding: 6px 12px;
+     font-size: 16px;
+     border-radius: 3px;
+     cursor: pointer;
+     transition: all 0.3s;
+   }
+   
+.payment-failed-container   .retry-btn {
+     background-color: var(--color-4);
+     border: none;
+   }
+  .payment-failed-container .retry-btn a{
+     color: white;
+  }  
+   
+   .contact-btn {
+     background-color: transparent;
+     color: #333;
+     border: 1px solid #ddd;
+   }
+   
+   .contact-btn:hover {
+     background-color: #ddd;
+   }
+   

@@ -170,18 +170,20 @@ const couponDiscountCalculator = (couponCode)=>{
       }
    }
    
-   const tran_id = new ObjectId().toString();
+
    const SSLCOMMERZ_STORE_ID = process.env.STORE_ID;
    const SSLCOMMERZ_STORE_PASSWD = process.env.STORE_PASSWORD;
   //  const SSLCOMMERZ_API_URL = "https://securepay.sslcommerz.com/gwprocess/v4/api.php";
-   const SUCCESS_URL =`${process.env.BACKEND_URL}/payment/success/${tran_id}`;
-   const FAIL_URL = `${process.env.BACKEND_URL}/payment/faild`;
+   const SUCCESS_URL =`${process.env.BACKEND_URL}/payment/success`;
+   const FAIL_URL = `${process.env.BACKEND_URL}/payment/failed`;
    const CANCEL_URL = `${process.env.BACKEND_URL}/payment/cancel`;
    const IPN_URL = `${process.env.BACKEND_URL}/ipn`;
    const is_live = false
 
    const paymentSystem = async(req,res)=>{
      try {
+     const tran_id = new ObjectId().toString();
+
       const userId = req.userInfo.id;
       const { amount,order_id, customer_name, customer_email, customer_phone } = req.orderInfo;
 
@@ -236,11 +238,10 @@ const couponDiscountCalculator = (couponCode)=>{
   }
    }
 
-   const payment_Success = async (req, res) => {
+const payment_Success = async (req, res) => {
     try {
-        const tran_id = req.params.tranId;
-        const data = req.body;
-
+      const data = req.body;
+      const tran_id = data.tran_id;
         if (!data.val_id) {
             console.error("val_id is missing");
             return res.redirect(`${process.env.FRONTEND_URL}/payment/error`);
@@ -283,6 +284,68 @@ const couponDiscountCalculator = (couponCode)=>{
         res.redirect(`${process.env.FRONTEND_URL}/payment/error`);
     }
 };
+const payment_failed = async (req, res) => {
+    try { 
+      const data = req.body;
+      const tran_id =  data.tran_id;
+      const payment = await Payment.findOne({transactionId : tran_id });
+        if (!payment) {
+            console.error("Payment record not found for transaction ID:", tran_id);
+            return res.redirect(`${process.env.FRONTEND_URL}/payment/error`);
+        }
+
+        const order = await Order.findById(payment.orderId );
+
+        if (!order) {
+            console.error("Order not found for order ID:", payment.orderId);
+            return res.redirect(`${process.env.FRONTEND_URL}/payment/error`);
+        }
+
+       order.paymentDetails.status = 'Failed'
+       order.paymentDetails.transactionId = tran_id;
+       await order.save();
+       payment.paymentStatus = 'Failed'
+       payment.paymentDetails = data
+       await payment.save();
+       res.redirect(`${process.env.FRONTEND_URL}/payment/failed/${tran_id}`);
+
+    } catch (error) {
+        console.error("Payment verification failed:", error);
+        res.redirect(`${process.env.FRONTEND_URL}/payment/error`);
+    }
+};
+const payment_cencel = async (req, res) => {
+    try { 
+      const data = req.body;
+      const tran_id =  data.tran_id;
+      console.log(data)
+      const payment = await Payment.findOne({transactionId : tran_id });
+        if (!payment) {
+            console.error("Payment record not found for transaction ID:", tran_id);
+            return res.redirect(`${process.env.FRONTEND_URL}/payment/error`);
+        }
+
+        const order = await Order.findById(payment.orderId );
+
+        if (!order) {
+            console.error("Order not found for order ID:", payment.orderId);
+            return res.redirect(`${process.env.FRONTEND_URL}/payment/error`);
+        }
+
+       order.paymentDetails.status = 'Cencel'
+       order.paymentDetails.transactionId = tran_id;
+       await order.save();
+       payment.paymentStatus = 'Cencel'
+       payment.paymentDetails = data
+       await payment.save();
+
+       res.redirect(`${process.env.FRONTEND_URL}/payment/cancel/${tran_id}`);
+
+    } catch (error) {
+        console.error("Payment verification failed:", error);
+        res.redirect(`${process.env.FRONTEND_URL}/payment/error`);
+    }
+};
 
 const getPaymentDetails = async (req, res) => {
   try {
@@ -319,11 +382,6 @@ const getPaymentDetails = async (req, res) => {
   }
 };
 
-
-
-// Endpoint to generate the PDF
-// app.get('/generate-voucher/:tranId', async (req, res) => {
-//   const { tranId } = req.params;
 const generateVoucher = async (req, res) => {
   try {
     const { orderInfo, paymentInfo, customerInfo } = req.body;
@@ -430,6 +488,18 @@ const generateVoucher = async (req, res) => {
   }
 };
 
+const cleanOldOrderAndPayment = async() => {
+  const cleanPaymentDb = await Payment.deleteMany({
+    paymentStatus: { $nin: ["paid", "refunded"] }, // Not "paid","refunded"
+    createdAt: { $lt: new Date(Date.now() - 24 * 60 * 60 * 1000) }, // 24 hours ago
+  });
+  const cleanOrderDb = await Order.deleteMany({
+    'paymentStatus.status': { $nin: ["paid", "refunded"] }, // Not "paid"
+    createdAt: { $lt: new Date(Date.now() - 24 * 60 * 60 * 1000) }, // 24 hours ago
+  });
+}
+
+
 
 
 
@@ -440,7 +510,7 @@ const generateVoucher = async (req, res) => {
 //   await Order.deleteMany()
 //   await Payment.deleteMany()
 // }
-// hello()
+// hello() 
    
  
 
@@ -456,5 +526,8 @@ module.exports={
      paymentSystem,
      payment_Success,
      getPaymentDetails,
-     generateVoucher
+     generateVoucher,
+     payment_failed,
+     payment_cencel,
+     cleanOldOrderAndPayment
 }

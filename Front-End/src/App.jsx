@@ -43,6 +43,9 @@ import Private_admin from './Components/Admin/Private_admin'
 import Admin_Home from './Components/Admin/Home/Admin_Home'
 import Checkout from './Components/PrivateSection/checkout/Checkout'
 import Successfull from './Components/PrivateSection/payment/successful/Successfull'
+import Failed from './Components/PrivateSection/payment/failed/Failed'
+import Protect_payment from './Components/PrivateSection/payment/Protect_payment'
+import Cencel from './Components/PrivateSection/payment/cencel/Cencel'
 // import Shop from './Components/Shops/Shop'
 const App = () => {
   const dispatch = useDispatch()
@@ -93,7 +96,12 @@ const App = () => {
             <Route path='/favourite' element={<Favourite />} />
             //payment routes
             <Route path='/payment/success/:tranId' element={<Successfull />} />
-            <Route path='/checkout' element={<Checkout />} />
+            <Route path='/payment/failed/:tranId' element={<Failed />} />
+            <Route path='/payment/cancel/:tranId' element={<Cencel />} />
+          </Route>
+
+          <Route element={<Protect_payment /> }>
+              <Route path='/checkout' element={<Checkout />} />
           </Route>
 
           // admin Route

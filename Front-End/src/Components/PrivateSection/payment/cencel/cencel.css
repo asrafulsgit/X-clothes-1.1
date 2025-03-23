@@ -1,0 +1,100 @@
+:root {
+     --color-1: #0487E2;
+     --color-2: #0463CA;
+     --color-3: #09B1EC;
+     --color-4: #D91656;
+     --display-font-Montserrat :"Montserrat", sans-serif;
+     --display-font-OpenSans : "Open Sans", sans-serif;
+     --font-family-AfacadFlux:"Afacad Flux", sans-serif;
+     --font-family-Poppins :"Poppins", sans-serif;
+     --display-font-section-header : "Courgette", cursive;
+}
+
+/* Body and container styles */
+.payment-cancel-container {
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     min-height: 100vh;
+     background-color: #f3f4f6;
+     font-family: var(--font-family-Poppins);
+   }
+   
+   /* Main card for the payment cancel UI */
+.payment-cancel-container   .payment-cancel-card {
+     background-color: white;
+     padding: 30px;
+     border-radius: 8px;
+     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+     max-width: 400px;
+     width: 100%;
+     text-align: center;
+   }
+   
+   /* Header styling */
+.payment-cancel-container   .payment-cancel-header {
+     font-size: 2rem;
+     font-weight: bold;
+     color: var(--color-4); /* Red color */
+     margin-bottom: 20px;
+   }
+   
+   /* Message styling */
+.payment-cancel-container   .payment-cancel-message {
+     font-size: 1rem;
+     color: #4b5563; /* Gray color */
+     margin-bottom: 30px;
+   }
+   
+   /* Transaction details styling */
+.payment-cancel-container   .payment-details {
+     margin-bottom: 30px;
+   }
+   
+.payment-cancel-container   .transaction-id, .amount {
+     font-size: 1.1rem;
+     color: #1f2937; /* Dark Gray */
+   }
+   
+.payment-cancel-container   .transaction-id-value, .amount-value {
+     font-weight: bold;
+     color: #f87171; /* Red color */
+   }
+.payment-cancel-container   .button-container {
+     display: flex;
+     justify-content: center;
+     gap: 20px;
+   }
+   
+   .retry-btn,
+   .contact-btn {
+     font-family: var(--font-family-Poppins);
+     padding: 6px 12px;
+     font-size: 16px;
+     border-radius: 3px;
+     cursor: pointer;
+     transition: all 0.3s;
+   }
+   
+.payment-cancel-container   .retry-btn {
+     background-color: var(--color-4);
+     border: none;
+   }
+  .payment-cancel-container .retry-btn a{
+     color: white;
+  }  
+   
+   .contact-btn {
+     background-color: transparent;
+     color: #333;
+     border: 1px solid #ddd;
+   }
+   
+   .contact-btn:hover {
+     background-color: #ddd;
+   }
+   
+
+
+   
+  

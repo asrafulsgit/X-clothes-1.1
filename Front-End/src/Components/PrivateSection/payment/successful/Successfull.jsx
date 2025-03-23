@@ -3,6 +3,7 @@ import { apiRequiest } from '../../../../utils/ApiCall'
 import { Link, NavLink, useParams } from 'react-router-dom'
 import './successfull.css'
 import axios from 'axios';
+import Nav from '../Nav';
 
 const Successfull = () => {
   const {tranId} = useParams();
@@ -46,8 +47,6 @@ const Successfull = () => {
     }
   }
 
-
-
   if(pageLoading){
     return(
       <h1>Loading...</h1>
@@ -56,10 +55,7 @@ const Successfull = () => {
   return (
     <>
       <div className="payment-success">
-      <nav className='nav'>
-        <NavLink to='/' className='nav-logo'><h1 className='logo'><span>X</span> Clothes</h1></NavLink>   
-        <div className="back-to-home"> <Link to='/'><button >Home</button></Link> </div>
-      </nav>
+      <Nav />
       {!pageLoading && 
         <div className="voucher-container" id='voucher'>
           <h2 className="voucher-title">Disbursement Voucher</h2>
