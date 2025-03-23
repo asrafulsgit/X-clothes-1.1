@@ -9,6 +9,7 @@ const cors = require('cors');
 const { addToCartRoute } = require('./Routers/addToCart.router');
 const  {favouriteRoute} = require('./Routers/addToFavourite.router');
 const paymentRouter = require('./Routers/payments.router.');
+const { orderRouter } = require('./Routers/order.router');
 
 const app = express();
 const server = http.createServer(app)
@@ -40,6 +41,7 @@ app.use(productRouter)
 app.use(addToCartRoute)
 app.use(favouriteRoute)
 app.use(paymentRouter)
+app.use(orderRouter)
 
 
 

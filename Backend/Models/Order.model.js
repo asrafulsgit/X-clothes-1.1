@@ -37,7 +37,7 @@ const orderSchema = new mongoose.Schema(
       upazila: { type: String, required: true }
     },
     paymentDetails: {
-      method: { type: String,  enum: ["SSLCommerz", "Stripe", "PayPal", "Bkash", "Nagad"]},
+      method: { type: String,  enum: ["SSLCommerz", "Stripe", "PayPal", "Bkash", "Nagad"], defult : "SSLCommerz"},
       transactionId: { type: String, default: null }, 
       status: { type: String, enum: ['Pending', 'Paid', 'Failed','Cencel'], default: 'Pending' }
     },

@@ -1,7 +1,10 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import './orders.css'
+import { apiRequiestWithCredentials } from '../../../../utils/ApiCall';
 const Orders = () => {
-  const orders = [
+  const [pageLoading,setPageLoadin]=useState(true)
+  
+  const sample = [
     {
       orderId: '#SDGT1254FD',
       totalPayment: '$633.00',
@@ -56,87 +59,105 @@ const Orders = () => {
       status: 'Delivered',
     },
   ];
-
+  const [orders,setOrders]=useState(sample)
+  useEffect(()=>{
+    const apiCalling = async()=>{
+      try {
+        const data = await apiRequiestWithCredentials('get','/orders')
+        setOrders(data.paidOrders)
+        console.log(data)
+        setPageLoadin(false)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    apiCalling()
+  },[])
+  if(pageLoading){
+    return ( <h1>loading...</h1> )
+  }
   return (
-    <div className="user-order-list-container">
-      <div className="order-list-header">
-        <h2>Orders ({orders.length})</h2>
-        <div className="sort-by">
-          <span>Sort by:</span>
-          <select>
-            <option value="all">All</option>
-          </select>
-        </div>
-      </div>
-
-      { orders.map((order) => (
-        <div className="order-item" key={order.orderId}>
-          <div className="order-details">
-            <div className="order-id">
-              <span>Order ID</span>
-              <p>{order.orderId}</p>
-            </div>
-            <div className="total-payment">
-              <span>Total Payment</span>
-              <p>{order.totalPayment}</p>
-            </div>
-            <div className="payment-method">
-              <span>Payment Method</span>
-              <p>{order.paymentMethod}</p>
-            </div>
-            {order.estimatedDeliveryDate && (
-              <div className="delivery-date">
-                <span>Estimated Delivery Date</span>
-                <p>{order.estimatedDeliveryDate}</p>
-              </div>
-            )}
-            {order.deliveredDate && (
-              <div className="delivered-date">
-                <span>Delivered Date</span>
-                <p>{order.deliveredDate}</p>
-              </div>
-            )}
+    <>
+      <div className="user-order-list-container">
+        <div className="order-list-header">
+          <h2>Orders ({orders.length})</h2>
+          <div className="sort-by">
+            <span>Sort by:</span>
+            <select>
+              <option value="all">All</option>
+            </select>
           </div>
+        </div>
 
-          <div className="order-items">
-            {order.items.map((item, index) => (
-              <div className="order-item-detail" key={index}>
-                <img src={item.image} alt={item.name} className="item-image" />
-                <div className="item-info">
-                  <p className="item-name">{item.name}</p>
-                  <p className="item-details">
-                    Color: {item.color} | Size: {item.size} | Qty. {item.quantity}
-                  </p>
+        { orders.map((order) => (
+          <div className="order-item" key={order._id}>
+            <div className="order-details">
+              <div className="order-id">
+                <span>Order ID</span>
+                <p>{order._id}</p>
+              </div>
+              <div className="total-payment">
+                <span>Total Payment</span>
+                <p>{order.total}</p>
+              </div>
+              <div className="payment-method">
+                <span>Payment Method</span>
+                <p>{order.paymentDetails?.method}</p>
+              </div>
+              {order.deliveryDate && (
+                <div className="delivery-date">
+                  <span>Estimated Delivery Date</span>
+                  <p>{order.deliveryDate.split('T')[0]}</p>
                 </div>
-              </div>
-            ))}
-          </div>
+              )}
+              {order.deliveryDate && (
+                <div className="delivered-date">
+                  <span>Delivered Date</span>
+                  <p>{order.deliveryDate.split('T')[0]}</p>
+                </div>
+              )}
+            </div>
 
-          <div className="order-footer">
-          <div className="order-status">
-            <span className={order.status.toLowerCase()}>{order.status}</span>
-            <p>Your Order has been {order.status}</p>
-          </div>
+            <div className="order-items">
+              {order.items.map((item, index) => (
+                <div className="order-item-detail" key={index}>
+                  <img src={item.product?.images[0]} alt={item.product?.title} className="item-image" />
+                  <div className="item-info">
+                    <p className="item-name">{item.product.title}</p>
+                    <p className="item-details">
+                      Color: {item.color} | Size: {item.size} | Qty. {item.quantity}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
 
-          <div className="order-actions">
-            {order.status === 'Accepted' && (
-              <>
-                <button className="track-order">Track Order</button>
-                <button className="invoice">Invoice</button>
-                <button className="cancel-order">Cancel Order</button>
-              </>
-            )}
-            {order.status === 'Delivered' && (
-              <>
-                <button className="add-review">Add Review</button>
-                <button className="invoice">Invoice</button>
-              </>
-            )}
+            <div className="order-footer">
+            <div className="order-status">
+              <span className={order.orderStatus}>{order.orderStatus}</span>
+              <p>Your Order has been {order.orderStatus}</p>
+            </div>
+
+            <div className="order-actions">
+              {order.orderStatus.toLowerCase() === 'processing' && (
+                <>
+                  <button className="track-order">Track Order</button>
+                  <button className="invoice">Invoice</button>
+                  <button className="cancel-order">Cancel Order</button>
+                </>
+              )}
+              {order.orderStatus.toLowerCase() === 'delivered' && (
+                <>
+                  <button className="add-review">Add Review</button>
+                  <button className="invoice">Invoice</button>
+                </>
+              )}
+            </div>
+            </div>
           </div>
-          </div>
-        </div>
-      ))}
-    </div>
+        ))}
+      </div>
+    </>
   );
 }
 
