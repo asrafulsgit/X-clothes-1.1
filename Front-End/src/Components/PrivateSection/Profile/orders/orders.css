@@ -83,60 +83,68 @@
      border-bottom: 1px solid rgba(0, 0, 0, 0.04);
    }
    
-   .item-image {
+   .user-order-list-container   .item-image {
      width: 80px;
      height: 100px;
-     object-fit: cover;
+     object-fit: contain;
      margin-right: 10px;
    }
    
-   .item-info {
+   .user-order-list-container  .item-info {
      text-align: left;
    }
    
-   .item-name {
+   .user-order-list-container  .item-name {
      font-weight: 600;
      margin: 0;
      color: rgba(0, 0, 0, 0.9);
    }
    
-   .item-details {
+   .user-order-list-container  .item-details {
      margin: 0;
      font-size: 0.9em;
      color: #666;
    }
-   .order-footer{
+   .user-order-list-container  .order-footer{
      margin: 20px;
    }
-   .order-status {
+   .user-order-list-container  .order-status {
      display: flex;
      align-items: center;
      margin-bottom: 20px;
    }
    
-   .order-status span {
+   .user-order-list-container .order-status span {
      font-weight: 600;
      padding: 5px 10px;
      border-radius: 3px;
      margin-right: 10px;
    }
    
-   .order-status .accepted {
+   .user-order-list-container  .order-status .processing ,
+   .user-order-list-container  .order-status .shipped {
      background-color: #d4edda;
      color: #155724;
      font-weight: 600;
    }
    
-   .order-status .delivered {
+   .user-order-list-container  .order-status .refunded ,
+   .user-order-list-container  .order-status .cancelled {
+     background-color: rgba(255, 0, 0, 0.186);
+     color:  rgb(255, 0, 0);
+     font-weight: 600;
+   }
+   
+   .user-order-list-container  .order-status .delivered {
      background-color: #cce5ff;
      color: #004085;
      font-weight: 600;
    }
-   .order-actions{
+   .user-order-list-container  .order-actions{
      /* border: 1px solid; */
      position: relative;
    }
-   .order-actions button {
+   .user-order-list-container .order-actions button {
      margin-right: 10px;
      border: none;
      cursor: pointer;
@@ -147,17 +155,17 @@
      font-family: var(--font-family-Poppins);
    }
    
-   .order-actions .track-order {
+   .user-order-list-container  .order-actions .track-order {
      border: 1px solid #007bff;
      color: #007bff;
    }
    
-   .order-actions .invoice {
+   .user-order-list-container  .order-actions .invoice {
      border: 1px solid #6c757d;
      color: #6c757d;
    }
    
-   .order-actions .cancel-order {
+   .user-order-list-container .order-actions .cancel-order {
      text-align: right;
      background-color:transparent;
      color: #dc3545;
@@ -166,7 +174,7 @@
      right: 10px;
    }
    
-   .order-actions .add-review {
+   .user-order-list-container  .order-actions .add-review {
      /* background-color: #28a745; */
      border: 1px solid #28a745 ;
      color: #28a745;

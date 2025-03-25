@@ -1,0 +1,40 @@
+.no-orders-container {
+     display: flex;
+     flex-direction: column;
+     align-items: center;
+     justify-content: center;
+     height: 80vh;
+     text-align: center;
+   }
+   
+   .no-orders-image {
+     width: 250px;
+     margin-bottom: 20px;
+   }
+   
+   .no-orders-title {
+     font-size: 24px;
+     font-weight: bold;
+     margin-bottom: 10px;
+   }
+   
+   .no-orders-text {
+     font-size: 16px;
+     color: #666;
+     margin-bottom: 20px;
+   }
+   
+   .no-orders-button {
+     background-color: #007bff;
+     color: white;
+     padding: 10px 20px;
+     border: none;
+     border-radius: 5px;
+     cursor: pointer;
+     transition: 0.3s;
+   }
+   
+   .no-orders-button:hover {
+     background-color: #0056b3;
+   }
+   

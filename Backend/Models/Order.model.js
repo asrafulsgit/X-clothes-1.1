@@ -7,7 +7,6 @@ const  calculateDefaultDeliveryDate = () => {
 }
 
 
-
 const orderSchema = new mongoose.Schema(
   {
     user: {
