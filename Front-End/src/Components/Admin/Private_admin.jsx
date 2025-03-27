@@ -4,7 +4,7 @@ import { apiRequiestWithCredentials } from '../../utils/ApiCall';
 
 const Private_admin = () => {
   const [pageLoading,setPageLoading]=useState(true)
-  const [isAdmin,setIsAdmin]=useState(true)
+  const [isAdmin,setIsAdmin]=useState(false)
   
   useEffect(()=>{
     const apiCalling =async()=>{

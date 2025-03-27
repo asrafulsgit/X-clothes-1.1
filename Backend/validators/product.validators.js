@@ -1,7 +1,7 @@
 const {param, body}=require('express-validator')
 
 const validateDeleteProduct =[
-     param('addressId').isMongoId().withMessage('Invalid ID format. Must be a valid MongoDB ObjectId.').escape(), 
+     param('productId').isMongoId().withMessage('Invalid ID format. Must be a valid MongoDB ObjectId.').escape(), 
 ]
 
 const validateUpdateProduct = [

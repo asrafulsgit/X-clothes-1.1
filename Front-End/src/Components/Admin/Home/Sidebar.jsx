@@ -15,6 +15,10 @@ const Sidebar = ({handleSidebar}) => {
                name : 'Add Product',
                value : 'addproduct'
           },
+          {
+               name : 'Product List',
+               value : 'product'
+          },
      ]
      const handleClick =(value,activeIndex)=>{
           handleSidebar(value)

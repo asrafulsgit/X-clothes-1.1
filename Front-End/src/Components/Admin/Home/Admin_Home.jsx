@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
 import DashBoard from '../dashboard/Dashboard';
 import Sidebar from './Sidebar';
-import Orders from '../orders/orders';
 import AddProduct from '../Add-product/AddProduct';
 import './admin.css'
+import Order_list from '../orders/Order_list';
+import Product_list from '../product-list/Product_list';
 const Admin_Home = () => {
   const [acitveSection,setActiveSection]=useState('')
   const [sidebarControl,setsidebarControl]=useState(false)
@@ -25,9 +26,11 @@ const Admin_Home = () => {
             {acitveSection === "dashboard" ? (
               <DashBoard />
             ) : acitveSection === "orders" ? (
-               <Orders />
+               <Order_list />
             ) : acitveSection === "addproduct" ? (
               <AddProduct/>
+            ) :acitveSection === "product" ? (
+              <Product_list />
             ) : <DashBoard /> }
           </div>
         </div>

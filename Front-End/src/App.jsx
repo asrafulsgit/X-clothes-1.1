@@ -11,11 +11,6 @@ import VerifyEmail from './Components/Authentication/ForgotPassword/PrivateRoute
 import EmailVerification from './Components/Authentication/ForgotPassword/EmailVerification/EmailVerification'
 import ResetPassword from './Components/Authentication/ForgotPassword/ResetPassword/ResetPassword'
 
-import AddProduct from './Components/Admin/Add-product/AddProduct'
-import AllProducts from './Components/Admin/All-product/AllProducts'
-
-import UpdateProduct from './Components/Admin/Update-product/UpdateProduct'
-
 import AboutUs from './Components/Others/AboutUs/AboutUs'
 import ReturnPolicy from './Components/Others/ReturnPolicy/ReturnPolicy'
 import TermsCondition from './Components/Others/TermsCondition/TermsCondition'

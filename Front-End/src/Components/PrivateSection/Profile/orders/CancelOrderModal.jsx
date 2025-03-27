@@ -8,8 +8,6 @@ const CancelOrderModal = ({orderId, isOpen, onClose,deletedOrder }) => {
           try {
            const data =  await apiRequiestWithCredentials('delete',`/order/cancel/${orderId}`)
            deletedOrder(orderId)
-           onclose
-           console.log(data)
           } catch (error) {
                console.log(error)
           }

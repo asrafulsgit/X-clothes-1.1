@@ -2,7 +2,6 @@ const jwt = require('jsonwebtoken');
 
 const adminAuthentication = async(req,res,next)=>{
      const {accesstoken} =req.cookies;
-     
      try {
           if(!accesstoken){
                return res.status(404).send({
@@ -11,6 +10,7 @@ const adminAuthentication = async(req,res,next)=>{
                })
           }
           const verifytoken =  jwt.verify(accesstoken, process.env.JWT_ACCESS_TOEKN)
+        
           if(verifytoken.role !== 'admin'){
                return res.status(400).send({
                     success : false,

@@ -32,6 +32,7 @@ const Orders = () => {
   const deletedOrder =(orderId)=>{
     const filteredOrder = orders.filter(order => order._id !== orderId)
     setOrders(filteredOrder)
+    setIsModalOpen(false)
   }
   if(pageLoading){
     return ( <h1>loading...</h1> )

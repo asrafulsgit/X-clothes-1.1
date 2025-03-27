@@ -1,3 +1,15 @@
+:root {
+  --color-1: #0487E2;
+  --color-2: #0463CA;
+  --color-3: #09B1EC;
+  --color-4: #D91656;
+  --display-font-Montserrat :"Montserrat", sans-serif;
+  --display-font-OpenSans : "Open Sans", sans-serif;
+  --font-family-AfacadFlux:"Afacad Flux", sans-serif;
+  --font-family-Poppins :"Poppins", sans-serif;
+  --display-font-section-header : "Courgette", cursive;
+}
+
 .no-orders-container {
      display: flex;
      flex-direction: column;
@@ -5,6 +17,7 @@
      justify-content: center;
      height: 80vh;
      text-align: center;
+     font-family: var(--font-family-Poppins);
    }
    
    .no-orders-image {
@@ -16,25 +29,23 @@
      font-size: 24px;
      font-weight: bold;
      margin-bottom: 10px;
+     color: rgba(0, 0, 0, 0.917);
    }
    
    .no-orders-text {
      font-size: 16px;
      color: #666;
-     margin-bottom: 20px;
+     margin-bottom: 14px;
    }
    
    .no-orders-button {
-     background-color: #007bff;
+     background-color: var(--color-4);
      color: white;
      padding: 10px 20px;
      border: none;
      border-radius: 5px;
      cursor: pointer;
-     transition: 0.3s;
-   }
-   
-   .no-orders-button:hover {
-     background-color: #0056b3;
+     font-size: 14px;
+     font-family: var(--font-family-Poppins);
    }
    

@@ -1,19 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 
-import { useDispatch, useSelector } from 'react-redux'
 import { categories, subCategories } from '../../../allProductDetails/ProductCategories'
 import {useNavigate, useParams } from 'react-router-dom'
+import { apiRequiestWithCredentials } from '../../../utils/ApiCall'
 
 
-const UpdateProduct = () => {
-     const dispatch = useDispatch()
-     const {id} = useParams();
-     const {message} = 'useSelector(state=> state.authInfo)'
-     const navigate = useNavigate()
-     const [isProduct,setIsProduct]= useState(false)
+const UpdateProduct = ({updateProductId}) => {
+     const [pageLoading,setPageLoading]= useState(true)
      const initialProduct = {
-          id : id,
+          id : updateProductId,
           brand : '',
           title : '',
           price : '',
@@ -30,27 +26,41 @@ const UpdateProduct = () => {
 
      // get prduct info 
      useEffect(()=>{
-          axios.post('http://localhost:8000/get-one-product',{id})
-          .then((res)=>{
-                     const {brand,title,price,sizes,colors,description,stock,category,subcategory}= res.data.product;
-                     setProduct((prevState)=>({
-                              ...prevState,
-                              brand,
-                              title,
-                              price,
-                              sizes,
-                              colors,
-                              stock,
-                              description,
-                              category,
-                              subcategory
-                     }))
-                     setIsProduct(true)
-                }).catch((err)=>{
-                     dispatch(setMessage(err.response.data.message))
-                     setIsProduct(true)
-      })
-     },[id])
+          if(updateProductId){
+               const apiCalling =async()=>{
+                    try {
+                      const data = await apiRequiestWithCredentials('get',`/get-one-product/${updateProductId}`)
+                      setProduct(data.product)
+                      console.log(data)
+                      setPageLoading(false)
+                    } catch (error) {
+                         console.log(error)
+                         setPageLoading(false)
+                    }
+                  }
+                  apiCalling()
+          }
+     //      axios.post('http://localhost:8000/get-one-product',{updateProductId})
+     //      .then((res)=>{
+     //                 const {brand,title,price,sizes,colors,description,stock,category,subcategory}= res.data.product;
+     //                 setProduct((prevState)=>({
+     //                          ...prevState,
+     //                          brand,
+     //                          title,
+     //                          price,
+     //                          sizes,
+     //                          colors,
+     //                          stock,
+     //                          description,
+     //                          category,
+     //                          subcategory
+     //                 }))
+     //                 setIsProduct(true)
+     //            }).catch((err)=>{
+     //                 dispatch(setMessage(err.response.data.message))
+     //                 setIsProduct(true)
+     //  })
+     },[updateProductId])
      
      const handleChange =(e)=>{
           const {name,value} = e.target;
@@ -97,19 +107,25 @@ const UpdateProduct = () => {
           }      
      }
      // submit updated Data
-     const handleSubmit =(e)=>{
+     const handleSubmit =async(e)=>{
           e.preventDefault();
+          try {
+               await apiRequiestWithCredentials('put','/admin/update-product',product)
+               setMessage(res.data.message)
+               setProduct(initialProduct)
+          } catch (error) {
+               setMessage(err.response.data.message)
+          }
           axios.put('http://localhost:8000/admin/update-product',product)
           .then((res)=>{
                dispatch(setMessage(res.data.message))
                setProduct(initialProduct)
-               navigate('/admin/all-product')
           }).catch((err)=>{
                dispatch(setMessage(err.response.data.message))
           }) 
      } 
 
-     if(!isProduct){
+     if(pageLoading){
           return(
                <h1>Data is Loading....</h1>
           )
@@ -117,7 +133,7 @@ const UpdateProduct = () => {
   return (
     <div className='add-product-page'>
               <div className="add-product-section">
-                   <h1 className='product-added-message'>{message}</h1>
+                   {/* <h1 className='product-added-message'>{message}</h1> */}
                    <form onSubmit={handleSubmit}>
                         <div className='form-all-items'>
                              <div className='form-left-items'>
