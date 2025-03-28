@@ -5,6 +5,7 @@ const Order = require("../Models/Order.model");
 const Product = require("../Models/products.model");
 const User = require("../Models/user.model");
 const Payment = require('../Models/payment.model')
+
 const calculateTotals = (carts, products) => {
      let subTotal = 0;
      let discount = 0;
@@ -113,62 +114,91 @@ const couponDiscountCalculator = (couponCode)=>{
      }
    };
  
-   const createOrder = async(req,res,next) => {
-     try {
-       const user = req.userInfo.id;
-       const isUser = await User.findById(user)
-       if(!isUser){
-        return res.status(404).send({
-          success : false,
-          message : 'user not found!'
-        })
-       }
-       const {carts,shippingAddress,couponCode} = req.body;
-       const productIds = carts.map(cart => cart.productId._id);
-       const products = await Product.find({ _id: { $in: productIds } }).lean();
-   
-       const { subTotal, discount, taxes,shippingCost} = calculateTotals(carts, products);
-       
-       const couponDiscount = couponDiscountCalculator(couponCode);
-       const total = (subTotal + taxes + shippingCost) - (discount + couponDiscount);
-       
-       const cartsInfo = carts.map((item) =>{
-        const product = item.productId._id;
-        const quantity = item.quantity;
-        const color = item.color;
-        const size = item.size;
-        const items = {product,quantity,color,size}
-        return items;
-        })
-       const newOrder = new Order({
-        user, 
-        items : cartsInfo,
-        shippingAddress,
-        subTotal,
-        couponCode,
-        couponDiscount,
-        discount,
-        taxes,
-        shippingCost,
-        total
-       })
-       await newOrder.save()
-       req.orderInfo = {
-        order_id : newOrder._id.toString(),
-        amount : newOrder.total,
-        customer_name : newOrder.shippingAddress.name, 
-        customer_email : newOrder.shippingAddress?.email , 
-        customer_phone : newOrder.shippingAddress.phone
-       }
-       next()
-      } catch (error) {
-        return res.status(500).send({
-          success: false,
-          message: 'Something broke!',
-          error: error.message
+   const createOrder = async (req, res, next) => {
+    const session = await Product.startSession();
+    
+    try {
+      await session.withTransaction(async () => {
+        const user = req.userInfo.id;
+        const isUser = await User.findById(user).session(session);
+        if (!isUser) {
+          throw new Error('User not found!');
+        }
+  
+        const { carts, shippingAddress, couponCode } = req.body;
+        const productIds = carts.map(cart => cart.productId._id);
+        
+        const products = await Product.find({ _id: { $in: productIds } })
+          .session(session)
+          .lean(); 
+        
+        const productMap = new Map(products.map(p => [p._id.toString(), p]));
+  
+        const { subTotal, discount, taxes, shippingCost } = calculateTotals(carts, products);
+        const couponDiscount = couponDiscountCalculator(couponCode);
+        const total = (subTotal + taxes + shippingCost) - (discount + couponDiscount);
+  
+        const cartsInfo = carts.map(item => ({
+          product: item.productId._id,
+          quantity: item.quantity,
+          color: item.color,
+          size: item.size
+        }));
+  
+        const bulkUpdates = carts.map(cart => {
+          const product = productMap.get(cart.productId._id.toString());
+          if (!product || product.stock < cart.quantity) {
+            throw new Error(`Insufficient stock for product: ${product?.name || cart.productId._id}`);
+          }
+          return {
+            updateOne: {
+              filter: { _id: cart.productId._id },
+              update: { $inc: { stock: -cart.quantity } }
+            }
+          };
         });
-      }
-   }
+  
+        if (bulkUpdates.length > 0) {
+          await Product.bulkWrite(bulkUpdates, { session });
+        }
+  
+        const newOrder = new Order({
+          user,
+          items: cartsInfo,
+          shippingAddress,
+          subTotal,
+          couponCode,
+          couponDiscount,
+          discount,
+          taxes,
+          shippingCost,
+          total
+        });
+  
+        await newOrder.save({ session });
+  
+        req.orderInfo = {
+          order_id: newOrder._id.toString(),
+          amount: newOrder.total,
+          customer_name: newOrder.shippingAddress.name,
+          customer_email: newOrder.shippingAddress?.email,
+          customer_phone: newOrder.shippingAddress.phone 
+        };
+      });
+  
+      session.endSession();
+      next();
+    } catch (error) {
+      session.endSession();
+      return res.status(500).send({
+        success: false,
+        message: 'Something went wrong!',
+        error: error.message
+      });
+    }
+  };
+  
+  
    
 
    const SSLCOMMERZ_STORE_ID = process.env.STORE_ID;

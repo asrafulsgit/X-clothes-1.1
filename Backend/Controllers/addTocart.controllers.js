@@ -45,24 +45,39 @@ const addNewCart = async (req, res) => {
 
 const getUserCarts = async (req, res) => {
   const userId = req.userInfo.id;
-  const isUser = await User.findById(userId);
+  
   try {
+    const isUser = await User.findById(userId);
     if (!isUser) {
-      return res.status(404).send({ message: "User is not found!" });
+      return res.status(404).send({ message: "User not found!" });
     }
-    const cartProducts = await addToCartModel.find({ userId }).populate('productId', 'title images price stock')
     
-    if (cartProducts.length === 0) { 
-      return res.status(404).send({ message: "You have no cart!" });
+
+    let cartProducts = await addToCartModel.find({ userId }).populate('productId', 'title images price stock').lean();
+    console.log('carts',cartProducts)
+    const outOfStockProducts = cartProducts.filter((item)=> item.productId.stock === 0)
+    console.log(outOfStockProducts)
+    if(outOfStockProducts.length > 0){
+      const productIdsToDelete = outOfStockProducts.map((item) => item.productId._id);
+      await addToCartModel.deleteMany({ userId, productId: { $in: productIdsToDelete } });
+      cartProducts = cartProducts.filter((item)=> item.productId.stock !== 0)
     }
-   
+    
+
+    if (cartProducts.length === 0) {
+      return res.status(200).send({ message: "Your cart is empty.", carts: [] });
+    }
+
     return res.status(200).send({
       carts: cartProducts,
     });
   } catch (error) {
-    return res.status(500).send({ message: "somthing broke!" });
+    console.error("Error fetching user cart:", error);
+    return res.status(500).send({ message: "Something went wrong!" });
   }
 };
+
+
 const removeCartItem = async (req, res) => {
   const { productId } = req.params;
   const userId = req.userInfo.id;

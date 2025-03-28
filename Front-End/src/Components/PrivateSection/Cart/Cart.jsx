@@ -17,12 +17,11 @@ const Cart = () => {
   const [loading, setLoading] = useState(true);
   const [totalAmount, setTotalAmount]=useState(0)
   const [totalItems,setTotalItems]=useState(0)
-
   useEffect(() => {
     const apiCalling = async () => {
       try {
         const data = await apiRequiestWithCredentials("get", "/get-user-carts");
-        setCarts(data?.carts || []);
+        setCarts(data.carts || []);
         setLoading(false);
       } catch (error) {
         console.log(error);
