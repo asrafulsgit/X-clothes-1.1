@@ -1,0 +1,126 @@
+:root {
+     --color-1: #0487E2;
+     --color-2: #0463CA;
+     --color-3: #09B1EC;
+     --color-4: #D91656;
+     --display-font-Montserrat :"Montserrat", sans-serif;
+     --display-font-OpenSans : "Open Sans", sans-serif;
+     --font-family-AfacadFlux:"Afacad Flux", sans-serif;
+     --font-family-Poppins :"Poppins", sans-serif;
+}
+
+.order-list-page {
+     display: block;
+     background-color: #f8f9fa;
+     font-family: var(--font-family-Poppins);
+   }
+   .order-list-page .page-title h1{
+     font-weight: 600;
+     font-size: 24px;
+     margin-bottom: 16px;
+   }
+   .order-list-page  .order-list {
+     background: white;
+     padding: 20px;
+     border-radius: 8px;
+     border: 1px solid rgba(0, 0, 0, 0.139);
+   }
+   
+   .order-list-page  .header {
+     display: flex;
+     justify-content: space-between;
+     margin-bottom: 15px;
+   }
+   
+   .order-list-page  .search-box {
+     padding: 8px;
+     border: 1px solid #ccc;
+     border-radius: 4px;
+     width: 250px;
+     font-family: var(--font-family-Poppins);
+     font-size: 14px;
+     outline: none;
+   }
+   
+ .order-list-page  .add-order {
+     background: var(--color-4);
+     font-family: var(--font-family-Poppins);
+     font-size: 16px;
+     color: white;
+     border: 1.5px solid var(--color-4);
+     padding: 0 12px;
+     border-radius: 4px;
+     cursor: pointer;
+     transition: background 0.3s;
+   }
+   
+ .order-list-page  .add-order:hover {
+     background: transparent;
+     color: var(--color-4);
+   }
+   
+ .order-list-page  table {
+     width: 100%;
+     border-collapse: collapse;
+     background: white;
+     overflow: hidden;
+     font-size: 14px;
+   }
+   
+.order-list-page   thead {
+     background: #f1f1f1;
+     border: 1px solid #ddd;
+   }
+   
+.order-list-page   table tbody{
+     color: rgba(0, 0, 0, 0.597);
+   }
+.order-list-page  table tbody tr{
+     border: 1px solid #ddd;
+   }
+.order-list-page   th, td {
+     padding: 10px;
+     text-align: left;
+   }
+   
+.order-list-page   .order-image {
+     width: 40px;
+     height: 40px;
+     object-fit: contain;
+   }
+   
+.order-list-page   .status {
+     padding: 5px 10px;
+     border-radius: 5px;
+     color: white;
+     font-size: 12px;
+     font-weight: 500;
+     font-size: 14px;
+   }
+   
+.order-list-page   .in-stock {
+     color: #076c1f;
+     background: rgba(40, 167, 70, 0.255);
+   }
+   
+.order-list-page   .out-of-stock {
+     color: #dc3545;
+     background: rgba(220, 53, 70, 0.255);
+   }
+    
+.order-list-page   #status {
+     color: #28a745;
+     padding: 5px;
+     max-width: 150px;
+     border: none;
+     border-radius: 5px;
+     outline: none;
+     font-family: var(--font-family-Poppins);
+     background-color: #28a74649;
+   }
+   
+.order-list-page   .delete {
+     color: #dc3545;
+     background-color: #dc354647;
+   }
+   

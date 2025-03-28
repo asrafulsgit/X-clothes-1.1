@@ -9,7 +9,7 @@ const productSchema = new mongoose.Schema({
      colors : {type : [String]},
      discount : {type : String, default : '0'},
      taxes : {type : String,default : '125'},
-     stock : {type : Number, required : true},
+     stock : {type : String, required : true},
      category : {type : Number, required : true, min : 101120},
      subcategory : {type : Number, required : true, min : 100},
      description : {type : String, required : true}

@@ -1,12 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import axios from 'axios'
-
 import { categories, subCategories } from '../../../allProductDetails/ProductCategories'
-import {useNavigate, useParams } from 'react-router-dom'
 import { apiRequiestWithCredentials } from '../../../utils/ApiCall'
 
-
-const UpdateProduct = ({updateProductId}) => {
+const UpdateProduct = ({productUdated,updateProductId}) => {
      const [pageLoading,setPageLoading]= useState(true)
      const initialProduct = {
           id : updateProductId,
@@ -23,7 +19,6 @@ const UpdateProduct = ({updateProductId}) => {
           description : '',
      }
      const [product,setProduct] = useState(initialProduct)
-
      // get prduct info 
      useEffect(()=>{
           if(updateProductId){
@@ -31,7 +26,7 @@ const UpdateProduct = ({updateProductId}) => {
                     try {
                       const data = await apiRequiestWithCredentials('get',`/get-one-product/${updateProductId}`)
                       setProduct(data.product)
-                      console.log(data)
+                      console.log(data.product)
                       setPageLoading(false)
                     } catch (error) {
                          console.log(error)
@@ -110,19 +105,13 @@ const UpdateProduct = ({updateProductId}) => {
      const handleSubmit =async(e)=>{
           e.preventDefault();
           try {
-               await apiRequiestWithCredentials('put','/admin/update-product',product)
-               setMessage(res.data.message)
+           await apiRequiestWithCredentials('put','/admin/update-product',{id : product._id,product})
                setProduct(initialProduct)
+               productUdated()
           } catch (error) {
-               setMessage(err.response.data.message)
+               console.log(error)
+               // setMessage(err.response.data.message)
           }
-          axios.put('http://localhost:8000/admin/update-product',product)
-          .then((res)=>{
-               dispatch(setMessage(res.data.message))
-               setProduct(initialProduct)
-          }).catch((err)=>{
-               dispatch(setMessage(err.response.data.message))
-          }) 
      } 
 
      if(pageLoading){
@@ -252,7 +241,7 @@ const UpdateProduct = ({updateProductId}) => {
                         <button type='submit' className='product-add-btn'>Add Product</button>
                    </form>
               </div>
-        </div>
+     </div>
   )
 }
 

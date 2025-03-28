@@ -73,19 +73,22 @@ const deleteProduct = async(req,res)=>{
      }
 }
 const updateProduct = async(req,res)=>{
-     const {id,...updatedData} = req.body;
+     const {id,product} = req.body;
+     // console.log(id) / / 6763e63465638a31111b5bf0
      try {
           if(!id){
                res.status(404).send({message : 'Product Id required!'})
           }
           const isProduct = await Product.findById(id)
           if(!isProduct){
-               res.status(404).send({message : 'Product not found!'})
-          }else{
-               Object.assign(isProduct,updatedData)
-               await isProduct.save()
-               res.status(200).send({message : 'Product is updated'})
+           return res.status(404).send({message : 'Product not found!'})
           }
+          console.log(product)
+          isProduct.set(product)
+          console.log(isProduct)
+          await isProduct.save()
+          res.status(200).send({message : 'Product is updated'})
+          
      } catch (error) {
           res.status(500).send({ message : 'Somthing broke!'}) 
      }

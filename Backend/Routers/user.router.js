@@ -12,7 +12,7 @@ const {fileErrorHandlerMiddleware } = require('../Middlewares/fileErrorHandle.mi
 const adminAuthentication = require('../Middlewares/adminAuth.middleware');
 
 
-
+ 
 
 userRouter.post('/register',validateSignup,validationMiddleware, userRegister)
 userRouter.post('/login',vlidateLogin,validationMiddleware, userLogin)

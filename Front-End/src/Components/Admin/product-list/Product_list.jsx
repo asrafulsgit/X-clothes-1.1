@@ -1,15 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import axios from 'axios'
 import './AllProduct.css'
-import { NavLink } from 'react-router-dom'
 import { apiRequiestWithCredentials } from '../../../utils/ApiCall'
-import UpdateProduct from '../Update-product/UpdateProduct'
 
 
-const Product_list = () => {
+const Product_list = ({updatingProductId}) => {
   const [allProduct,setAllProduct] = useState([])
-  const [isUpdating,setIsUpdating]=useState(false)
-  const [updateProductId,setUpdateProductId]=useState('')
+  
   const [pageLoading,setPageLoading]=useState(true)
   useEffect(()=>{
     const apiCalling =async()=>{
@@ -33,16 +29,11 @@ const Product_list = () => {
     }
   }
   const handleEdit =(productId)=>{
-    setUpdateProductId(productId)
-    setIsUpdating(true)
+    updatingProductId(productId,true)
   }
-  const productUdated =()=>{
-    setIsUpdating(false)
-  }
-
+  
   return (
-    <>
-    <div className={`product-list-page ${isUpdating && 'product-list-none'}`}>
+    <div className='product-list-page'>
       <div className="product-list">
         <div className="page-title"><h1>Product List</h1></div>
         <div className="header">
@@ -89,10 +80,6 @@ const Product_list = () => {
         </table>}
       </div>
     </div>
-    <div className={`product-edit-page ${isUpdating && 'product-edit-block'}`}>
-      <UpdateProduct productUdated={productUdated} updateProductId={updateProductId}/>
-    </div>
-    </>
   );
 }
 

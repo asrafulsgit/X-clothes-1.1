@@ -14,15 +14,6 @@
      background-color: #f8f9fa;
      font-family: var(--font-family-Poppins);
    }
-   .product-list-none{
-     display: none;
-   }
-   .product-edit-page{
-     display: none;
-   }
-   .product-edit-block{
-     display: block;
-   }
    .product-list-page .page-title h1{
      font-weight: 600;
      font-size: 24px;
@@ -51,7 +42,7 @@
      outline: none;
    }
    
-   .add-product {
+ .product-list-page  .add-product {
      background: var(--color-4);
      font-family: var(--font-family-Poppins);
      font-size: 16px;
@@ -63,41 +54,41 @@
      transition: background 0.3s;
    }
    
-   .add-product:hover {
+ .product-list-page  .add-product:hover {
      background: transparent;
      color: var(--color-4);
    }
    
-   table {
+ .product-list-page  table {
      width: 100%;
      border-collapse: collapse;
      background: white;
      overflow: hidden;
    }
    
-   thead {
+.product-list-page   thead {
      background: #f1f1f1;
      border: 1px solid #ddd;
    }
    
-   table tbody{
+.product-list-page   table tbody{
      color: rgba(0, 0, 0, 0.597);
    }
-  table tbody tr{
+.product-list-page  table tbody tr{
      border: 1px solid #ddd;
    }
-   th, td {
+.product-list-page   th, td {
      padding: 10px;
      text-align: left;
    }
    
-   .product-image {
+.product-list-page   .product-image {
      width: 40px;
      height: 40px;
      object-fit: contain;
    }
    
-   .status {
+.product-list-page   .status {
      padding: 5px 10px;
      border-radius: 5px;
      color: white;
@@ -106,17 +97,17 @@
      font-size: 14px;
    }
    
-   .in-stock {
+.product-list-page   .in-stock {
      color: #076c1f;
      background: rgba(40, 167, 70, 0.255);
    }
    
-   .out-of-stock {
+.product-list-page   .out-of-stock {
      color: #dc3545;
      background: rgba(220, 53, 70, 0.255);
    }
    
-   .actions button {
+.product-list-page   .actions button {
      border: none;
      cursor: pointer;
      font-size: 18px;
@@ -126,12 +117,12 @@
      border-radius: 3px;
    }
    
-   .edit {
+.product-list-page   .edit {
      color: #28a745;
      background-color: #28a74649;
    }
    
-   .delete {
+.product-list-page   .delete {
      color: #dc3545;
      background-color: #dc354647;
    }
