@@ -1,40 +1,37 @@
 import React, { useState } from 'react'
 import './sidebar.css'
-const Sidebar = ({handleSidebar}) => {
-     const [active,setActive]=useState(0)
+import { NavLink } from 'react-router-dom'
+const Sidebar = () => {
+     
      const sidebarInfo =[
           {
                name : 'Dashboard',
-               value : 'dashboard'
+               path : '/admin/dashboard'
           },
           {
                name : 'Order List',
-               value : 'orders'
+               path : '/admin/order-list'
           },
           {
                name : 'Add Product',
-               value : 'addproduct'
+                path : '/admin/add-product'
           },
           {
                name : 'Product List',
-               value : 'product'
+                path : '/admin/product-list'
           },
      ]
-     const handleClick =(value,activeIndex)=>{
-          handleSidebar(value)
-          setActive(activeIndex)
-     }
+     
      
   return (
      <nav className='admin-sidebar-section' >
           {
                sidebarInfo.map((item,index)=>{
                     return(
-                         <button key={index} className={`${ active === index && 'active'} sidebar-btn`}
-                         
-                         onClick={()=>handleClick(item.value,index)} >
-
-                                   {item.name}</button>
+                         <NavLink to={item.path} key={index}>
+                              <button key={index} className={` sidebar-btn`}
+                         > {item.name}</button>
+                         </NavLink>
                     )
                })
           }

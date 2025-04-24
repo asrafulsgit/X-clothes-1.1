@@ -90,7 +90,6 @@ const Cart = () => {
   ]
   return (
     <div className="cart-page">
-      <Nav />
       <Header param={"/cart"} name={"Cart"} header={"Shoping Cart"} />
       <div className="cart-main">
         {loading ? (
@@ -200,7 +199,6 @@ const Cart = () => {
         )}
       </div>
       <ExtraFooter />
-      <Footer />
     </div>
   );
 };

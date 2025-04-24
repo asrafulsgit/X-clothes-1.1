@@ -59,7 +59,6 @@ const Kids = () => {
   return (
     <>
       <div className="kids-page">
-        <Nav navBgSetWithModal={isModal && true} />
         <Header param={'/kids/301401'} name={`Kid's`} header={`Kid's Shop`}/>
        
         <div className="kids-section">
@@ -80,7 +79,6 @@ const Kids = () => {
             </div>
           )}
         </div>
-        <Footer />
       </div>
       <div className={isModal ? "modal-open" : "add-to-cart-modal"}>
         {!modalLoading && isModal ? (

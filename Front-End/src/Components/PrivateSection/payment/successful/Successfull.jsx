@@ -55,7 +55,6 @@ const Successfull = () => {
   return (
     <>
       <div className="payment-success">
-      <Nav />
       {!pageLoading && 
         <div className="voucher-container" id='voucher'>
           <h2 className="voucher-title">Disbursement Voucher</h2>

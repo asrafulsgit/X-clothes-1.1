@@ -42,23 +42,11 @@ const ResetPassword = () => {
                console.log(error)
                setMessage(error.response?.data?.errors[0].message)
           }
-               // axios.put('http://localhost:8000/reset-password',resetInfo)
-               // .then((res)=>{
-               //      navigate('/login')
-               //      dispatch(setEmail(''))
-               //      dispatch(setEmailVerificationCode(''))
-               //      dispatch(setIsReadyForResetPassword(false))
-               //      dispatch(setIsReadyForEmailVerify(false))
-               //      dispatch(setEmail(''))
-               // })
-               // .catch((err)=>{
-               //      setMessage(err.response.data.message)
-               // })
+               
          
      }
 
 return (
-    <div>
       <div className='reset-password-section'>
                <form onSubmit={handleSubmit}>
                     <div className='reset-password'>
@@ -73,7 +61,6 @@ return (
                     <button type='submit' className='reset-password-btn'>Forgot Password</button>
                </form>
      </div>
-    </div>
   )
 }
 

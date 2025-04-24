@@ -100,7 +100,6 @@ const orderSummary = [
   }
   return (
     <div className="checkout-page">
-      <Nav />
       <Header param={"/checkout"} name={"checkout"} header={"Checkout"} />
       <div className="checkout-main">
           <div className="shipping-header">
@@ -281,7 +280,6 @@ const orderSummary = [
         
       </div>
       <ExtraFooter />
-      <Footer />
     </div>
   );
 };

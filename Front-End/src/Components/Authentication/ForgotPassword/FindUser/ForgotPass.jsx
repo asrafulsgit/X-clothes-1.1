@@ -39,8 +39,6 @@ const ForgotPass = () => {
      }
 
   return (
-     <div>
-          <Nav />
           <div className='forgot-password-section'>    
                <form action="" onSubmit={handleSubmit} >
                     <div className='forgot-email'>
@@ -52,8 +50,6 @@ const ForgotPass = () => {
                     <button type='submit' className='forgot-btn'>{isLoading ? 'Sending...' : 'Forgot Password'}</button>
                </form>
           </div>
-          <Footer />
-     </div>
   )
 }
 

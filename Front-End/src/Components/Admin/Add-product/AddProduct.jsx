@@ -1,8 +1,8 @@
 import React, { useRef, useState } from 'react'
-import axios from 'axios'
 
 import './AddProduct.css'
 import { categories, subCategories } from '../../../allProductDetails/ProductCategories'
+import { apiRequiestWithCredentials } from '../../../utils/ApiCall'
 
 const AddProduct = () => {
      const [productAdding, setProductAdding] = useState(false)
@@ -20,8 +20,11 @@ const AddProduct = () => {
           category : '',
           subcategory : '',
           description : '',
+          tax : import.meta.env.VITE_PRODUCT_TEX,
+          discount : import.meta.env.VITE_PRODUCT_DISCOUNT
      }
      let [newProduct,setNewProduct]= useState(product)
+     console.log(newProduct)
      const handleChange =(e)=>{
           const {name,value} = e.target;
                setNewProduct((prevState) => ({
@@ -74,7 +77,7 @@ const AddProduct = () => {
      const handleImageChange =(e)=>{
           setImages(e.target.files)
      }
-     const handleSubmit =(e)=>{
+     const handleSubmit =async(e)=>{
           e.preventDefault();
           setProductAdding(true)
           setMessage('Product is adding....')
@@ -105,22 +108,18 @@ const AddProduct = () => {
                     formData.append(item,othersData[item])
                }
           })
-
-          axios.post('http://localhost:8000/admin/add-product',formData)
-          .then((res)=>{
-               console.log(res)
-               setMessage(res.data.message)
-               setTimeout(() => {
-                    setMessage('')
-               }, 3000);
-               setNewProduct(product)
-               imageInput.current.value = '';
+          console.log(formData)
+         try {
+           const data = await apiRequiestWithCredentials('post','/admin/add-product',formData)
+           setMessage(data.message)
+           setNewProduct(product)
+           imageInput.current.value = '';
+           setProductAdding(false)
+         } catch (error) {
+          console.log(err)
+               setMessage(err.response?.data?.message)
                setProductAdding(false)
-          }).catch((err)=>{
-               console.log(err)
-               setMessage(err.response.data.message)
-               setProductAdding(false)
-          })
+         }
      }
 
   return (
@@ -168,6 +167,22 @@ const AddProduct = () => {
                                         onChange={handleChange} 
                                         value={newProduct.description}
                                         id='description' required/>
+                              </div>
+                              <div className='form-item'>
+                                   <label htmlFor="tax">Tax <small>%</small></label>
+                                   <input type="number" name='tax' 
+                                   onChange={handleChange} 
+                                   value={newProduct.tax} 
+                                   disabled
+                                   id='tax' required/>
+                              </div>
+                              <div className='form-item'>
+                                   <label htmlFor="discount">Discount  <small>%</small></label>
+                                   <input type="number" name='discount' 
+                                   onChange={handleChange} 
+                                   disabled
+                                   value={newProduct.discount} 
+                                   id='discount' required/>
                               </div>
                          </div>
                          <div className='form-riht-items'>

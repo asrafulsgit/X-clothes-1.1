@@ -38,7 +38,6 @@ const Favourite = () => {
     }
     return (
       <div className='favorite-page'>
-        <Nav />
         <Header param={'/favourite'} name={'Favorites'} header={'Favorites'} />
         <div className="cart-main">
         {loading ? (
@@ -98,7 +97,6 @@ const Favourite = () => {
         )}
       </div>
         <ExtraFooter />
-        <Footer />
       </div>
     )
   }

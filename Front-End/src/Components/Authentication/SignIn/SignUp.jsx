@@ -40,8 +40,6 @@ const SignUp = () => {
     }
   };
   return (
-    <div>
-      <Nav />
       <div className="sing-up-section">
         <form onSubmit={handleSubmit}>
           <div className="fullname-fild">
@@ -110,8 +108,6 @@ const SignUp = () => {
           </div>
         </form>
       </div>
-      <Footer />
-    </div>
   );
 };
 

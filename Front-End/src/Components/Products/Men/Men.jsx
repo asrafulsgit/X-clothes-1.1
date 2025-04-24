@@ -61,7 +61,6 @@ const Men = () => {
   return (
     <>
       <div className="mens-page">
-        <Nav navBgSetWithModal={isModal && true} />
         <Header param={'/men/101120'} name={`Men's`} header={`Men's Shop`} />
 
         <div className="mens-section">
@@ -82,7 +81,6 @@ const Men = () => {
             </div>
           )}
         </div>
-        <Footer />
       </div>
       <div className={isModal ? "modal-open" : "add-to-cart-modal"}>
         {!modalLoading && isModal ? (

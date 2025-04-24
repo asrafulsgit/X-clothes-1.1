@@ -25,7 +25,7 @@
      transition: 0.2s;
      opacity: 0.9;
 }
-.admin-sidebar-section button:hover{
+.admin-sidebar-section a:hover{
      background-color: var(--color-4);
 }
 .admin-sidebar-section .active{

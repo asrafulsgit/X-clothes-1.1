@@ -8,11 +8,10 @@ const Order_list = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [orderId, setOrderId] = useState('');
   const status = ['Processing', 'Shipped', 'Delivered', 'Cancelled', 'Refunded']
-    useEffect(()=>{
+  useEffect(()=>{
            const apiCalling =async()=>{
                 try {
                   const data = await apiRequiestWithCredentials('get',`/admin/orders`)
-                  console.log(data)
                   setOrders(data.orders)
                   setPageLoading(false)
                 } catch (error) {
@@ -21,7 +20,7 @@ const Order_list = () => {
                 }
               }
               apiCalling()
- },[])
+  },[])
 
  const handleStatus =async(e,orderId)=>{
   const status = e.target.value;
@@ -48,7 +47,7 @@ const Order_list = () => {
   return(
        <h1>Data is Loading....</h1>
   )
-}
+ }
   return (
     <>
       <div className='order-list-page'>

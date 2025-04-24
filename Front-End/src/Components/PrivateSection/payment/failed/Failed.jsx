@@ -4,8 +4,6 @@ import './failed.css'
 import { Link } from 'react-router-dom'
 const Failed = () => {
   return (
-    <div>
-     <Nav />
      <div className="payment-failed-container">
       <div className="payment-failed-box">
         <div className="icon">
@@ -31,7 +29,6 @@ const Failed = () => {
         </div>
       </div>
      </div>
-    </div>
   )
 }
 

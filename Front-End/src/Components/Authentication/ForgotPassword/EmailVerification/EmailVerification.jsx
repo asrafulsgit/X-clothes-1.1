@@ -60,7 +60,6 @@ const EmailVerification = () => {
      }  
   return (
     <div className='email-verification-page'>
-          <Nav />
           <div className='email-verification-section'>
                <div className="varification-title">
                     <p>Check Your  email  and <br />enter verification Code with in 1 minute</p>
@@ -78,7 +77,6 @@ const EmailVerification = () => {
                     </div>
                </form>
           </div>
-          <Footer />
     </div>
 
   )

@@ -56,7 +56,6 @@ const Women =() => {
   return (
     <>
       <div className='womens-page'>
-      <Nav navBgSetWithModal={isModal && true}/>
       <Header  param={'/women/201230'} name={`Women's`} header={`Women's Shop`}/>
       <div className="womens-section">
           {pageLoading ? <p style={{textAlign : 'center'}}>Loaging...</p>
@@ -67,7 +66,6 @@ const Women =() => {
               })}
           </div>}
       </div>
-      <Footer />
       </div>
       <div className={isModal ? 'modal-open' : 'add-to-cart-modal'}>
           {!modalLoading && isModal ?

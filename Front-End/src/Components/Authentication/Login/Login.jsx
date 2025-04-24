@@ -45,7 +45,6 @@ const Login = () => {
   };
   return (
     <>
-      <Nav />
       <div className="login-section">
         <form onSubmit={handleSubmit}>
           <div className="email-fild">
@@ -97,7 +96,6 @@ const Login = () => {
           </div>
         </form>
       </div>
-      <Footer />
     </>
   );
 };

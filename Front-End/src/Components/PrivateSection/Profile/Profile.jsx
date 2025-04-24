@@ -20,7 +20,6 @@ const Profile = () => {
   }
   return (
     <div className='profile-page'>
-      <Nav />
       <Header parm={"/profile"} name={"Profile"} header={"Profile"}/>
       <div className="main-profile-section">
          <div className="user-account-sidebar">
@@ -38,7 +37,6 @@ const Profile = () => {
          </div>
       </div>
       <ExtraFooter />
-      <Footer />
     </div>
 
 )

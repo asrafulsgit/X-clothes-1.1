@@ -62,7 +62,6 @@ const Winter = () => {
   return (
     <>
       <div className="womens-page">
-        <Nav navBgSetWithModal={isModal && true} />
         <Header  param={'/winter/12233342'} name={'Winter'} header={'Winter Shop'}/>
         <div className="womens-section">
             {pageLoading ? (
@@ -83,7 +82,6 @@ const Winter = () => {
               </div>
             )}
         </div>
-        <Footer />
       </div>
 
       {/* cart-modal */}

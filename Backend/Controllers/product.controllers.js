@@ -13,12 +13,16 @@ cloudinary.config({
      api_secret: 'VfkJpNPsu5lyhApYock5Hp1sjPY'
  });
 
-
+  const texAndDiscountCalculation =(parcent,price)=>{
+     const amount = (price/100)*parcent
+     return Math.floor(amount);
+  }
 // only admin can access 
 const newProduct = async (req, res) => {
+     
      try {
-       const { brand, title, price, sizes, colors,stock, category,subcategory, description } = req.body;
-
+       const { brand, title, price,tax,discount, sizes, colors,stock, category,subcategory, description } = req.body;
+          console.log(price,tax,discount)
        const images = await Promise.all(
           req.files.map((file) =>
           cloudinary.uploader.upload(file.path, { resource_type: 'image' })
@@ -45,13 +49,17 @@ const newProduct = async (req, res) => {
          subcategory: Number(subcategory),
          description,
        });
-       
-       await newProduct.save();
-       res.status(201).send({
-         success: true,
-         message: 'Product is added',
-         product: newProduct,
-       });
+       const toPrice = Number(price)
+       const toTax = texAndDiscountCalculation(toPrice,Number(tax))
+       const toDiscount = texAndDiscountCalculation(toPrice,Number(discount)) 
+       console.log(toTax)
+       console.log(toDiscount)
+     //   await newProduct.save();
+     //   res.status(201).send({
+     //     success: true,
+     //     message: 'Product is added',
+     //     product: newProduct,
+     //   });
      } catch (error) {
        res.status(500).send({
          message: 'Something broke!',

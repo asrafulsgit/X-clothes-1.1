@@ -7,11 +7,12 @@ const { validateDeleteProduct, validateUpdateProduct, validateSubCategory, valid
 const { validationMiddleware } = require('../Middlewares/validation.result.middleware');
 const adminAuthentication = require('../Middlewares/adminAuth.middleware');
 
+// fileErrorHandlerMiddleware,
+// validateUpdateProduct,validationMiddleware,
 
 // add product for admin 
 productRouter.post('/admin/add-product',adminAuthentication,
-upload.array('images'),fileErrorHandlerMiddleware,
-validateUpdateProduct,validationMiddleware, newProduct)
+upload.array('images'), newProduct)
 
 // get all product  for admin
 productRouter.get('/admin/all-product',adminAuthentication, getAllProduct)

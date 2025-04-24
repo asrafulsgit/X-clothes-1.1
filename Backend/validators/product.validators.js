@@ -14,7 +14,9 @@ const validateUpdateProduct = [
      body("product.stock").notEmpty().withMessage("Stock is required").isInt().withMessage("Stock must be a number"),
      body("product.category").notEmpty().withMessage("Category is required").isInt().withMessage("Category must be a number"),
      body("product.subcategory").notEmpty().withMessage("Subcategory is required").isInt().withMessage("Subcategory must be a number"),
-     body("product.description").notEmpty().withMessage("Description is required").isString().withMessage("Description must be a string")
+     body("product.description").notEmpty().withMessage("Description is required").isString().withMessage("Description must be a string"),
+     body("product.discount").notEmpty().withMessage("Description is required").isString().withMessage("Description must be a string"),
+     body("product.taxes").notEmpty().withMessage("Taxes is required").isString().withMessage("Taxes must be a string")
    ]
 const validateSubCategory =[
      body('subcategory').isLength({min : 3 , max : 3}).withMessage('Invalid url').escape(), 

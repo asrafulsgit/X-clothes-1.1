@@ -50,7 +50,6 @@ const Productinfo = React.memo(() => {
   }
   return (
     <div>
-      <Nav />
       {isLoading ? (
         <div className="product-info-loader">
           <p>Loading...</p>
@@ -151,7 +150,6 @@ const Productinfo = React.memo(() => {
           </div>
         </div>
       )}
-      <Footer />
     </div>
   );
 });
