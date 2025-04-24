@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import "./Login.css";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Nav from "../../App/Nav/Nav";
 import Footer from "../../App/Footer/Footer";
 import { apiRequiestWithCredentials } from "../../../utils/ApiCall";
@@ -8,7 +8,6 @@ const Login = () => {
   const [message, setMessage] = useState("");
   const [errorField, setErrorField] = useState("");
   // login settings
-  const navigate = useNavigate();
   const [seePassword, setSeePassword] = useState(false);
   const initialValue = {
     email: "",

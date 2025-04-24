@@ -4,7 +4,6 @@ import { apiRequiestWithCredentials } from '../../../../utils/ApiCall'
 import AddAddress from './AddAddress'
 import UpdateAddress from './UpdateAddress'
 const Address = () => {
-  
   const [addresses,setAddresses]=useState([])
 
   useEffect(()=>{
@@ -59,15 +58,14 @@ const Address = () => {
                   return(
                     <tr key={index}> 
                         <td>
-                          <h2 className='house-name'>{item?.house}</h2>
-                          <p className='house-address'>Division : {item?.state}, zip : {item?.zip}</p>
+                          <h2 className='house-name'>{item?.name}</h2>
+                          <p className='house-address'> {item?.zila}, {item?.upazila}</p>
                         </td>
                         <td style={{width:'100px'}}><button className='edit-address-btn' onClick={()=>handleAddressEdit(item)} >Edit</button></td>
                         <td style={{width:'100px'}}><button className='delete-address-btn' onClick={()=> handleAddressDelete(item._id)}>Delete</button></td>
                     </tr>
                   )
                 })}
-                    
               </tbody>
          </table>
       </div>

@@ -78,7 +78,7 @@ const personalInfoUpdate =async(req,res)=>{
 
 const addNewAddress = async(req,res)=>{
     const userId = req.userInfo.id;
-    const {house,state,zip,email,phone} = req.body;
+    const {name,zila,upazila,email,phone} = req.body;
     try {
         const isUser = await User.findById(userId)
         if(!isUser){
@@ -89,9 +89,9 @@ const addNewAddress = async(req,res)=>{
         
         const newAddress = new Address({
           user : userId,
-          house,
-          state,
-          zip,
+          name,
+          zila,
+          upazila,
           email,
           phone
         })

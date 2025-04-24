@@ -14,7 +14,6 @@ const Orders = () => {
       try {
         const data = await apiRequiestWithCredentials('get','/orders')
         setOrders(data.orders)
-        console.log(data)
         setPageLoading(false)
       } catch (error) {
         console.log(error)

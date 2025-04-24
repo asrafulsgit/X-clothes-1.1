@@ -19,9 +19,9 @@ const vlidateLogin =[
 ]
 
 const validateAddress = [
-     body('house').isString().notEmpty().withMessage('House is required and must be a string.').escape(),
-     body('state').notEmpty().withMessage('State is required.').escape(),
-     body('zip').isLength({ min: 4, max: 4 }).isNumeric().withMessage('Zip code must be a 4-digit number for Bangladesh.').escape(),
+     body('name').isString().notEmpty().withMessage('Name is required.').escape(),
+     body('zila').notEmpty().withMessage('Zila is required.').escape(),
+     body('upazila').notEmpty().withMessage('Upazila is required.').escape(),
      body('email').trim().isEmail().withMessage('Invalid email format')
      .matches(/@gmail\.com$/).withMessage('Email must end with @gmail.com')
      .normalizeEmail().optional(),

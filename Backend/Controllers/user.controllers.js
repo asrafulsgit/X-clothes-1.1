@@ -243,12 +243,12 @@ const findUserAndSendEmail = async (req, res) => {
         success : false,
         errors : [{ message: "user is not found!" }]
       });
-    }
+    } 
 
     const createVerificationCode = Math.floor(100000 + Math.random() * 900000);
     const hashCode = await bcrypt.hash(createVerificationCode.toString(), 10);
     user.resetpasswordcode = hashCode;
-    user.resetpasswordexpiries = Date.now() + 60000; // 1min
+    user.resetpasswordexpiries = Date.now() + 60000*3; // 1min
     await user.save();
 
     // send mail

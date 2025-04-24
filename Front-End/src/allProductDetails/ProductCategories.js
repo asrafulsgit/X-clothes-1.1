@@ -270,7 +270,7 @@ export const  navLinksData =[
      },
    ]
 
-    export const kidsNavData = {
+  export const kidsNavData = {
      boysNavData :[
           {name : 'Shirts', subcategory : '301'},
           {name : 'T-shirts', subcategory : '302'},
@@ -285,7 +285,7 @@ export const  navLinksData =[
           {name : 'Gowns', subcategory : '405'},
           {name : 'Frocks', subcategory : '406'},
     ]
-    }
+  }
 
 export const   mensNavData =[
      {
