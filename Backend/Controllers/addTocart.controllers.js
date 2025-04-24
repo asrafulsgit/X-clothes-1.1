@@ -54,9 +54,7 @@ const getUserCarts = async (req, res) => {
     
 
     let cartProducts = await addToCartModel.find({ userId }).populate('productId', 'title images price stock').lean();
-    console.log('carts',cartProducts)
     const outOfStockProducts = cartProducts.filter((item)=> item.productId.stock === 0)
-    console.log(outOfStockProducts)
     if(outOfStockProducts.length > 0){
       const productIdsToDelete = outOfStockProducts.map((item) => item.productId._id);
       await addToCartModel.deleteMany({ userId, productId: { $in: productIdsToDelete } });

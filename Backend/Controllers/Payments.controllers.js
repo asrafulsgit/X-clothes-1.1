@@ -4,7 +4,8 @@ const puppeteer = require('puppeteer');
 const Order = require("../Models/Order.model");
 const Product = require("../Models/products.model");
 const User = require("../Models/user.model");
-const Payment = require('../Models/payment.model')
+const Payment = require('../Models/payment.model');
+const Address = require('../Models/userAddress.model');
 
 const calculateTotals = (carts, products) => {
      let subTotal = 0;
@@ -44,12 +45,13 @@ const couponDiscountCalculator = (couponCode)=>{
   return couponDiscount;
 }
    
-   const paymentCalculator = async (req, res) => {
+  const paymentCalculator = async (req, res) => {
+    const {id} = req.userInfo;
      try {
        const { carts } = req.body;
        const productIds = carts.map(cart => cart.productId._id);
        const products = await Product.find({ _id: { $in: productIds } }).lean();
-   
+       
        const { subTotal, discount, taxes,shippingCost, missingProducts } = calculateTotals(carts, products);
    
        if (missingProducts.length > 0) {
@@ -61,7 +63,7 @@ const couponDiscountCalculator = (couponCode)=>{
        }
    
        const total = (subTotal + taxes + shippingCost) - discount;
-   
+       const addresses = await Address.find({user : id})
        return res.status(200).send({
          success: true,
          message: 'Successfully calculated',
@@ -69,9 +71,9 @@ const couponDiscountCalculator = (couponCode)=>{
          discount,
          taxes,
          shippingCost,
-         total
+         total,
+         addresses
        });
-   
      } catch (error) {
        return res.status(500).send({
          success: false,
@@ -79,7 +81,7 @@ const couponDiscountCalculator = (couponCode)=>{
          error: error.message
        });
      }
-   };
+  };
    
    const paymentWithCouponDiscount = async (req, res) => {
      try {  
@@ -210,7 +212,7 @@ const couponDiscountCalculator = (couponCode)=>{
    const IPN_URL = `${process.env.BACKEND_URL}/ipn`;
    const is_live = false
 
-   const paymentSystem = async(req,res)=>{
+  const paymentSystem = async(req,res)=>{
      try {
      const tran_id = new ObjectId().toString();
 

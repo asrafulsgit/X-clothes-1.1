@@ -45,14 +45,15 @@ const Checkout = () => {
     const apiCalling =async()=>{
       try {
       const data = await apiRequiestWithCredentials('post','/payment/calculator',{carts})
-        setPaymentInfo(data)
-       setLoading(false)
+      setPaymentInfo(data)
+      setLoading(false)
       } catch (error) {
         console.log(error)
       }
     }
     apiCalling()
   }, [carts]);
+
 const orderSummary = [
     { name: "Items", value: location.state.totalItems },
     { name: "Sub Total", value: paymentInfo.subTotal },
@@ -61,7 +62,9 @@ const orderSummary = [
     { name: "Shpping", value: paymentInfo.shippingCost},
     { name: "Taxes", value: paymentInfo.taxes }
   ];
-  
+  const handlePrevAddress=(prevAddress)=>{
+    setAddress(prevAddress)
+  }
   const handleCoupon =async()=>{
     if(couponCode.length <= 3){
       return;
@@ -91,19 +94,36 @@ const orderSummary = [
       setErrorMessageField(error.response?.data?.errors[0].field)
     }
   }
+  
+  if(loading){
+    return <h1>Loading...</h1>
+  }
   return (
     <div className="checkout-page">
       <Nav />
       <Header param={"/checkout"} name={"checkout"} header={"Checkout"} />
       <div className="checkout-main">
-        {loading ? (
-          <p>loading...</p>
-        ) : (
-           <> 
           <div className="shipping-header">
             <img src={adress_image} alt="address" />
             <h1>Shipping Address</h1>
           </div>
+          <div className="previous-addresses">
+         <table>
+              <tbody>
+                {paymentInfo.addresses?.map((item,index)=>{
+                  return(
+                    <tr key={index}> 
+                        <td>
+                          <h2 className='house-name'>{item?.name}</h2>
+                          <p className='house-address'> {item?.zila}, {item?.upazila}</p>
+                        </td>
+                        <td style={{width:'100px'}}><button className='delete-address-btn' onClick={()=> handlePrevAddress(item)}>ADD</button></td>
+                    </tr>
+                  )
+                })}
+              </tbody>
+         </table>
+      </div>
           <div className="checkout-body">
             <form action="">
               <div className="input-field">
@@ -258,8 +278,7 @@ const orderSummary = [
               </table>
             </div>
           </div>
-          </>
-        )}
+        
       </div>
       <ExtraFooter />
       <Footer />
