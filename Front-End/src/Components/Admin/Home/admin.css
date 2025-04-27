@@ -1,44 +1,50 @@
 
-.admin-page .admin-page-section{
-     padding: 1rem 2rem;
+.admin_nav_sidebar .admin-nav{
+     position: fixed;
+     width: 100%;
      display: flex;
-     gap: 1.5rem;
+     justify-content: space-between;
+     align-items: center;
+     padding: 0.8rem 4rem;
+     z-index: 1000;
+     border-bottom: 1px solid #d9165777;
+     background-color: #fff;
 }
-.admin-page .admin-page-section .admin-sidebar{
+.admin_nav_sidebar .side-bar{
      width: 15%;
      height: 100%;
-     /* border: 1px solid; */
      position: fixed;
-     left: 0px;
-     top: 50px;
+     z-index: 100;
      background-color: #fff;
-     z-index: 10;
-     animation: sidebar-open 0.3s ease-in-out;
-}
-@keyframes sidebar-open {
-     0% {
-         left: -350px;
-     }
-     100% {
-         left: 0;
-     }
+     padding-top: 65px;
 }
 
-.admin-page .admin-page-section .admin-sidebar-control{
-     animation: sidebar 0.3s ease-in-out;
-     left: -350px;
+.admin_nav_sidebar  .admin-sidebar-close{
+     left: 0;
+     top: 0;
+     transform: translateX(-100%);
+     transition: transform 0.2s ease-in-out;
 }
 
-@keyframes sidebar {
-     0%{
-          left:0px;   
-     }
-     100%{
-          left: -350px;
-     }
+.admin_nav_sidebar  .admin-sidebar-control-open{
+     transform: translateX(0);
+     transition: transform 0.2s ease-in-out;
 }
 
-.admin-page .admin-page-section .admin-setting{
+.admin-page{
+     padding: 1rem 2rem;
+     padding-top: 4.5rem;
+     display: flex;
+     width: 100%;
+     height: 100vh;
+     gap: 1.5rem;
+     z-index: -10;
+}
+
+
+
+
+.admin-page  .admin-setting{
      width:100%;
 }
 
@@ -53,15 +59,6 @@
      color:rgba(0, 0, 0, 0.565) ;
      font-size: 20px;
 }
-
-.admin-nav{
-     display: flex;
-     justify-content: space-between;
-     align-items: center;
-     padding: 0.3rem 4rem;
-     border-bottom: 1px solid #d9165777;
-}
-
 .admin-nav .back-to-home button {
      border: 1px solid #d9165777;
      padding: 0.2rem 0.6rem;

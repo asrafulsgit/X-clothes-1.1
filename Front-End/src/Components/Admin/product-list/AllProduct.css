@@ -42,19 +42,19 @@
      outline: none;
    }
    
- .product-list-page  .add-product {
+ .product-list-page  .add-product-btn {
      background: var(--color-4);
      font-family: var(--font-family-Poppins);
      font-size: 16px;
      color: white;
      border: 1.5px solid var(--color-4);
-     padding: 0 12px;
+     padding: 6px 14px;
      border-radius: 4px;
      cursor: pointer;
      transition: background 0.3s;
    }
    
- .product-list-page  .add-product:hover {
+ .product-list-page  .add-product-btn:hover {
      background: transparent;
      color: var(--color-4);
    }

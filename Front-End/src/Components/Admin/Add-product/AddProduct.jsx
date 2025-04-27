@@ -20,11 +20,10 @@ const AddProduct = () => {
           category : '',
           subcategory : '',
           description : '',
-          tax : import.meta.env.VITE_PRODUCT_TEX,
+          taxes : import.meta.env.VITE_PRODUCT_TEX,
           discount : import.meta.env.VITE_PRODUCT_DISCOUNT
      }
      let [newProduct,setNewProduct]= useState(product)
-     console.log(newProduct)
      const handleChange =(e)=>{
           const {name,value} = e.target;
                setNewProduct((prevState) => ({
@@ -73,7 +72,6 @@ const AddProduct = () => {
      const imageInput = useRef()
      // images setup
      const [images, setImages] = useState([])
-     console.log(images)
      const handleImageChange =(e)=>{
           setImages(e.target.files)
      }
@@ -94,30 +92,23 @@ const AddProduct = () => {
                setTimeout(() => {
                     setImageSizeErr('')
                }, 2000);
+               setProductAdding(false)
+               return;
           }
-          const {colors,sizes,...othersData} = newProduct;
-          for (let index = 0; index < colors.length; index++) {
-                formData.append('colors',colors[index])
-          }
-          for (let index = 0; index < sizes.length; index++) {
-                formData.append('sizes',sizes[index])
-          }
+          
+          formData.append('productData',JSON.stringify(newProduct))
 
-          Object.keys(othersData).forEach((item)=>{
-               if(othersData[item] != undefined && othersData[item] != null){
-                    formData.append(item,othersData[item])
-               }
-          })
-          console.log(formData)
+
          try {
            const data = await apiRequiestWithCredentials('post','/admin/add-product',formData)
            setMessage(data.message)
            setNewProduct(product)
            imageInput.current.value = '';
+           setImages([])
            setProductAdding(false)
          } catch (error) {
-          console.log(err)
-               setMessage(err.response?.data?.message)
+          console.log(error)
+               setMessage(error.response?.data?.message)
                setProductAdding(false)
          }
      }
@@ -169,12 +160,12 @@ const AddProduct = () => {
                                         id='description' required/>
                               </div>
                               <div className='form-item'>
-                                   <label htmlFor="tax">Tax <small>%</small></label>
-                                   <input type="number" name='tax' 
+                                   <label htmlFor="taxes">Tax <small>%</small></label>
+                                   <input type="number" name='taxes' 
                                    onChange={handleChange} 
-                                   value={newProduct.tax} 
+                                   value={newProduct.taxes} 
                                    disabled
-                                   id='tax' required/>
+                                   id='taxes' required/>
                               </div>
                               <div className='form-item'>
                                    <label htmlFor="discount">Discount  <small>%</small></label>

@@ -9,6 +9,7 @@ import ExtraFooter from "../../App/Footer/ExtraFooter";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setIsCheckout } from "../../../utils/Controllers/UserSlice";
+import Loading from "../../../utils/loading/Loading";
 
 const Cart = () => {
   const dispatch = useDispatch()
@@ -88,13 +89,16 @@ const Cart = () => {
   const orderSummary=[
     {name : 'Items', value : totalItems}
   ]
+  if(loading){
+    return(<>
+      <Loading />
+    </>)
+  }
   return (
     <div className="cart-page">
       <Header param={"/cart"} name={"Cart"} header={"Shoping Cart"} />
       <div className="cart-main">
-        {loading ? (
-          <p>loading...</p>
-        ) : !loading && (carts?.length <= 0 || !carts) ? (
+        {!loading && (carts?.length <= 0 || !carts) ? (
           <p className="empty-message">{message}</p>
         ) : (
           <div className="cart-body">

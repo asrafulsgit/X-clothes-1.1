@@ -8,7 +8,7 @@ import { setIsLoggedIn} from './utils/Controllers/UserSlice'
 import ScrollProblem from './utils/ScrollProblem'
 import Nav from './Components/App/Nav/Nav'
 import Footer from './Components/App/Footer/Footer'
-import Loading from '../../../Assignments/assignment-08/src/components/loading/Loading'
+import Loading from './utils/loading/Loading'
 // import Shop from './Components/Shops/Shop'
 const App = () => {
   const dispatch = useDispatch()

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Navigate, Outlet } from 'react-router-dom';
 import { apiRequiestWithCredentials } from '../../utils/ApiCall';
+import Loading from '../../utils/loading/Loading';
 
 const Private_admin = () => {
   const [pageLoading,setPageLoading]=useState(true)
@@ -20,7 +21,7 @@ const Private_admin = () => {
     apiCalling()
   })
   if(pageLoading){
-    return <p>page Loading...</p>
+    return (<><Loading /></> )
   }
   return (isAdmin ? <Outlet /> : <Navigate to='/' />)
 }

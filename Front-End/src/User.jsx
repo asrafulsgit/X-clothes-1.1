@@ -4,7 +4,7 @@ import { setCarts, setFavorites,setFavoritesProductsIds } from './utils/Controll
 import axios from 'axios'
 import socket from './socket'
 const User = () => {
-     const {isLoggedIn,loading} = useSelector(state => state.authInfo)
+     const {isLoggedIn} = useSelector(state => state.authInfo)
      const dispatch = useDispatch()
      useEffect(()=>{
            // carts count

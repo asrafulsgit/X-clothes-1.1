@@ -6,6 +6,7 @@ import Footer from '../../App/Footer/Footer';
 import { apiRequiestWithCredentials } from '../../../utils/ApiCall';
 import Header from '../../Products/header/Header';
 import ExtraFooter from '../../App/Footer/ExtraFooter';
+import Loading from '../../../utils/loading/Loading';
 
 const Favourite = () => {
    const [favorites,setFavorites]=useState([])
@@ -35,6 +36,13 @@ const Favourite = () => {
         console.log(error)
       }
 
+    }
+    if(loading){
+      return(
+        <>
+        <Loading />
+        </>
+      )
     }
     return (
       <div className='favorite-page'>

@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import './AllProduct.css'
 import { apiRequiestWithCredentials } from '../../../utils/ApiCall'
+import Loading from '../../../utils/loading/Loading'
+import { Link } from 'react-router-dom'
 
 
-const Product_list = ({updatingProductId}) => {
+const Product_list = () => {
   const [allProduct,setAllProduct] = useState([])
   
   const [pageLoading,setPageLoading]=useState(true)
@@ -28,8 +30,12 @@ const Product_list = ({updatingProductId}) => {
       console.log(error)
     }
   }
-  const handleEdit =(productId)=>{
-    updatingProductId(productId,true)
+ 
+  if(pageLoading){
+    return(<>
+      <Loading />
+    </>
+    )
   }
   
   return (
@@ -38,9 +44,11 @@ const Product_list = ({updatingProductId}) => {
         <div className="page-title"><h1>Product List</h1></div>
         <div className="header">
           <input type="text" placeholder="Search Here" className="search-box" />
-          <button className="add-product">+ Add Product</button>
+          <Link to='/admin/add-product' >
+          <button className="add-product-btn">+ Add Product</button>
+          </Link>
         </div>
-        {pageLoading ? 'loading...' : <table>
+         <table>
           <thead>
             <tr>
               <th>Sl No</th>
@@ -70,14 +78,14 @@ const Product_list = ({updatingProductId}) => {
                   </span>
                 </td>
                 <td className="actions">
-                  <button className="edit" onClick={()=>handleEdit(product._id)} ><i className="fa-solid fa-pen-to-square"></i></button>
+                  <Link to={`/admin/product/update/${product._id}`}><button className="edit" ><i className="fa-solid fa-pen-to-square"></i></button></Link>
                   <button className="delete" onClick={()=>handleDelete(product._id)}><i className="fa-solid fa-trash"></i></button>
                 </td>
               </tr>
               )
             })}
           </tbody>
-        </table>}
+        </table>
       </div>
     </div>
   );

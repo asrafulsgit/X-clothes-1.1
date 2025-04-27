@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import './sidebar.css'
 import { NavLink } from 'react-router-dom'
-const Sidebar = () => {
+const Sidebar = ({closeSidebar}) => {
      
      const sidebarInfo =[
           {
@@ -28,7 +28,7 @@ const Sidebar = () => {
           {
                sidebarInfo.map((item,index)=>{
                     return(
-                         <NavLink to={item.path} key={index}>
+                         <NavLink to={item.path} onClick={closeSidebar} key={index}>
                               <button key={index} className={` sidebar-btn`}
                          > {item.name}</button>
                          </NavLink>

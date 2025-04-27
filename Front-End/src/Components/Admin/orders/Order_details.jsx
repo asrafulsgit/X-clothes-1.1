@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { apiRequiestWithCredentials } from '../../../utils/ApiCall';
 import './order_details.css'
+import Loading from '../../../utils/loading/Loading'
 const Order_details = ({orderId, isOpen, onClose}) => {
   if (!isOpen) return null;
   const [pageLoading,setPageLoading]=useState(true)
@@ -10,7 +11,6 @@ const Order_details = ({orderId, isOpen, onClose}) => {
      const apiCalling =async()=>{
                     try {
                       const data = await apiRequiestWithCredentials('get',`/admin/order/${orderId}`)
-                      console.log(data)
                       setOrder(data.order)
                       setPageLoading(false)
                     } catch (error) {
@@ -21,14 +21,13 @@ const Order_details = ({orderId, isOpen, onClose}) => {
                   apiCalling()
   },[orderId])
 
-  if(pageLoading){
-    return ( <h1>loading...</h1> )
-  }
+  
   return (
     <div className="order-details-modal" onClick={onClose}>
-      <div className="modal-content modal-animate" onClick={(e) => e.stopPropagation()}>
-      
-       <div className="order-details-container" id='order-details'>
+{ pageLoading ? <Loading /> :
+    <> <div className="modal-content modal-animate" onClick={(e) => e.stopPropagation()}>
+  
+        <div className="order-details-container" id='order-details'>
           <p className="order-details-subtitle">Order Details</p>
           
           <div className="order-details-section">
@@ -112,13 +111,11 @@ const Order_details = ({orderId, isOpen, onClose}) => {
               <p>{order.createdAt.split('T')[0]}</p>
            </div>
         </div>
-
-
-
         <div className="modal-buttons">
           <button className="btn-cancel" onClick={onClose}>Close</button>
         </div>
       </div>
+      </>}
     </div>
   );
 };

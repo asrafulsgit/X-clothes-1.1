@@ -38,6 +38,7 @@ import DashBoard from '../Components/Admin/dashboard/Dashboard';
 import Product_list from '../Components/Admin/product-list/Product_list';
 import Order_list from '../Components/Admin/orders/Order_list';
 import App from '../App';
+import UpdateProduct from '../Components/Admin/Update-product/UpdateProduct';
 
 const Route =  createBrowserRouter([
     { path: '/',
@@ -109,7 +110,8 @@ const Route =  createBrowserRouter([
           children: [
             { path: 'add-product', Component: AddProduct  },
             { path: 'dashboard', Component: DashBoard  },
-            { path: 'product-list', Component: Product_list  },
+            { path: 'product-list', Component: Product_list },
+            { path: 'product/update/:productId', Component: UpdateProduct },
             { path: 'order-list', Component: Order_list  },
           ],
         },

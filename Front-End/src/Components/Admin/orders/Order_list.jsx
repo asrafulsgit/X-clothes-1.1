@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { apiRequiestWithCredentials } from '../../../utils/ApiCall'
 import './order_list.css'
 import Order_details from './Order_details'
+import Loading from '../../../utils/loading/Loading'
 const Order_list = () => {
   const [pageLoading,setPageLoading]= useState(true)
   const [orders,setOrders] = useState([])
@@ -16,6 +17,7 @@ const Order_list = () => {
                   setPageLoading(false)
                 } catch (error) {
                      console.log(error)
+                     setOrders([])
                      setPageLoading(false)
                 }
               }
@@ -45,7 +47,9 @@ const Order_list = () => {
 
  if(pageLoading){
   return(
-       <h1>Data is Loading....</h1>
+       <>
+       <Loading />
+       </>
   )
  }
   return (
@@ -57,7 +61,7 @@ const Order_list = () => {
             <input type="text" placeholder="Search Here" className="search-box" />
             {/* <button className="add-order">+ Add order</button> */}
           </div>
-          {pageLoading ? 'loading...' : <table>
+          {orders.length <= 0 ? <p>Orders is found</p> : <table>
             <thead>
               <tr>
                 <th>Order ID</th>

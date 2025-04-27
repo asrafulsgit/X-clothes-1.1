@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import { categories, subCategories } from '../../../allProductDetails/ProductCategories'
 import { apiRequiestWithCredentials } from '../../../utils/ApiCall'
+import Loading from '../../../utils/loading/Loading'
+import { useNavigate, useParams } from 'react-router-dom'
 
-const UpdateProduct = ({productUdated,updateProductId}) => {
+const UpdateProduct = () => {
+     const {productId}=useParams()
+     const navigate = useNavigate()
      const [pageLoading,setPageLoading]= useState(true)
      const initialProduct = {
-          id : updateProductId,
+          id : productId,
           brand : '',
           title : '',
           price : '',
@@ -21,12 +25,11 @@ const UpdateProduct = ({productUdated,updateProductId}) => {
      const [product,setProduct] = useState(initialProduct)
      // get prduct info 
      useEffect(()=>{
-          if(updateProductId){
+          if(productId){
                const apiCalling =async()=>{
                     try {
-                      const data = await apiRequiestWithCredentials('get',`/get-one-product/${updateProductId}`)
+                      const data = await apiRequiestWithCredentials('get',`/get-one-product/${productId}`)
                       setProduct(data.product)
-                      console.log(data.product)
                       setPageLoading(false)
                     } catch (error) {
                          console.log(error)
@@ -35,27 +38,7 @@ const UpdateProduct = ({productUdated,updateProductId}) => {
                   }
                   apiCalling()
           }
-     //      axios.post('http://localhost:8000/get-one-product',{updateProductId})
-     //      .then((res)=>{
-     //                 const {brand,title,price,sizes,colors,description,stock,category,subcategory}= res.data.product;
-     //                 setProduct((prevState)=>({
-     //                          ...prevState,
-     //                          brand,
-     //                          title,
-     //                          price,
-     //                          sizes,
-     //                          colors,
-     //                          stock,
-     //                          description,
-     //                          category,
-     //                          subcategory
-     //                 }))
-     //                 setIsProduct(true)
-     //            }).catch((err)=>{
-     //                 dispatch(setMessage(err.response.data.message))
-     //                 setIsProduct(true)
-     //  })
-     },[updateProductId])
+     },[productId])
      
      const handleChange =(e)=>{
           const {name,value} = e.target;
@@ -107,7 +90,7 @@ const UpdateProduct = ({productUdated,updateProductId}) => {
           try {
            await apiRequiestWithCredentials('put','/admin/update-product',{id : product._id,product})
                setProduct(initialProduct)
-               productUdated()
+               navigate('/admin/product-list')
           } catch (error) {
                console.log(error)
                // setMessage(err.response.data.message)
@@ -116,7 +99,7 @@ const UpdateProduct = ({productUdated,updateProductId}) => {
 
      if(pageLoading){
           return(
-               <h1>Data is Loading....</h1>
+               <><Loading /></>
           )
      }
   return (
@@ -241,7 +224,7 @@ const UpdateProduct = ({productUdated,updateProductId}) => {
                         <button type='submit' className='product-add-btn'>Add Product</button>
                    </form>
               </div>
-     </div>
+    </div>
   )
 }
 

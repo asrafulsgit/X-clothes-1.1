@@ -1,9 +1,9 @@
 const express = require('express')
 const productRouter = express.Router();
 const upload = require('../Middlewares/product.middleware');
-const {newProduct,getAllProduct, deleteProduct, getProductByCategory, getOneProduct, getProductByCategories,updateProduct} = require('../Controllers/product.controllers');
+const {newProduct,getAllProduct, deleteProduct, getProductByCategory, getOneProduct, getProductByCategories,updateProduct, addProduct} = require('../Controllers/product.controllers');
 const { fileErrorHandlerMiddleware } = require('../Middlewares/fileErrorHandle.middleware');
-const { validateDeleteProduct, validateUpdateProduct, validateSubCategory, validateGetProductInfo, validateCategories } = require('../validators/product.validators');
+const { validateDeleteProduct, validateUpdateProduct, validateSubCategory, validateGetProductInfo, validateCategories, parseProductData, validateAddProduct } = require('../validators/product.validators');
 const { validationMiddleware } = require('../Middlewares/validation.result.middleware');
 const adminAuthentication = require('../Middlewares/adminAuth.middleware');
 
@@ -12,7 +12,7 @@ const adminAuthentication = require('../Middlewares/adminAuth.middleware');
 
 // add product for admin 
 productRouter.post('/admin/add-product',adminAuthentication,
-upload.array('images'), newProduct)
+upload.array('images'),parseProductData,validateAddProduct,validationMiddleware, addProduct)
 
 // get all product  for admin
 productRouter.get('/admin/all-product',adminAuthentication, getAllProduct)
