@@ -1,6 +1,7 @@
 const { default: mongoose } = require("mongoose");
 const Order = require("../Models/Order.model");
 const Sales = require("../Models/sales.model");
+const Product = require('../Models/products.model')
 
 
 const getUserOrders = async (req, res) => {
@@ -78,6 +79,32 @@ const filterOrders = async(req,res)=>{
   }
 }
 
+const searchOrders = async(req,res)=>{ 
+     try {
+       const {search} = req.query;
+       
+       if(!search) return res.status(404).send({ success: false, message: `Please select,Filer items!` });
+       const searchQuery = {}
+       
+       if (search.startsWith('0') || search.startsWith('01')) {
+        searchQuery['shippingAddress.phone'] = { $regex: search, $options: 'i' };
+       }else{
+        searchQuery['shippingAddress.name'] = { $regex: search, $options: 'i' };
+      } 
+       const orders = await Order.find(searchQuery).limit(10).sort({createdAt : -1})
+      
+       if(!orders || orders.length === 0) return res.status(404).send({ success: false, message: `no order available!` });
+       return res.status(200).send({ 
+         success: true, 
+         orders,
+         message: 'orders successfully fatched' 
+       });
+     } catch (error) {
+       console.error(error);
+       return res.status(500).send({ success: false, message: "Something broke!" });
+     }
+   }
+
 const UpdateOrderStatus = async(req,res)=>{
   const session = await mongoose.startSession()
   session.startTransaction()
@@ -107,7 +134,19 @@ const UpdateOrderStatus = async(req,res)=>{
         await Sales.bulkWrite(bulk,{session})
       }
     }
-
+    if(order.orderStatus === 'Cancelled' || order.orderStatus === "Refunded"){
+      const bulk = order.items.map((item)=>({
+        updateOne : {
+            filter : {_id : item.product},
+            update : {$inc : {stock : item.quantity}},
+            upsert : true
+        }
+      }))
+      if(bulk.length > 0){
+        await Product.bulkWrite(bulk,{session})
+      }
+    }
+    
   await session.commitTransaction()
   session.endSession()
 
@@ -143,5 +182,6 @@ module.exports={
      getAllOrders,
      UpdateOrderStatus,
      getOrder,
-     filterOrders
+     filterOrders,
+     searchOrders
 }

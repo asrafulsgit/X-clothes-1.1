@@ -47,18 +47,33 @@
      font-family: var(--font-family-Poppins);
      font-size: 16px;
      color: white;
-     border: 1.5px solid var(--color-4);
-     padding: 6px 14px;
+     border: 2px solid var(--color-4);
+     padding: 5px 14px;
      border-radius: 4px;
      cursor: pointer;
      transition: background 0.3s;
    }
-   
+   .product-list-page  .product-filter{
+    background: transparent;
+    font-family: var(--font-family-Poppins);
+    font-size: 16px;
+    color: var(--color-4);
+    border: 2px solid var(--color-4);
+    padding: 5px 14px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-right: 1rem;
+  }
  .product-list-page  .add-product-btn:hover {
      background: transparent;
      color: var(--color-4);
    }
-   
+   .product-list-page  .search-loader-spinner{
+       min-height: 500px;
+       padding-top: 5rem;
+       text-align: center;
+       width: 100%;
+   }
  .product-list-page  table {
      width: 100%;
      border-collapse: collapse;

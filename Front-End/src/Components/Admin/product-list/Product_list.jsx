@@ -7,19 +7,19 @@ import { Link } from 'react-router-dom'
 
 const Product_list = () => {
   const [allProduct,setAllProduct] = useState([])
-  
   const [pageLoading,setPageLoading]=useState(true)
-  useEffect(()=>{
-    const apiCalling =async()=>{
-      try {
-        const data = await apiRequiestWithCredentials('get','/admin/all-product')
-        setAllProduct(data.products)
-        setPageLoading(false)
-      } catch (error) {
-        console.log(error)
-      }
+  const [searchLoading,setSearchLoading]=useState(false)
+  const getAllProducts =async()=>{
+    try {
+      const data = await apiRequiestWithCredentials('get',`/admin/products?page=${1}&limit=${10}`)
+      setAllProduct(data.products)
+      setPageLoading(false)
+    } catch (error) {
+      console.log(error)
     }
-    apiCalling()
+  }
+  useEffect(()=>{
+    getAllProducts()
   },[])
   
   const handleDelete =async(productId)=>{
@@ -30,7 +30,43 @@ const Product_list = () => {
       console.log(error)
     }
   }
- 
+  let interval;
+  const handleSearchProduct =(e)=>{
+    const searchValue = e.target.value.trim();
+     clearTimeout(interval)
+     if (!searchValue) {
+      getAllProducts()
+      return;
+    } 
+    setSearchLoading(true)
+      interval = setTimeout(async() => {
+       
+      try {
+        const data = await apiRequiestWithCredentials('get',`/admin/products/search?search=${searchValue}`)
+          setAllProduct(data.products)
+        } catch (error) {
+          console.log(error)
+          setAllProduct([])
+        }finally{
+          setSearchLoading(false)
+        }
+     }, 800); 
+  }
+  const [filterStatus, setFilterStatus] = useState('');
+  const stockStatus = [{name : 'In stock', value : true},{name : 'Out of stock', value : false}]
+   const handleFilterByOrderStatus =async(e)=>{
+    setSearchLoading(true)
+     try {
+      const data = await apiRequiestWithCredentials('get',`/admin/products/filter?stockStatus=${e.target.value}`)
+       setAllProduct(data.products)
+     } catch (error) {
+       console.log(error)
+       setAllProduct([])
+     }finally{
+      setSearchLoading(false)
+     }
+  
+   }
   if(pageLoading){
     return(<>
       <Loading />
@@ -43,12 +79,28 @@ const Product_list = () => {
       <div className="product-list">
         <div className="page-title"><h1>Product List</h1></div>
         <div className="header">
-          <input type="text" placeholder="Search Here" className="search-box" />
-          <Link to='/admin/add-product' >
-          <button className="add-product-btn">+ Add Product</button>
-          </Link>
+          <input name='search' onChange={handleSearchProduct} type="text" placeholder="Search Here" className="search-box" />
+          <div>
+          <select name="filter" className="product-filter" id="filter" 
+           value={filterStatus} 
+           onChange={(e) => {
+             setFilterStatus(e.target.value); 
+             handleFilterByOrderStatus(e);     
+           }}>
+              <option value='' disabled>Status</option>
+              {stockStatus.map((status,index)=>{
+                return(
+                  <option key={index} value={status.value}>{status.name}</option>
+                )
+              }) }
+            </select>
+            <Link to='/admin/add-product' >
+            <button className="add-product-btn">+ Add Product</button>
+            </Link>
+          </div>
+          
         </div>
-         <table>
+        {searchLoading ? <div className='search-loader-spinner'>Searching...</div> : <table>
           <thead>
             <tr>
               <th>Sl No</th>
@@ -85,7 +137,7 @@ const Product_list = () => {
               )
             })}
           </tbody>
-        </table>
+        </table>}
       </div>
     </div>
   );

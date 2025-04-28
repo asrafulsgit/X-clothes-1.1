@@ -200,14 +200,10 @@ const couponDiscountCalculator = (couponCode)=>{
       });
     }
   };
-  
-  
-  
-   
 
    const SSLCOMMERZ_STORE_ID = process.env.STORE_ID;
    const SSLCOMMERZ_STORE_PASSWD = process.env.STORE_PASSWORD;
-  //  const SSLCOMMERZ_API_URL = "https://securepay.sslcommerz.com/gwprocess/v4/api.php";
+  // const SSLCOMMERZ_API_URL = "https://securepay.sslcommerz.com/gwprocess/v4/api.php";
    const SUCCESS_URL =`${process.env.BACKEND_URL}/payment/success`;
    const FAIL_URL = `${process.env.BACKEND_URL}/payment/failed`;
    const CANCEL_URL = `${process.env.BACKEND_URL}/payment/cancel`;
