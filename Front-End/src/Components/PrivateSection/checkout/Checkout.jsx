@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
 
-import Nav from "../../App/Nav/Nav";
-import Footer from "../../App/Footer/Footer";
 import Header from "../../Products/header/Header";
 import { apiRequiestWithCredentials } from "../../../utils/ApiCall";
 import ExtraFooter from "../../App/Footer/ExtraFooter";
@@ -9,6 +7,7 @@ import { useLocation } from "react-router-dom";
 import { bangladeshUpazila, bangladeshZilas, divisions } from "../../../allProductDetails/ProductCategories";
 import adress_image from '../../../assets/shpping_address.jpg'
 import "./checkout.css";
+import Loading from "../../../utils/loading/Loading";
 
 const Checkout = () => {
   const location = useLocation();
@@ -16,6 +15,7 @@ const Checkout = () => {
   const [message, setMessage] = useState("");
   const [errorMessageField,setErrorMessageField]=useState('')
   const [paymentInfo,setPaymentInfo]=useState({})
+  console.log(paymentInfo)
   const [loading, setLoading] = useState(true);
   const [couponCode, setCouponCode] = useState('')
   const [upazilas, setUpazilas] = useState([]);
@@ -65,13 +65,19 @@ const orderSummary = [
   const handlePrevAddress=(prevAddress)=>{
     setAddress(prevAddress)
   }
+
   const handleCoupon =async()=>{
     if(couponCode.length <= 3){
       return;
     }
     try {
       const data = await apiRequiestWithCredentials('post','/payment/calculator/coupon',{carts,couponCode})
-        setPaymentInfo(data)
+        const {couponDiscount,subTotal,total} = data;
+      setPaymentInfo((prev)=>({
+          ...prev,
+           couponDiscount,subTotal,total
+        }))
+        console.log(data)
         setOrderInfo((prev) => ({
           ...prev,
           couponCode: couponCode, 
@@ -94,9 +100,9 @@ const orderSummary = [
       setErrorMessageField(error.response?.data?.errors[0].field)
     }
   }
-  
+   
   if(loading){
-    return <h1>Loading...</h1>
+    return (<><Loading /></> )
   }
   return (
     <div className="checkout-page">
@@ -266,7 +272,7 @@ const orderSummary = [
                       <button onClick={handleCoupon}>Apply</button>
                     </td>
                   </tr>
-                  <tr>
+                  <tr className="check-out-submit">
                     <td colSpan={2}>
                       <button onClick={handleCheckout} className="order-submit-btn">
                         Proceed to Checkout

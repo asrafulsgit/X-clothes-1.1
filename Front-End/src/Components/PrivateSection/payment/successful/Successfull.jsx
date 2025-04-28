@@ -4,6 +4,7 @@ import { Link, NavLink, useParams } from 'react-router-dom'
 import './successfull.css'
 import axios from 'axios';
 import Nav from '../Nav';
+import Loading from '../../../../utils/loading/Loading';
 
 const Successfull = () => {
   const {tranId} = useParams();
@@ -15,15 +16,14 @@ const Successfull = () => {
     const apiCalling =async()=>{
       try {
         const data = await apiRequiest('get',`/payment/details/${tranId}`)
-        // console.log(data)
         const orderInfo = JSON.parse(data.orderDetails)
-        console.log(orderInfo)
-        setOrderInfo(orderInfo)
+         setOrderInfo(orderInfo)
          setCustomerInfo(orderInfo.shippingAddress)
          setPaymentInfo(data.paymentDetails)
          setPageLoading(false)
       } catch (error) {
         console.log(error)
+        setPageLoading(false)
       }
     }
     apiCalling()
@@ -49,7 +49,7 @@ const Successfull = () => {
 
   if(pageLoading){
     return(
-      <h1>Loading...</h1>
+      < > <Loading /> </ >
     )
   }
   return (

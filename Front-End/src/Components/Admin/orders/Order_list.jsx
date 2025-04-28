@@ -44,7 +44,22 @@ const Order_list = () => {
    setOrderId(orderId)
    setIsModalOpen(true)
  }
+ const orderStatus = [
+  'Processing', 'Shipped', 'Delivered', 'Cancelled', 'Refunded'
+ ]
+ const handleFilterByOrderStatus =async(e)=>{
+  setPageLoading(true)
+   try {
+    const data = await apiRequiestWithCredentials('get',`/admin/orders/filter?orderStatus=${e.target.value}`)
+     setOrders(data.orders)
+     setPageLoading(false)
+   } catch (error) {
+     console.log(error)
+     setOrders([])
+     setPageLoading(false)
+   }
 
+ }
  if(pageLoading){
   return(
        <>
@@ -56,12 +71,19 @@ const Order_list = () => {
     <>
       <div className='order-list-page'>
         <div className="order-list">
-          <div className="page-title"><h1>order List</h1></div>
+          <div className="page-title"><h1>Order List</h1></div>
           <div className="header">
             <input type="text" placeholder="Search Here" className="search-box" />
-            {/* <button className="add-order">+ Add order</button> */}
+            <select name="filter" id="filter" onChange={(e)=>handleFilterByOrderStatus(e)}>
+              <option selected disabled>Status</option>
+              {orderStatus.map((status,index)=>{
+                return(
+                  <option key={index} value={status}>{status}</option>
+                )
+              }) }
+            </select>
           </div>
-          {orders.length <= 0 ? <p>Orders is found</p> : <table>
+          {orders.length <= 0 ? <p>no Orders found</p> : <table>
             <thead>
               <tr>
                 <th>Order ID</th>

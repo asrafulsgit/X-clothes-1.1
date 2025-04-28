@@ -1,4 +1,6 @@
+const { default: mongoose } = require("mongoose");
 const Order = require("../Models/Order.model");
+const Sales = require("../Models/sales.model");
 
 
 const getUserOrders = async (req, res) => {
@@ -24,7 +26,7 @@ const getUserOrders = async (req, res) => {
        console.error(error);
        return res.status(500).send({ success: false, message: "Something broke!" });
      }
-   };
+};
 const cancelOrder = async (req, res) => {
      try {
        const userId = req.userInfo.id;
@@ -43,11 +45,27 @@ const cancelOrder = async (req, res) => {
        console.error(error);
        return res.status(500).send({ success: false, message: "Something broke!" });
      }
-  };
+};
 
 const getAllOrders = async(req,res)=>{
   try {
-    const orders = await Order.find()
+    const orders = await Order.find().sort({createdAt : -1})
+    if(!orders || orders.length === 0) return res.status(404).send({ success: false, message: `no order available!` });
+    return res.status(200).send({ 
+      success: true, 
+      orders,
+      message: 'Order successfully fatched' 
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).send({ success: false, message: "Something broke!" });
+  }
+}
+const filterOrders = async(req,res)=>{
+  
+  try {
+    const { orderStatus} = req.query; 
+    const orders = await Order.find({orderStatus})
     if(!orders || orders.length === 0) return res.status(404).send({ success: false, message: `no order available!` });
     return res.status(200).send({ 
       success: true, 
@@ -61,19 +79,43 @@ const getAllOrders = async(req,res)=>{
 }
 
 const UpdateOrderStatus = async(req,res)=>{
+  const session = await mongoose.startSession()
+  session.startTransaction()
   try {
     const orderId = req.params.orderId;
     const status = req.query.status;
     if(!orderId) return res.status(400).send({ success: false, message: `order ID is required!` });
     if(!status) return res.status(400).send({ success: false, message: `status is required!` });
-    const order = await Order.findByIdAndUpdate(orderId, {orderStatus : status},{ new: true })
+    const order = await Order.findByIdAndUpdate(orderId, {orderStatus : status},{ new: true,session })
     if (!order) {
-      return res.status(404).send({ success: false, message: `Order not found!` });
+      await session.abortTransaction();
+      session.endSession();
+      return res.status(404).send({ 
+        success: false, 
+        message: `Order not found!` 
+      });
     }
+    if(order.orderStatus === 'Delivered'){
+      const bulk = order.items.map((item)=>({
+        updateOne : {
+            filter : {productId : item.product},
+            update : {$inc : {quantity : item.quantity}},
+            upsert : true
+        }
+      }))
+      if(bulk.length > 0){
+        await Sales.bulkWrite(bulk,{session})
+      }
+    }
+
+  await session.commitTransaction()
+  session.endSession()
 
    return res.status(200).send({ success: true, message: `Order updated successfully!`, order });
   } catch (error) {
     console.error(error);
+    await session.abortTransaction()
+    session.endSession()
     return res.status(500).send({ success: false, message: "Something broke!" });
   }
 }
@@ -100,5 +142,6 @@ module.exports={
      cancelOrder,
      getAllOrders,
      UpdateOrderStatus,
-     getOrder
+     getOrder,
+     filterOrders
 }

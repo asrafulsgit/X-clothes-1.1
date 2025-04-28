@@ -39,9 +39,9 @@ const Modal = ({ product, clearCartModal }) => {
   const handleModal = () => {
     clearCartModal(false);
   };
-
   const [addToCartLoading, setAddToCartLoading] = useState(false);
   const handleAddtoModal = async (id) => {
+    
     if (!isLoggedIn) {
       navigate("/login");
       return;
@@ -51,6 +51,7 @@ const Modal = ({ product, clearCartModal }) => {
       alert("Please select a color.");
       return;
     }
+    
     setAddToCartLoading(true);
     try {
       const data = await apiRequiestWithCredentials("post", "/add-to-cart", {
@@ -195,7 +196,7 @@ const Modal = ({ product, clearCartModal }) => {
         <div className="cart-modal-btns">
           <button className="add-to-cart" disabled={product.stock <=0 || !product.stock} 
           onClick={() => handleAddtoModal(_id)}>
-            {addToCartLoading ? <p>loading...</p> : <p>Add To Cart</p>}
+           <p> {addToCartLoading ? 'loading...' : product.stock <=0 || !product.stock ? 'out of stock' : 'Add To Cart'}</p>
           </button>
           <button onClick={() => {
               {

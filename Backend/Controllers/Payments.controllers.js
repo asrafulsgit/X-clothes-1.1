@@ -95,7 +95,7 @@ const couponDiscountCalculator = (couponCode)=>{
        
        const couponDiscount = couponDiscountCalculator(couponCode);
        const total = (subTotal + taxes + shippingCost) - (discount + couponDiscount);
-   
+       
        return res.status(200).send({
          success: true,
          message: 'Successfully calculated',
@@ -118,45 +118,45 @@ const couponDiscountCalculator = (couponCode)=>{
  
    const createOrder = async (req, res, next) => {
     const session = await Product.startSession();
-    
     try {
       await session.withTransaction(async () => {
-        const user = req.userInfo.id;
-        const isUser = await User.findById(user).session(session);
-        if (!isUser) {
+        const { userInfo, body } = req;
+        const user = userInfo.id;
+        const { carts, shippingAddress, couponCode } = body;
+  
+        const userRecord = await User.findById(user).session(session);
+        if (!userRecord) {
           throw new Error('User not found!');
         }
   
-        const { carts, shippingAddress, couponCode } = req.body;
         const productIds = carts.map(cart => cart.productId._id);
-        
-        const products = await Product.find({ _id: { $in: productIds } })
-          .session(session)
-          .lean(); 
-        
+        const products = await Product.find({ _id: { $in: productIds } }).session(session).lean();
         const productMap = new Map(products.map(p => [p._id.toString(), p]));
-  
+        console.log(productMap)
         const { subTotal, discount, taxes, shippingCost } = calculateTotals(carts, products);
         const couponDiscount = couponDiscountCalculator(couponCode);
         const total = (subTotal + taxes + shippingCost) - (discount + couponDiscount);
   
-        const cartsInfo = carts.map(item => ({
-          product: item.productId._id,
-          quantity: item.quantity,
-          color: item.color,
-          size: item.size
-        }));
-  
-        const bulkUpdates = carts.map(cart => {
+        const bulkUpdates = [];
+        const cartsInfo = carts.map(cart => {
           const product = productMap.get(cart.productId._id.toString());
+          
           if (!product || product.stock < cart.quantity) {
             throw new Error(`Insufficient stock for product: ${product?.name || cart.productId._id}`);
           }
-          return {
+  
+          bulkUpdates.push({
             updateOne: {
               filter: { _id: cart.productId._id },
               update: { $inc: { stock: -cart.quantity } }
             }
+          });
+  
+          return {
+            product: cart.productId._id,
+            quantity: cart.quantity,
+            color: cart.color,
+            size: cart.size
           };
         });
   
@@ -184,12 +184,13 @@ const couponDiscountCalculator = (couponCode)=>{
           amount: newOrder.total,
           customer_name: newOrder.shippingAddress.name,
           customer_email: newOrder.shippingAddress?.email,
-          customer_phone: newOrder.shippingAddress.phone 
+          customer_phone: newOrder.shippingAddress.phone
         };
       });
   
       session.endSession();
       next();
+      
     } catch (error) {
       session.endSession();
       return res.status(500).send({
@@ -199,6 +200,7 @@ const couponDiscountCalculator = (couponCode)=>{
       });
     }
   };
+  
   
   
    
@@ -212,63 +214,81 @@ const couponDiscountCalculator = (couponCode)=>{
    const IPN_URL = `${process.env.BACKEND_URL}/ipn`;
    const is_live = false
 
-  const paymentSystem = async(req,res)=>{
-     try {
-     const tran_id = new ObjectId().toString();
-
+  const paymentSystem = async (req, res) => {
+    try {
+      const { order_id, amount, customer_name, customer_email, customer_phone } = req.orderInfo;
       const userId = req.userInfo.id;
-      const { amount,order_id, customer_name, customer_email, customer_phone } = req.orderInfo;
-
-      const createPayment = new Payment({
-            orderId: order_id,
-            userId,
-            amount,
-            transactionId: tran_id
-      })
-      await createPayment.save();
-      
-      const orderData = {
-        order_id : order_id,
-        total_amount: amount,
-        currency: 'BDT',
-        tran_id: tran_id, 
-        success_url: SUCCESS_URL,
-        fail_url: FAIL_URL,
-        cancel_url: CANCEL_URL,
-        ipn_url: IPN_URL,
-        shipping_method: 'Courier',
-        product_name: 'Ecommerce Purchase',
-        product_category: 'General',
-        product_profile: 'general',
-        cus_name: customer_name,
-        cus_email: customer_email || 'customer@example.com',
-        cus_add1: 'Dhaka',
-        cus_city: 'Dhaka',
-        cus_state: 'Dhaka',
-        cus_postcode: '1200',
-        cus_country: 'Bangladesh',
-        cus_phone: customer_phone,
-        cus_fax: '0171.......',
-        ship_name: customer_name,
-        ship_add1: 'Dhaka',
-        ship_city: 'Dhaka',
-        ship_state: 'Dhaka',
-        ship_postcode:1200,
-        ship_country: 'Bangladesh',
-      };
-
-      const sslcz = new SSLCommerzPayment(SSLCOMMERZ_STORE_ID, SSLCOMMERZ_STORE_PASSWD, is_live)
-      const response = await sslcz.init(orderData)  
-      return res.status(200).send({
-        url : response,
-        success : true,
-        message : 'payment is processing'
-      })
-  } catch (error) {
-    console.log(error)
-      res.status(500).json({ error: "Payment initiation failed." });
-  }
-   }
+      const tran_id = new ObjectId().toString();
+  
+      const payment = new Payment({
+        orderId: order_id,
+        userId,
+        amount,
+        transactionId: tran_id,
+      });
+  
+      await payment.save();
+  
+      const orderData = prepareOrderData({
+        order_id,
+        amount,
+        tran_id,
+        customer_name,
+        customer_email,
+        customer_phone,
+      });
+  
+      const sslcz = new SSLCommerzPayment(SSLCOMMERZ_STORE_ID, SSLCOMMERZ_STORE_PASSWD, is_live);
+      const response = await sslcz.init(orderData);
+  
+      return res.status(200).json({
+        success: true,
+        message: 'Payment is being processed',
+        url: response,
+      });
+  
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({
+        success: false,
+        message: 'Payment initiation failed',
+        error: error.message,
+      });
+    }
+  };
+  
+  const prepareOrderData = ({ order_id, amount, tran_id, customer_name, customer_email, customer_phone }) => {
+    return {
+      order_id,
+      total_amount: amount,
+      currency: 'BDT',
+      tran_id,
+      success_url: SUCCESS_URL,
+      fail_url: FAIL_URL,
+      cancel_url: CANCEL_URL,
+      ipn_url: IPN_URL,
+      shipping_method: 'Courier',
+      product_name: 'Ecommerce Purchase',
+      product_category: 'General',
+      product_profile: 'general',
+      cus_name: customer_name,
+      cus_email: customer_email || 'customer@example.com',
+      cus_add1: 'Dhaka',
+      cus_city: 'Dhaka',
+      cus_state: 'Dhaka',
+      cus_postcode: '1200',
+      cus_country: 'Bangladesh',
+      cus_phone: customer_phone,
+      cus_fax: '0171.......',
+      ship_name: customer_name,
+      ship_add1: 'Dhaka',
+      ship_city: 'Dhaka',
+      ship_state: 'Dhaka',
+      ship_postcode: '1200',
+      ship_country: 'Bangladesh',
+    };
+  };
+  
 
 const payment_Success = async (req, res) => {
     try {

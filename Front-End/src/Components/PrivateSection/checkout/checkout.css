@@ -75,13 +75,6 @@
 }
 
 
-
-
-
-
-
-
-
 .checkout-page .order-summary-table{
      width: 27%;
      border: 1px solid rgba(0, 0, 0, 0.15);
@@ -146,8 +139,12 @@
      width: 100%;
      display: flex;
 }
+.checkout-page .order-summary-table .check-out-submit td{
+     padding: 0;
+}
 .checkout-page .order-summary-table .coupon-code-field td{
      border: 1px solid  #d91657dc ;
+     padding: 0;
 }
 .checkout-page .order-summary-table .coupon-code-field input{
      padding: 0.2rem;
