@@ -3,23 +3,28 @@ import './AllProduct.css'
 import { apiRequiestWithCredentials } from '../../../utils/ApiCall'
 import Loading from '../../../utils/loading/Loading'
 import { Link } from 'react-router-dom'
+import Pagination from '../pagination/Pagination'
 
 
 const Product_list = () => {
   const [allProduct,setAllProduct] = useState([])
   const [pageLoading,setPageLoading]=useState(true)
   const [searchLoading,setSearchLoading]=useState(false)
-  const getAllProducts =async()=>{
+  const [page,setPage]=useState(1)
+  const [limit,setLimit]=useState(3)
+  const [totalPage,setTotalPage]=useState(0)
+  const getAllProducts =async(page)=>{
     try {
-      const data = await apiRequiestWithCredentials('get',`/admin/products?page=${1}&limit=${10}`)
+      const data = await apiRequiestWithCredentials('get',`/admin/products?page=${page}&limit=${limit}`)
       setAllProduct(data.products)
+      setTotalPage(data.totalPage)
       setPageLoading(false)
     } catch (error) {
       console.log(error)
     }
   }
   useEffect(()=>{
-    getAllProducts()
+    getAllProducts(page)
   },[])
   
   const handleDelete =async(productId)=>{
@@ -42,8 +47,9 @@ const Product_list = () => {
       interval = setTimeout(async() => {
        
       try {
-        const data = await apiRequiestWithCredentials('get',`/admin/products/search?search=${searchValue}`)
+        const data = await apiRequiestWithCredentials('get',`/admin/products/search?search=${searchValue}&page=${page}&limit=${limit}`)
           setAllProduct(data.products)
+          setTotalPage(data.totalPages)
         } catch (error) {
           console.log(error)
           setAllProduct([])
@@ -57,8 +63,9 @@ const Product_list = () => {
    const handleFilterByOrderStatus =async(e)=>{
     setSearchLoading(true)
      try {
-      const data = await apiRequiestWithCredentials('get',`/admin/products/filter?stockStatus=${e.target.value}`)
+      const data = await apiRequiestWithCredentials('get',`/admin/products/filter?stockStatus=${e.target.value}&page=${page}&limit=${limit}`)
        setAllProduct(data.products)
+       setTotalPage(data.totalPages)
      } catch (error) {
        console.log(error)
        setAllProduct([])
@@ -66,6 +73,10 @@ const Product_list = () => {
       setSearchLoading(false)
      }
   
+   }
+   const handlePageChange =async(cPage)=>{
+    setPage(cPage)
+    getAllProducts(cPage)
    }
   if(pageLoading){
     return(<>
@@ -100,7 +111,9 @@ const Product_list = () => {
           </div>
           
         </div>
-        {searchLoading ? <div className='search-loader-spinner'>Searching...</div> : <table>
+        {searchLoading ? <div className='search-loader-spinner'>Searching...</div> : 
+       <> 
+       <table>
           <thead>
             <tr>
               <th>Sl No</th>
@@ -137,7 +150,11 @@ const Product_list = () => {
               )
             })}
           </tbody>
-        </table>}
+        </table>
+       <Pagination currentPage={page} totalPages={totalPage} onPageChange={handlePageChange}/>
+        </>
+        
+        }
       </div>
     </div>
   );

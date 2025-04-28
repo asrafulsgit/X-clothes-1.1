@@ -1,8 +1,7 @@
 const { v2 : cloudinary } = require('cloudinary') ;
 const fs = require('fs')
 const Product = require('../Models/products.model');
-
-
+const { productsPagination } = require('../utils/product.pagination');
 
 
 
@@ -13,10 +12,10 @@ cloudinary.config({
      api_secret: 'VfkJpNPsu5lyhApYock5Hp1sjPY'
  });
 
-  const texAndDiscountCalculation =(parcent,price)=>{
+const texAndDiscountCalculation =(parcent,price)=>{
      const amount = (price/100)*parcent
      return Math.floor(amount);
-  }
+}
 // only admin can access 
 const addProduct = async (req, res) => {
      
@@ -125,18 +124,9 @@ const getAllProduct = async (req,res) => {
 const getProductWithPagination = async (req,res) => {
      try {
           const {page,limit}=req.query;
-          const pageNumber = Math.max(1,parseInt(page) || 1)
-          const limitDocuments = Math.min(50,parseInt(limit) || 10)
-          const skipDocuments = (pageNumber - 1) * limitDocuments ;
-          const totalDocument = await Product.estimatedDocumentCount()
-          const totalPage = Math.ceil(totalDocument / limitDocuments)
-          
-          const products = await Product.find()
-                         .skip(skipDocuments)
-                         .limit(limitDocuments)
-                         .sort({ createdAt: -1 })
-          
-      if( !products || products.length <= 0){
+          console.log(page)
+          const products = await productsPagination({model : Product,page,limit})
+      if( !products.documents.length){
           return  res.status(404).send({
                 success : false, 
                 message : 'product is not Found!'
@@ -144,11 +134,9 @@ const getProductWithPagination = async (req,res) => {
       }
      return  res.status(200).send({
           success : true, 
-          products,
-          totalPage
+          products : products.documents,
+          totalPage : products.totalPage
      })
-      
-      
      } catch (error) {
         return  res.status(500).send({ 
           success : false,
@@ -159,30 +147,45 @@ const getProductWithPagination = async (req,res) => {
 
 const filterProducts = async(req,res)=>{
   try {
-    const {stockStatus} = req.query;
+    const {stockStatus,page,limit} = req.query;
     if(!stockStatus) return res.status(404).send({ success: false, message: `Please select,Filer items!` });
-    let products = []
-    if(stockStatus === 'true'){ 
-      products = await Product.find({ stock : {$gt : 0}})
+
+    let query = {};
+    if (stockStatus === 'true') {
+      query = { stock: { $gt: 0 } };
+    } else if (stockStatus === 'false') {
+      query = { stock: { $lte: 0 } };
+    } else {
+      return res.status(400).send({ 
+          success: false, 
+          message: `Invalid stockStatus value!` 
+     });
     }
-    if(stockStatus === 'false'){ 
-      products = await Product.find({ stock: { $lte: 0 } });
-    }
-    if(!products || products.length === 0) return res.status(404).send({ success: false, message: `no product available!` });
-    return res.status(200).send({ 
-      success: true, 
-      products,
-      message: 'products successfully fatched' 
-    });
+    const products = await productsPagination({model : Product,page,limit,query})
+    if(!products.documents.length) {
+     return res.status(404).send({ 
+          success: false, 
+          message: `no product available!` 
+     })
+     }
+     return res.status(200).send({
+          success: true,
+          products: products.documents,
+          totalPages: products.totalPage,
+          message: 'Products successfully fetched',
+        });
   } catch (error) {
     console.error(error);
-    return res.status(500).send({ success: false, message: "Something broke!" });
+    return res.status(500).send({ 
+     success: false, 
+     message: "Something broke!" 
+});
   }
 }
 
 const searchProduct = async(req,res)=>{ 
      try {
-       const {search} = req.query;
+       const {search,page,limit} = req.query;
        if(!search) return res.status(404).send({ success: false, message: `Please select,Filer items!` });
        const searchQuery = {}
        if (/^[0-9a-fA-F]{24}$/.test(search)) {
@@ -191,12 +194,19 @@ const searchProduct = async(req,res)=>{
           searchQuery.title = { $regex: search, $options: 'i' };
         }
         
-       const products = await Product.find(searchQuery).limit(10).sort({createdAt : -1})
+       const products = await productsPagination({model : Product,page,limit,query : searchQuery})
+       
         
-       if(!products || products.length === 0) return res.status(404).send({ success: false, message: `no product available!` });
+       if(!products.documents.length ) {
+          return res.status(404).send({ 
+               success: false, 
+               message: `no product available!` 
+          });
+     }
        return res.status(200).send({ 
          success: true, 
-         products,
+         products : products.documents,
+         totalPages : products.totalPage,
          message: 'products successfully fatched' 
        });
      } catch (error) {

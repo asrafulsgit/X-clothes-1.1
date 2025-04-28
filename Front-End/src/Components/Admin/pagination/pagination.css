@@ -1,0 +1,45 @@
+:root {
+    --color-1: #0487E2;
+    --color-2: #0463CA;
+    --color-3: #09B1EC;
+    --color-4: #D91656;
+    --display-font-Montserrat :"Montserrat", sans-serif;
+    --display-font-OpenSans : "Open Sans", sans-serif;
+    --font-family-AfacadFlux:"Afacad Flux", sans-serif;
+    --font-family-Poppins :"Poppins", sans-serif;
+}
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    gap: 5px;
+  }
+  .pagination-btn-setting{
+    font-size: 16px;
+    border: 1px solid #d916572b;
+    background-color: #d916572b;
+    color: var(--color-4);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: var(--font-family-Poppins);
+  }
+  .prev-pagination-btn,.next-pagination-btn{
+    width: 50px;
+    height: 30px;
+  }
+  .pagination-btn {
+    width: 30px;
+    height: 30px;
+   
+  }
+
+  .pagination-btn.active {
+    background-color: var(--color-4);
+    color: white;
+  }
+  
+  .pagination-btn:disabled {
+    background-color: #e0e0e0;
+    cursor: not-allowed;
+  }
+  
