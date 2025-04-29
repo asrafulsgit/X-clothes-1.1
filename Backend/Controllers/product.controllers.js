@@ -1,7 +1,7 @@
 const { v2 : cloudinary } = require('cloudinary') ;
 const fs = require('fs')
 const Product = require('../Models/products.model');
-const { productsPagination } = require('../utils/product.pagination');
+const { paginationHandler } = require('../utils/product.pagination');
 
 
 
@@ -124,8 +124,8 @@ const getAllProduct = async (req,res) => {
 const getProductWithPagination = async (req,res) => {
      try {
           const {page,limit}=req.query;
-          console.log(page)
-          const products = await productsPagination({model : Product,page,limit})
+          console.log(page,limit)
+          const products = await paginationHandler({model : Product,page,limit})
       if( !products.documents.length){
           return  res.status(404).send({
                 success : false, 
@@ -161,7 +161,7 @@ const filterProducts = async(req,res)=>{
           message: `Invalid stockStatus value!` 
      });
     }
-    const products = await productsPagination({model : Product,page,limit,query})
+    const products = await paginationHandler({model : Product,page,limit,query})
     if(!products.documents.length) {
      return res.status(404).send({ 
           success: false, 
@@ -194,7 +194,7 @@ const searchProduct = async(req,res)=>{
           searchQuery.title = { $regex: search, $options: 'i' };
         }
         
-       const products = await productsPagination({model : Product,page,limit,query : searchQuery})
+       const products = await paginationHandler({model : Product,page,limit,query : searchQuery})
        
         
        if(!products.documents.length ) {

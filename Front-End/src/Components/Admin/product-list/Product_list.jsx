@@ -11,20 +11,26 @@ const Product_list = () => {
   const [pageLoading,setPageLoading]=useState(true)
   const [searchLoading,setSearchLoading]=useState(false)
   const [page,setPage]=useState(1)
-  const [limit,setLimit]=useState(3)
+  const [limit,setLimit]=useState(5)
   const [totalPage,setTotalPage]=useState(0)
-  const getAllProducts =async(page)=>{
+  const [filter,setFilter]= useState('')
+  const [search,setSearch]=useState('')
+  const getAllProducts =async(page=1,limit)=>{
+    setSearchLoading(true)
+
     try {
       const data = await apiRequiestWithCredentials('get',`/admin/products?page=${page}&limit=${limit}`)
       setAllProduct(data.products)
       setTotalPage(data.totalPage)
-      setPageLoading(false)
     } catch (error) {
       console.log(error)
+    }finally{
+      setSearchLoading(false)
     }
   }
   useEffect(()=>{
-    getAllProducts(page)
+    getAllProducts(page,limit)
+    setPageLoading(false)
   },[])
   
   const handleDelete =async(productId)=>{
@@ -36,18 +42,19 @@ const Product_list = () => {
     }
   }
   let interval;
-  const handleSearchProduct =(e)=>{
-    const searchValue = e.target.value.trim();
-     clearTimeout(interval)
+  const searchFunctionality=async(searchValue,cPage=1,limit)=>{
+     
+    clearTimeout(interval)
      if (!searchValue) {
-      getAllProducts()
+      getAllProducts(page,limit)
       return;
     } 
+   
     setSearchLoading(true)
       interval = setTimeout(async() => {
-       
+       console.log(limit)
       try {
-        const data = await apiRequiestWithCredentials('get',`/admin/products/search?search=${searchValue}&page=${page}&limit=${limit}`)
+        const data = await apiRequiestWithCredentials('get',`/admin/products/search?search=${searchValue}&page=${cPage}&limit=${limit}`)
           setAllProduct(data.products)
           setTotalPage(data.totalPages)
         } catch (error) {
@@ -55,29 +62,53 @@ const Product_list = () => {
           setAllProduct([])
         }finally{
           setSearchLoading(false)
+          setSearch(searchValue)
         }
      }, 800); 
   }
+  const handleSearchProduct =(e)=>{
+    const searchValue = e.target.value.trim();
+    searchFunctionality(searchValue,page,limit)
+  }
   const [filterStatus, setFilterStatus] = useState('');
   const stockStatus = [{name : 'In stock', value : true},{name : 'Out of stock', value : false}]
-   const handleFilterByOrderStatus =async(e)=>{
+   const filteringFunctionality = async(status,cPage=1,limit)=>{
     setSearchLoading(true)
-     try {
-      const data = await apiRequiestWithCredentials('get',`/admin/products/filter?stockStatus=${e.target.value}&page=${page}&limit=${limit}`)
+    try {
+      const data = await apiRequiestWithCredentials('get',`/admin/products/filter?stockStatus=${status}&page=${cPage}&limit=${limit}`)
        setAllProduct(data.products)
        setTotalPage(data.totalPages)
      } catch (error) {
        console.log(error)
        setAllProduct([])
      }finally{
+       setFilter(status)
       setSearchLoading(false)
      }
-  
    }
-   const handlePageChange =async(cPage)=>{
+  const handleFilterByOrderStatus =(e)=>{
+     const status = e.target.value
+     filteringFunctionality(status,page,limit)
+   }
+   const handlePageChange =(cPage)=>{
     setPage(cPage)
-    getAllProducts(cPage)
+    if(filter){
+      filteringFunctionality(filter,cPage,limit)
+    } else if(search) {
+      searchFunctionality(search,cPage,limit)
+    }else{
+      getAllProducts(cPage,limit)
+    }
    }
+  const limits=[5,10,15,20]
+  const handleLimitChange =(e)=>{
+    if(filter) {
+      filteringFunctionality(filter,page,limit)
+    }else{
+      getAllProducts(page,Number(e.target.value))
+    }
+    
+  }
   if(pageLoading){
     return(<>
       <Loading />
@@ -92,7 +123,7 @@ const Product_list = () => {
         <div className="header">
           <input name='search' onChange={handleSearchProduct} type="text" placeholder="Search Here" className="search-box" />
           <div>
-          <select name="filter" className="product-filter" id="filter" 
+            <select name="filter" className="product-filter" id="filter" 
            value={filterStatus} 
            onChange={(e) => {
              setFilterStatus(e.target.value); 
@@ -105,13 +136,27 @@ const Product_list = () => {
                 )
               }) }
             </select>
+            <select name="limit" className="product-filter" style={{marginRight: '1rem'}} id="filter" 
+           value={limit} 
+           onChange={(e) => {
+             setLimit(Number(e.target.value));
+             handleLimitChange(e)     
+           }}>
+              {limits.map((limit,index)=>{
+                return(
+                  <option key={index} value={limit}>{limit}</option>
+                )
+              }) }
+            </select>
             <Link to='/admin/add-product' >
             <button className="add-product-btn">+ Add Product</button>
             </Link>
+           
           </div>
           
         </div>
         {searchLoading ? <div className='search-loader-spinner'>Searching...</div> : 
+        allProduct.length <=0 ? <div className='search-loader-spinner'>No product found</div> : 
        <> 
        <table>
           <thead>

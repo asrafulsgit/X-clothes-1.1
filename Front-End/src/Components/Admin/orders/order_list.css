@@ -111,8 +111,19 @@
      height: 40px;
      object-fit: contain;
    }
+   .order-list-page  .order-filter{
+    background: transparent;
+    font-family: var(--font-family-Poppins);
+    font-size: 16px;
+    color: var(--color-4);
+    border: 2px solid var(--color-4);
+    padding: 5px 14px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-right: 1rem;
+   }
    .order-list-page  .search-loader-spinner{
-    min-height: 500px;
+    min-height: 65vh;
     padding-top: 5rem;
     text-align: center;
     width: 100%;

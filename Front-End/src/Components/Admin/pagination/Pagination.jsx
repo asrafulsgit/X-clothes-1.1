@@ -28,6 +28,7 @@ const Pagination = ({currentPage,totalPages,onPageChange}) => {
       };
     
       const handleClick = (page) => {
+        if(currentPage === page) return;
         if (page !== '...') {
           onPageChange(page);
         }

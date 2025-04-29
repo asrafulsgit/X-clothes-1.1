@@ -1,7 +1,8 @@
 const { default: mongoose } = require("mongoose");
 const Order = require("../Models/Order.model");
 const Sales = require("../Models/sales.model");
-const Product = require('../Models/products.model')
+const Product = require('../Models/products.model');
+const { paginationHandler } = require("../utils/product.pagination");
 
 
 const getUserOrders = async (req, res) => {
@@ -62,15 +63,40 @@ const getAllOrders = async(req,res)=>{
     return res.status(500).send({ success: false, message: "Something broke!" });
   }
 }
-const filterOrders = async(req,res)=>{
-  
+const getAllOrdersWithPagination = async(req,res)=>{
   try {
-    const { orderStatus} = req.query; 
-    const orders = await Order.find({orderStatus})
-    if(!orders || orders.length === 0) return res.status(404).send({ success: false, message: `no order available!` });
+    const {page,limit} = req.query;
+    const orders = await paginationHandler({model : Order,page,limit})
+    if(!orders.documents.length) {
+      return res.status(404).send({ 
+        success: false, message: `no order available!` 
+      });
+    }
     return res.status(200).send({ 
       success: true, 
-      orders,
+      orders : orders.documents,
+      totalPage : orders.totalPage,
+      message: 'Order successfully fatched' 
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).send({ success: false, message: "Something broke!" });
+  }
+}
+const filterOrders = async(req,res)=>{
+  try {
+    const { orderStatus,page,limit} = req.query; 
+    const orders = await paginationHandler({model : Order,query : {orderStatus},page,limit})
+    if(!orders.documents.length) {
+      return res.status(404).send({ 
+        success: false, 
+        message: `no order available!` 
+      });
+    }
+    return res.status(200).send({ 
+      success: true, 
+      orders : orders.documents,
+      totalPage : orders.totalPage,
       message: 'Order successfully fatched' 
     });
   } catch (error) {
@@ -79,9 +105,10 @@ const filterOrders = async(req,res)=>{
   }
 }
 
+
 const searchOrders = async(req,res)=>{ 
      try {
-       const {search} = req.query;
+       const {search,page,limit} = req.query;
        
        if(!search) return res.status(404).send({ success: false, message: `Please select,Filer items!` });
        const searchQuery = {}
@@ -91,12 +118,17 @@ const searchOrders = async(req,res)=>{
        }else{
         searchQuery['shippingAddress.name'] = { $regex: search, $options: 'i' };
       } 
-       const orders = await Order.find(searchQuery).limit(10).sort({createdAt : -1})
+       const orders = await paginationHandler({model : Order,query : searchQuery ,page,limit})
+      //  Order.find(searchQuery).limit(10).sort({createdAt : -1})
       
-       if(!orders || orders.length === 0) return res.status(404).send({ success: false, message: `no order available!` });
+       if(!orders.documents.length) return res.status(404).send({ 
+        success: false, 
+        message: `no order available!` 
+      });
        return res.status(200).send({ 
          success: true, 
-         orders,
+         orders : orders.documents,
+         totalPage : orders.totalPage,
          message: 'orders successfully fatched' 
        });
      } catch (error) {
@@ -183,5 +215,6 @@ module.exports={
      UpdateOrderStatus,
      getOrder,
      filterOrders,
-     searchOrders
+     searchOrders,
+     getAllOrdersWithPagination
 }
