@@ -124,7 +124,6 @@ const getAllProduct = async (req,res) => {
 const getProductWithPagination = async (req,res) => {
      try {
           const {page,limit}=req.query;
-          console.log(page,limit)
           const products = await paginationHandler({model : Product,page,limit})
       if( !products.documents.length){
           return  res.status(404).send({

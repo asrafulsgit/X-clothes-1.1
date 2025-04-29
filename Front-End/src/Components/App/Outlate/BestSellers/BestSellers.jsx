@@ -8,15 +8,10 @@ import OutlateProduct from '../OutlateProduct'
 
 const BestSellers = () => {
      const [message, setMessage]= useState('')
-     const [bestSellers,setBestSellers]= useState([])
+     const [outLateProuducts,setOutlateProducts]= useState([])
+     const [category,setCategory]=useState('')
      useEffect(()=>{
-          axios.post('http://localhost:8000/get-product-by-categoris',{categories : ['120130','230240','330340','420440']})
-          .then((res)=>{
-               const products = res.data.products.slice(0,6)
-               setBestSellers(products)
-          }).catch((err)=>{
-               dispatch(setMessage(err.response.data.message))
-          })
+          
      },[])
      const outLateProductsNav =[
           {    
@@ -39,16 +34,13 @@ const BestSellers = () => {
               {
                outLateProductsNav.map((item,index)=>{
                     return(
-                         <p key={index}>{item.name}</p>
+                         <p key={index} onClick={()=>setCategory(item.name)}>{item.name}</p>
                     )
                })
               }
           </div>
           <div className='out-late-item'>
-               {bestSellers.length <=0 ? <p>{message}</p> :
-               bestSellers.map((item)=>{
-               return <OutlateProduct key={uuidv4()} item={item} />
-               })}
+               <p></p>
           </div>   
      </div>
      </> 
