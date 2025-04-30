@@ -3,6 +3,7 @@ const Order = require("../Models/Order.model");
 const Sales = require("../Models/sales.model");
 const Product = require('../Models/products.model');
 const { paginationHandler } = require("../utils/product.pagination");
+const paymentModel = require("../Models/payment.model");
 
 
 const getUserOrders = async (req, res) => {
@@ -29,20 +30,25 @@ const getUserOrders = async (req, res) => {
        return res.status(500).send({ success: false, message: "Something broke!" });
      }
 };
-const cancelOrder = async (req, res) => {
+const userOrderCancelOrder = async (req, res) => {
      try {
        const userId = req.userInfo.id;
        const orderId = req.params.orderId;
    
-       const order = await Order.findOne({ _id: orderId, user: userId });
+       const order = await Order.findOne({_id: orderId, user: userId });
    
        if (!order || order.orderStatus.toLowerCase() !== 'processing') {
-         return res.status(400).send({ success: false, message: 'You cannot cancel this order!' });
+         return res.status(400).send({ 
+          success: false, 
+          message: 'You cannot cancel this order!' 
+        });
        }
+       order.orderStatus = 'Cancelled'
+       await order.save();
    
-       await order.deleteOne()
-   
-       return res.status(200).send({ success: true, message: 'Order cancelled' });
+       return res.status(200).send({ 
+        success: true, message: 'Order cancelled' 
+      });
      } catch (error) {
        console.error(error);
        return res.status(500).send({ success: false, message: "Something broke!" });
@@ -154,12 +160,12 @@ const UpdateOrderStatus = async(req,res)=>{
         message: `Order not found!` 
       });
     }
-    if(order.orderStatus === 'Delivered'){
+    if(order.isSales && order.orderStatus === 'Delivered'){
       const bulk = order.items.map((item)=>({
         updateOne : {
             filter : {productId : item.product},
-            update : {$inc : {quantity : item.quantity}},
-            upsert : true
+            update : {$inc : {quantity : -item.quantity}},
+            upsert : false
         }
       }))
       if(bulk.length > 0){
@@ -191,6 +197,55 @@ const UpdateOrderStatus = async(req,res)=>{
   }
 }
 
+const updateSalesEverySunday =async()=>{
+  // const session =await mongoose.startSession()
+  // try {
+  //   await session.startTransaction();
+  //   const orders = await Order.find({
+  //     orderStatus: 'Delivered',
+  //     isSales: false,
+  //   }).session(session);
+
+  //   if (!orders.length) {
+  //     await session.abortTransaction();
+  //     await session.endSession()
+  //     return console.log('✅ No eligible orders to process')
+  //   };
+   
+  //   const salesDocs = orders.map(order => ({
+  //     insertOne: {
+  //       document: {
+  //         orderId: order._id,
+  //         salesDate:  order.updatedAt,
+  //         items: order.items.map(item => ({
+  //           productId: item.product,
+  //           quantitySold: item.quantity
+  //         }))
+  //       }
+  //     }
+  //   }));
+  //   const orderUpdates = orders.map(order => ({
+  //     updateOne: {
+  //       filter: { _id: order._id },
+  //       update: { $set: { isSales: true } }
+  //     } 
+  //   }));
+  //   await Sales.bulkWrite(salesDocs, { session });
+  //   await Order.bulkWrite(orderUpdates, { session });
+  //   await session.commitTransaction();
+  //   session.endSession()
+  // } catch (error) {
+  //     await  session.abortTransaction();
+  //     session.endSession()
+  //     console.error(error);
+  //     throw error;
+  // }
+  await paymentModel.deleteMany({})
+}
+updateSalesEverySunday()
+
+
+
 const getOrder =async(req,res)=>{
   try {
     const orderId = req.params.orderId;
@@ -210,7 +265,7 @@ const getOrder =async(req,res)=>{
 
 module.exports={
      getUserOrders,
-     cancelOrder,
+     userOrderCancelOrder,
      getAllOrders,
      UpdateOrderStatus,
      getOrder,

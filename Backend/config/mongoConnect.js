@@ -1,9 +1,16 @@
 const mongoose = require('mongoose');  
-mongoose.connect(process.env.MONGO_DB_URL,{
+const mongoConnection = () => {
+   return  mongoose.connect(process.env.MONGO_DB_URL,{
      serverSelectionTimeoutMS: 10000,
      socketTimeoutMS: 45000,  
    })  
 .then((res)=>{
-     console.log('db is connected')
-}).catch((err)=> console.log('db is not connect', err))
+     console.log('✅ DB is connected')
+}).catch((err)=>{
+      console.log('❌ DB connection failed:', err)
+      throw err;
+})
+}
+
+module.exports = mongoConnection;
 

@@ -57,12 +57,12 @@ const orderSchema = new mongoose.Schema(
       trackingNumber: { type: String, default: null }
     },
     deliveryDate: { type: Date, required : true, default: calculateDefaultDeliveryDate },
-    createdAt: { type: Date, default: Date.now, index: true },
-    updatedAt: { type: Date, default: Date.now }
+    isSales : {type : Boolean,default : false}
   },
   { timestamps: true }
 );
 
+orderSchema.index({createdAt : -1})
 
 const Order = mongoose.model('Order', orderSchema);
 

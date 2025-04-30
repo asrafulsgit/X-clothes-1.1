@@ -6,7 +6,7 @@ const CancelOrderModal = ({orderId, isOpen, onClose,deletedOrder }) => {
   if (!isOpen) return null;
      const handleCancelOrder = async(orderId)=>{
           try {
-           const data =  await apiRequiestWithCredentials('delete',`/order/cancel/${orderId}`)
+           const data =  await apiRequiestWithCredentials('put',`/user/order/cancel/${orderId}`)
            deletedOrder(orderId)
           } catch (error) {
                console.log(error)

@@ -12,7 +12,7 @@ const Orders = () => {
   useEffect(()=>{
     const apiCalling = async()=>{
       try {
-        const data = await apiRequiestWithCredentials('get','/orders')
+        const data = await apiRequiestWithCredentials('get','/user/orders')
         setOrders(data.orders)
         setPageLoading(false)
       } catch (error) {
@@ -29,8 +29,13 @@ const Orders = () => {
     setOrderId(id)
   }
   const deletedOrder =(orderId)=>{
-    const filteredOrder = orders.filter(order => order._id !== orderId)
-    setOrders(filteredOrder)
+    const changesOrders = orders.map((order)=>{
+      if(order._id === orderId){
+        order.orderStatus = 'Cancelled'
+      }
+      return order
+    })
+    setOrders(changesOrders)
     setIsModalOpen(false)
   }
   if(pageLoading){
