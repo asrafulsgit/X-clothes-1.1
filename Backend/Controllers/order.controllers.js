@@ -223,7 +223,7 @@ const updateSalesEverySunday =async()=>{
   //         }))
   //       }
   //     }
-  //   }));
+  //   })); 
   //   const orderUpdates = orders.map(order => ({
   //     updateOne: {
   //       filter: { _id: order._id },
@@ -240,10 +240,37 @@ const updateSalesEverySunday =async()=>{
   //     console.error(error);
   //     throw error;
   // }
-  await paymentModel.deleteMany({})
 }
-updateSalesEverySunday()
-
+// updateSalesEverySunday()
+const highestOrderProduct =()=>{
+  // const ordersProduct = await Order.aggregate([
+  //   { $unwind: "$items" },
+  //   {$group :{
+  //     _id : '$items.product',
+  //     totalQuantity : { $sum : '$items.quantity'}
+  //   }},
+  //   {$sort : {totalQuantity : -1}},
+  //   {$limit : 6},
+  //   {
+  //     $lookup : {
+  //       from : 'products',
+  //       localField : '_id',
+  //       foreignField : '_id',
+  //       as : 'product'
+  //     }
+  //   },
+  //   {$unwind :'$product'},
+  //   { $project : {
+  //     _id : 0,
+  //     totalSold : '$totalQuantity',
+  //     _id : '$product._id',
+  //     brand : '$product.brand',
+  //     price : '$product.price',
+  //     images : '$product.images'
+  //   }}
+  // ])
+// console.log(ordersProduct)
+}
 
 
 const getOrder =async(req,res)=>{

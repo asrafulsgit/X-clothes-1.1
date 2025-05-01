@@ -1,6 +1,5 @@
 import React from 'react'
 import { createBrowserRouter } from 'react-router-dom';
-import Home from '../Components/App/Home/Home';
 import Landing_page from '../Components/App/pages/Landing_page';
 import Men from '../Components/Products/Men/Men';
 import Women from '../Components/Products/Women/Women';
@@ -39,6 +38,7 @@ import Product_list from '../Components/Admin/product-list/Product_list';
 import Order_list from '../Components/Admin/orders/Order_list';
 import App from '../App';
 import UpdateProduct from '../Components/Admin/Update-product/UpdateProduct';
+
 
 const Route =  createBrowserRouter([
     { path: '/',
@@ -117,6 +117,8 @@ const Route =  createBrowserRouter([
         },
       ],
     },
+   
+
   ]);
 
 export default Route

@@ -2,9 +2,6 @@ import React, { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 
 import "./Men.css";
-import Nav from "../../App/Nav/Nav";
-import Footer from "../../App/Footer/Footer";
-import mensBanner from "../../../assets/banners/mens-banner.jpg";
 
 import { Link, useParams } from "react-router-dom";
 import Card from "../Card";

@@ -262,6 +262,31 @@ const getProductByCategories = async(req,res)=>{
      }
 }
 
+const newArrivals = async(req,res)=>{
+     try {
+          const products = await Product.find({stock : { $gt : 0}})
+          .sort({createdAt : -1})
+          .limit(6)
+          if(!products.length){
+                    return res.status(404).send({
+                        success : false,
+                        message : 'No product found!'
+                    })
+                
+          }
+          return res.status(200).send({
+               success : true,
+               products,
+               message : 'product successfully fatched'
+           })
+     } catch (error) {
+          console.error(error);
+   return res.status(500).send({ 
+    success: false, message: "Something broke!" 
+   });
+     }
+}
+
 
 module.exports = {
      addProduct,
@@ -273,5 +298,6 @@ module.exports = {
      updateProduct,
      filterProducts,
      searchProduct,
-     getProductWithPagination
+     getProductWithPagination,
+     newArrivals
 } 

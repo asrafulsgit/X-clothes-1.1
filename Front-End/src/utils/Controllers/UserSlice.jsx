@@ -6,7 +6,6 @@ const userSlice = createSlice({
      initialState : {
           favorites    : 0,
           carts        : 0,
-          favoritesProductsIds: [],
           isLoggedIn  : false,
           loading      : true,
           message : '',
@@ -19,9 +18,6 @@ const userSlice = createSlice({
      reducers : {
           setFavorites(state,action){
                state.favorites = action.payload;
-          },
-          setFavoritesProductsIds(state,action){
-               state.favoritesProductsIds = action.payload;
           },
           setCarts(state,action){
                state.carts = action.payload;
@@ -53,6 +49,6 @@ const userSlice = createSlice({
      }
 })
 
-export const {setFavorites,setFavoritesProductsIds,setMessage,setCarts,setIsLoggedIn,
+export const {setFavorites,setMessage,setCarts,setIsLoggedIn,
      setLoading,setIsReadyForEmailVerify,setEmail,setIsReadyForResetPassword,setEmailVerificationCode,setIsCheckout} = userSlice.actions;
 export default userSlice.reducer;

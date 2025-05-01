@@ -10,6 +10,7 @@ const { addToCartRoute } = require('./Routers/addToCart.router');
 const  {favouriteRoute} = require('./Routers/addToFavourite.router');
 const paymentRouter = require('./Routers/payments.router.');
 const { orderRouter } = require('./Routers/order.router');
+const salesRouter = require('./Routers/sales.router');
 
 const app = express();
 const server = http.createServer(app)
@@ -42,6 +43,7 @@ app.use(addToCartRoute)
 app.use(favouriteRoute)
 app.use(paymentRouter)
 app.use(orderRouter)
+app.use(salesRouter)
 
 
 

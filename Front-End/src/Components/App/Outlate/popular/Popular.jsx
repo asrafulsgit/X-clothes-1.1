@@ -1,21 +1,16 @@
-import React, { useEffect, useState } from 'react'
-import { v4 as uuidv4 } from 'uuid';
-import Card from '../../../Products/Card'
-import Modal from '../../../Products/Modal'
+import { useEffect, useState } from "react";
+import Modal from "../../../Products/Modal";
+import Card from "../../../Products/Card";
+import { apiRequiest } from "../../../../utils/ApiCall";
 
-import './BestSellers.css'
-import OutlateProduct from '../OutlateProduct'
-import { apiRequiest } from '../../../../utils/ApiCall';
-
-
-const BestSellers = () => {
+const Popular = () => {
      const [message, setMessage]= useState('')
      const [products,setProducts]= useState([])
      const [isModalOpen, setIsModalOpen] = useState(false);
      const [modalInfo, setModalInfo] = useState({});
      const bestSalesProducts = async()=>{
           try {
-               const data = await apiRequiest('get','/sales/best-sales')
+               const data = await apiRequiest('get','/favorite/popular')
                setProducts(data.products)
              
           } catch (error) {
@@ -24,7 +19,6 @@ const BestSellers = () => {
           }finally{
           }
      }
-
      useEffect(()=>{
           bestSalesProducts()
      },[])
@@ -39,10 +33,10 @@ const BestSellers = () => {
      <>
      <div className="best-seller-page">
            {( !products || !products.length ) ? <p>no data found</p>
-              : products.map((item) => {
+              : products.map((item,index) => {
                   return (
                     <Card
-                      key={uuidv4()}
+                      key={index}
                       item={item.product}
                       handleModal={handleModal}
                     />
@@ -54,4 +48,4 @@ const BestSellers = () => {
   )
 }
 
-export default BestSellers
+export default Popular

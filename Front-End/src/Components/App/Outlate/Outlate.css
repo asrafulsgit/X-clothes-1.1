@@ -8,15 +8,15 @@
      --font-Poppins :"Poppins", sans-serif;
 }
 
-.best-seller-page{
+.outlate-page{
      padding: 2rem 0;
 }
-.best-seller-page .out-late-item-header{
+.outlate-page .out-late-item-header{
      display: flex;
      gap: 1.5rem;
      
 }
-.best-seller-page .out-late-item-header p{
+.outlate-page .out-late-item-header p{
      border: 1px solid var(--color-4);
      font-family: var(--font-Poppins);
      font-weight: 400;
@@ -26,7 +26,7 @@
      cursor: pointer;
      transition: 0.3s;
 }
-.best-seller-page .out-late-item-header p:hover{
+.outlate-page .out-late-item-header p:hover{
      background: var(--color-4);
      color: white;
 }

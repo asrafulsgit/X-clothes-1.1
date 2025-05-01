@@ -1,7 +1,7 @@
 const express = require('express')
 const productRouter = express.Router();
 const upload = require('../Middlewares/product.middleware');
-const {newProduct,getAllProduct, deleteProduct, getProductByCategory, getOneProduct, getProductByCategories,updateProduct, addProduct, filterProducts, searchProduct, getProductWithPagination} = require('../Controllers/product.controllers');
+const {newProduct,getAllProduct, deleteProduct, getProductByCategory, getOneProduct, getProductByCategories,updateProduct, addProduct, filterProducts, searchProduct, getProductWithPagination, newArrivals} = require('../Controllers/product.controllers');
 const { fileErrorHandlerMiddleware } = require('../Middlewares/fileErrorHandle.middleware');
 const { validateDeleteProduct, validateUpdateProduct, validateSubCategory, validateGetProductInfo, validateCategories, parseProductData, validateAddProduct } = require('../validators/product.validators');
 const { validationMiddleware } = require('../Middlewares/validation.result.middleware');
@@ -36,6 +36,7 @@ productRouter.get('/get-one-product/:productId',validateGetProductInfo,validatio
 
 
 productRouter.post('/get-product-by-categoris',validateCategories,validationMiddleware, getProductByCategories )
+productRouter.get('/guest/new-arrivals',newArrivals)
 
 
 

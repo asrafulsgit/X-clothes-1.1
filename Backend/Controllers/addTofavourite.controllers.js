@@ -2,6 +2,7 @@ const User = require("../Models/user.model");
 const Product = require("../Models/products.model");
 const Favourite = require("../Models/addToFavourite.model");
 const { getIo } = require("../socket");
+const { default: mongoose } = require("mongoose");
 
 const addToFavourite = async (req, res) => {
   const { productId } = req.body;
@@ -129,6 +130,37 @@ const isFavouriteWithHover = async (req, res) => {
     res.status(500).send({ message: "somthing broke!" });
   }
 };
+
+
+
+
+// const test =async(userId)=>{
+
+//     const favorites = await Favourite.aggregate([
+//       { $match: { userId: new mongoose.Types.ObjectId(userId) } },
+//       {
+//         $group: {
+//           _id: null,
+//           productIds: { $addToSet: '$productId' },
+//         },
+//       },
+//       {
+//         $project: {
+//           _id: 0,
+//           productIds: 1,
+//         },
+//       },
+//     ]);
+
+//     const productIds = favorites[0]?.productIds.map(id => id.toString()) || [];
+//     console.log(productIds)
+
+// }
+// test('67624fb7035df70e62e27d21')
+
+
+
+
 
 module.exports = {
   addToFavourite,

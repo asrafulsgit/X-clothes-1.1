@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { setCarts, setFavorites,setFavoritesProductsIds } from './utils/Controllers/UserSlice'
+import { setCarts, setFavorites} from './utils/Controllers/UserSlice'
 import axios from 'axios'
 import socket from './socket'
 const User = () => {
@@ -34,9 +34,9 @@ const User = () => {
                axios.get(`${import.meta.env.VITE_BACKEND_URL}/get-to-favourite`,{
                     withCredentials:true
                   }).then((res)=>{
-                         const favoriteIds = res.data.products.map(item => item._id);
+                         const favoriteIds = res.data.products.map(item => item.productId._id );
                          localStorage.setItem('favorites',JSON.stringify(favoriteIds))
-                         dispatch(setFavoritesProductsIds(favoriteIds))
+  
                   }).catch((err)=>{
                         console.log(err)
                   })
