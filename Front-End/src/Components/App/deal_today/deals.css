@@ -13,8 +13,22 @@
      font-family: var(--font-Poppins);
      padding: 2rem 0;
 }
+.today-deals-page .header .see-more-btn{
+     font-family: var(--font-Poppins);
+     margin-bottom: 10px;
+     border: none;
+     background-color: var(--color-4);
+     color: white;
+     padding: 5px 10px;
+     font-size: 16px;
+     border-radius: 5px;
+     font-weight: 300;
+     cursor: pointer;
+}
 .today-deals-page .header{
-
+     display: flex;
+     justify-content: space-between;
+     align-items: end;
 }
 .today-deals-page .left-header p{
      font-size: 1.5rem;
@@ -24,44 +38,35 @@
      font-size: 2.8rem;
      font-weight: 450;
      margin-top: 0.5rem;
-     margin-bottom: 2rem;
+     margin-bottom: 1.2rem;
      opacity: 0.9;
 }
 .today-deals-page .deal-items{
-     border: 1px solid;
-     
-     display: flex;
-     flex-wrap: wrap;
-     gap: 1.5rem;
-     /* justify-content: center; */
+     /* border: 1px solid; */
+     padding: 2px;
+     display: grid;
+     grid-template-columns: 48.6% 48.5%;
+     grid-template-rows: 1;
+     overflow: hidden;
+     gap: 2rem;
      align-items: center;
+     /* width: 100%; */
 }
 .today-deals-page .product{
      display: flex;
      gap: 1rem;
-     align-items: center;
-     justify-content: center;
+     /* border: 1px solid; */
      height: 320px;
-     width: 550px;
-     
+     width: 100%;
      padding: 10px;
      box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.159),
                  -1px -1px 2px rgba(0, 0, 0, 0.159);
 }
 
-/* font-size: 48px;
-font-weight: bold;
-color: #3498db;
-border-radius: 4px;
-flex-shrink: 0; */
-
-
-
-
-
 .today-deals-page .deal-items .product-left{
      /* border: 1px solid; */
      position: relative;
+     width: 250px;
 }
 .today-deals-page .deal-items .product-left .discount-badge{
      position: absolute;
@@ -98,6 +103,7 @@ flex-shrink: 0; */
 }  
 .today-deals-page .deal-items .product-right{
      /* border: 1px solid; */
+     width: 50%;
      position: relative;
 }
 
@@ -151,64 +157,4 @@ flex-shrink: 0; */
    border: 1px solid transparent;
    cursor: pointer;
 }
-
-/* slider start here */
-
-.slider-container {
-     display: flex;
-     align-items: center;
-     justify-content: center;
-     background: #3498db;
-     padding: 30px;
-     position: relative;
-   }
-   
-   .slider-viewport {
-     width: 100%; 
-     overflow: hidden;
-   }
-   
-   .slider-track {
-     display: flex;
-     transition: transform 0.5s ease-in-out;
-   }
-   
-   .slide-item {
-     width: 479px;
-     height: 150px;
-     margin: 0 5px;
-     background: white;
-     display: flex;
-     align-items: center;
-     justify-content: center;
-     font-size: 48px;
-     font-weight: bold;
-     color: #3498db;
-     border-radius: 4px;
-     flex-shrink: 0;
-   }
-   
-   .arrow {
-     background: white;
-     border: none;
-     color: #3498db;
-     font-size: 2rem;
-     width: 40px;
-     height: 40px;
-     border-radius: 50%;
-     cursor: pointer;
-     margin: 0 10px;
-     transition: background 0.3s;
-   }
-   
-   .arrow:hover {
-     background: #e6f0f8;
-   }
-   
-   .arrow:disabled {
-     opacity: 0.5;
-     cursor: not-allowed;
-   }
-   
-
 

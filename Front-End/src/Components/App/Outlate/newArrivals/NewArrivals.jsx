@@ -18,7 +18,6 @@ const NewArrivals = () => {
           }finally{
           }
      }
-     console.log(products)
      useEffect(()=>{
           bestSalesProducts()
      },[])
