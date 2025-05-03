@@ -18,31 +18,31 @@ const Men = () => {
   const [modalInfo, setModalInfo] = useState({});
   const [modalLoading, setModalLoading] = useState(true);
   const [mensData, setMensData] = useState([]);
-  useEffect(() => {
-    const apiCaling = async () => {
-      try {
-        if (subCategory(category)) {
-          const data = await apiRequiest(
-            "post",
-            "/get-product-by-subcategory",
-            { subcategory: category }
-          );
-          setMensData(data?.products);
-          setPageLoading(false);
-        } else if (categoryCheck(category)) {
-          const data = await apiRequiest("post", `/get-product-by-categoris`, {
-            categories: ["101120"],
-          });
-          setMensData(data?.products);
-          setPageLoading(false)
-        } else {
-          setMensData([]);
-          setPageLoading(false)
-        }
-      } catch (error) {
-        console.log(error);
+  const apiCaling = async () => {
+    try {
+      if (subCategory(category)) {
+        const data = await apiRequiest(
+          "post",
+          "/get-product-by-subcategory",
+          { subcategory: category }
+        );
+        setMensData(data?.products);
+        setPageLoading(false);
+      } else if (categoryCheck(category)) {
+        const data = await apiRequiest("post", `/get-product-by-categoris`, {
+          categories: ["101120"],
+        });
+        setMensData(data?.products);
+        setPageLoading(false)
+      } else {
+        setMensData([]);
+        setPageLoading(false)
       }
-    };
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
     apiCaling();
   }, [category]);
 
@@ -54,7 +54,6 @@ const Men = () => {
   const clearCartModal = (value) => {
     setIsModal(value);
   };
-
   return (
     <>
       <div className="mens-page">
@@ -88,6 +87,7 @@ const Men = () => {
       </div>
     </>
   );
+
 };
 
 export default Men;

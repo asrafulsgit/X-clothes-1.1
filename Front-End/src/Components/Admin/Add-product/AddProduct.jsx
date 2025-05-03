@@ -20,8 +20,8 @@ const AddProduct = () => {
           category : '',
           subcategory : '',
           description : '',
-          taxes : import.meta.env.VITE_PRODUCT_TEX,
-          discount : import.meta.env.VITE_PRODUCT_DISCOUNT
+          taxes : import.meta.env.VITE_PRODUCT_TEX || '0',
+          discount : import.meta.env.VITE_PRODUCT_DISCOUNT || '0'
      }
      let [newProduct,setNewProduct]= useState(product)
      const handleChange =(e)=>{
@@ -112,7 +112,8 @@ const AddProduct = () => {
                setProductAdding(false)
          }
      }
-
+     const [isTaxChange,setIsTaxChange]=useState(false)
+     const [isDiscountChange,setIsDiscountChange]=useState(false)
   return (
     <div className='add-product-page'>
           <div className="add-product-section">
@@ -161,19 +162,25 @@ const AddProduct = () => {
                               </div>
                               <div className='form-item'>
                                    <label htmlFor="taxes">Tax <small>%</small></label>
-                                   <input type="number" name='taxes' 
-                                   onChange={handleChange} 
-                                   value={newProduct.taxes} 
-                                   disabled
-                                   id='taxes' required/>
+                                   <div className="tax_discount" >
+                                        <input type="number" name='taxes' 
+                                        onChange={handleChange} 
+                                        value={newProduct.taxes} 
+                                        disabled={!isTaxChange}
+                                        id='taxes' required/>
+                                        <input type="checkbox" onClick={()=>setIsTaxChange(!isTaxChange)} name="taxes" id="checkbox" />
+                                   </div>
                               </div>
                               <div className='form-item'>
                                    <label htmlFor="discount">Discount  <small>%</small></label>
+                                   <div className="tax_discount">
+
                                    <input type="number" name='discount' 
                                    onChange={handleChange} 
-                                   disabled
+                                   disabled={!isDiscountChange}
                                    value={newProduct.discount} 
                                    id='discount' required/>
+                                   <input type="checkbox" onClick={()=>setIsDiscountChange(!isDiscountChange)} name="discount" id="checkbox" /></div>
                               </div>
                          </div>
                          <div className='form-riht-items'>

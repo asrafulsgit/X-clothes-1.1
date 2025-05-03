@@ -35,7 +35,7 @@ const OutlateProduct = memo(() => {
               {
                outLateProductsNav.map((item,index)=>{
                     return(
-                         <p key={index} onClick={()=>setActiveProduct(item.value)}>{item.name}</p>
+                         <p key={index} className={`nav_item ${activeProduct === item.value && 'activeNav'}`} onClick={()=>setActiveProduct(item.value)}>{item.name}</p>
                     )
                })
               }
@@ -46,18 +46,6 @@ const OutlateProduct = memo(() => {
           <BestSellers /> 
         }
     </div>
-
-      {/* {!pageLoading && (products?.length <= 0 || !products) ? <p>no data found</p>
-              : products.map((item) => {
-                  return (
-                    <Card
-                      key={uuidv4()}
-                      item={item}
-                      handleModal={handleModal}
-                    />
-                  );
-                })} */}
-
     </>
   );
 });

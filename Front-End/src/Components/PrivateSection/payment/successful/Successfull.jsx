@@ -3,7 +3,6 @@ import { apiRequiest } from '../../../../utils/ApiCall'
 import { Link, NavLink, useParams } from 'react-router-dom'
 import './successfull.css'
 import axios from 'axios';
-import Nav from '../Nav';
 import Loading from '../../../../utils/loading/Loading';
 
 const Successfull = () => {
@@ -55,7 +54,6 @@ const Successfull = () => {
   return (
     <>
       <div className="payment-success">
-      {!pageLoading && 
         <div className="voucher-container" id='voucher'>
           <h2 className="voucher-title">Disbursement Voucher</h2>
           <p className="voucher-subtitle">X CLOTHE</p>
@@ -141,7 +139,6 @@ const Successfull = () => {
               <p>{paymentInfo.createdAt.split('T')[0]}</p>
            </div>
         </div>
-      }
       </div>
     </>
     

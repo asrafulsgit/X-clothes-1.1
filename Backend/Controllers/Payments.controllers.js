@@ -26,7 +26,7 @@ const calculateTotals = (carts, products) => {
        }
    
        const price = Number(product.price);
-       const productDiscount = product.discount ? (price * quantity * Number(product.discount)) / 100 : 0;
+       const productDiscount = product.discount ? (price * quantity * product.discount) / 100 : 0;
        const productTaxes = product.taxes ? Number(product.taxes) * quantity : 0;
    
        discount += Math.floor(productDiscount);
@@ -36,6 +36,7 @@ const calculateTotals = (carts, products) => {
    
      return { subTotal, discount, taxes,shippingCost, missingProducts };
    };
+   
 
 const couponDiscountCalculator = (couponCode)=>{
   let couponDiscount = 0;
@@ -132,7 +133,7 @@ const couponDiscountCalculator = (couponCode)=>{
         const productIds = carts.map(cart => cart.productId._id);
         const products = await Product.find({ _id: { $in: productIds } }).session(session).lean();
         const productMap = new Map(products.map(p => [p._id.toString(), p]));
-        console.log(productMap)
+        
         const { subTotal, discount, taxes, shippingCost } = calculateTotals(carts, products);
         const couponDiscount = couponDiscountCalculator(couponCode);
         const total = (subTotal + taxes + shippingCost) - (discount + couponDiscount);

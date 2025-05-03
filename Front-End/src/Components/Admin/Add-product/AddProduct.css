@@ -5,6 +5,17 @@
      --font-family:"Afacad Flux", sans-serif;
      --font-family2 :"Poppins", sans-serif;
 }
+:root {
+     --color-1: #0487E2;
+     --color-2: #0463CA;
+     --color-3: #09B1EC;
+     --color-4: #D91656;
+     --display-font-Montserrat :"Montserrat", sans-serif;
+     --display-font-OpenSans : "Open Sans", sans-serif;
+     --font-family-AfacadFlux:"Afacad Flux", sans-serif;
+     --font-family-Poppins :"Poppins", sans-serif;
+     --display-font-section-header : "Courgette", cursive;
+}
 .add-product-section{
      height: 80vh;
      width: 100%;
@@ -21,6 +32,20 @@
      font-size: 1.1rem;
 }
 
+.add-product-section .tax_discount{
+     display: flex;
+     align-items: center;
+}
+.add-product-section .tax_discount #discount,
+.add-product-section .tax_discount #taxes{
+       flex: 0.8;
+}
+.add-product-section .tax_discount  input[type="checkbox"]{
+       flex: 0.2;  
+       width: 20px;
+       height: 20px;
+       accent-color: var(--color-4);
+}
 .add-product-section form{
      display: flex;
      flex-direction: column;

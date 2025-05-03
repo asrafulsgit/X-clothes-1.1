@@ -38,6 +38,7 @@ import Product_list from '../Components/Admin/product-list/Product_list';
 import Order_list from '../Components/Admin/orders/Order_list';
 import App from '../App';
 import UpdateProduct from '../Components/Admin/Update-product/UpdateProduct';
+import Test from '../test/test';
 
 
 const Route =  createBrowserRouter([
@@ -100,7 +101,6 @@ const Route =  createBrowserRouter([
         { path: 'faq', Component: FAQ  },
       ],
     },
-  
     {
       Component: Private_admin ,
       children: [
@@ -117,8 +117,10 @@ const Route =  createBrowserRouter([
         },
       ],
     },
-   
-
+    {
+      path :'/test',
+      Component : Test 
+    }
   ]);
 
 export default Route

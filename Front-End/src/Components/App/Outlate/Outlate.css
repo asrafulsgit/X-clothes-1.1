@@ -11,22 +11,26 @@
 .outlate-page{
      padding: 2rem 0;
 }
+
 .outlate-page .out-late-item-header{
      display: flex;
-     gap: 1.5rem;
-     
+     gap: 1.5rem;  
 }
-.outlate-page .out-late-item-header p{
+.outlate-page .out-late-item-header .nav_item{
      border: 1px solid var(--color-4);
      font-family: var(--font-Poppins);
      font-weight: 400;
      padding: 0.2rem 0.8rem;
-     border-radius: 15px;
+     border-radius: 5px;
      color: var(--color-4);
      cursor: pointer;
      transition: 0.3s;
 }
 .outlate-page .out-late-item-header p:hover{
+     background: var(--color-4);
+     color: white;
+}
+.outlate-page .out-late-item-header .activeNav{
      background: var(--color-4);
      color: white;
 }

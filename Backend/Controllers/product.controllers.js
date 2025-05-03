@@ -16,7 +16,8 @@ const texAndDiscountCalculation =(parcent,price)=>{
      const amount = (price/100)*parcent
      return Math.floor(amount);
 }
-// only admin can access 
+// only
+//  admin can access 
 const addProduct = async (req, res) => {
      
      try {
@@ -36,9 +37,6 @@ const addProduct = async (req, res) => {
         );
        const toPrice = Number(price)
        const toTax = texAndDiscountCalculation(toPrice,Number(taxes))
-       const toDiscount = texAndDiscountCalculation(toPrice,Number(discount)) 
-       
-
        const product = new Product({
          brand,
          title,
@@ -50,7 +48,7 @@ const addProduct = async (req, res) => {
          category: Number(category),
          subcategory: Number(subcategory),
          taxes : toTax,
-         discount : toDiscount,
+         discount : Number(discount),
          description,
        });
         
@@ -213,6 +211,33 @@ const searchProduct = async(req,res)=>{
        return res.status(500).send({ success: false, message: "Something broke!" });
      }
    }
+
+const toadaysDeals =async(req,res)=>{ 
+     try {
+       const products = await Product.find({discount : {$gte : 50}})
+                         .sort({discount : -1})
+                         .limit(10)
+       if( !products || products.length <= 0){
+          return  res.status(404).send({
+                success : false, 
+                message : 'product is not Found!'
+           })
+      }
+       return res.status(200).send({ 
+         success: true, 
+         products : products,
+         message: 'products successfully fatched' 
+       });
+     } catch (error) {
+       console.error(error);
+       return res.status(500).send({ success: false, message: "Something broke!" });
+     }
+   }
+  
+
+
+
+
 // random users access 
 const getProductByCategory = async(req,res)=>{
      try {
@@ -299,5 +324,6 @@ module.exports = {
      filterProducts,
      searchProduct,
      getProductWithPagination,
-     newArrivals
+     newArrivals,
+     toadaysDeals
 } 
