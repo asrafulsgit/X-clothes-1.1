@@ -37,20 +37,14 @@ const Favourite = () => {
       }
 
     }
-    if(loading){
-      return(
-        <>
-        <Loading />
-        </>
-      )
-    }
+    
     return (
       <div className='favorite-page'>
         <Header param={'/favourite'} name={'Favorites'} header={'Favorites'} />
         <div className="cart-main">
         {loading ? (
-          <p>loading...</p>
-        ) : !loading && (favorites?.length <= 0 || !favorites) ? (
+          <p className="empty-message">loading...</p>
+        ) : (favorites?.length <= 0 || !favorites) ? (
           <p className="empty-message">{message}</p>
         ) : (
           <div className="favorite-cart-table">

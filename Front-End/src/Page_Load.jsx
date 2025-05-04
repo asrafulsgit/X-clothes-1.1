@@ -1,7 +1,10 @@
 import axios from 'axios'
 import React, { useEffect } from 'react'
+import { setLoading } from './utils/Controllers/UserSlice'
+import { useDispatch } from 'react-redux'
 
 const Page_Load = ({checkUserCreadentials}) => {
+     const dispatch = useDispatch()
      const setCreadentials=(value)=>{
           checkUserCreadentials(value)
      }
@@ -12,13 +15,16 @@ const Page_Load = ({checkUserCreadentials}) => {
               }).then((res)=>{
                //   console.log(res)
                setCreadentials(true)
+               dispatch(setLoading(false))
                }).catch((err)=>{
                     localStorage.removeItem('favorites')
                     setCreadentials(false)
-
+                    dispatch(setLoading(false))
                })  
              } catch (error) {
                console.error('the error is', error)
+               setCreadentials(false)
+               dispatch(setLoading(false))
              }
      },[])
   return (<></>)

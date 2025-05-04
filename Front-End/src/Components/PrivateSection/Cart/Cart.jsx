@@ -89,11 +89,6 @@ const Cart = () => {
   const orderSummary=[
     {name : 'Items', value : totalItems}
   ]
-  if(loading){
-    return(<>
-      <Loading />
-    </>)
-  }
   return (
     <div className="cart-page">
       <Header param={"/cart"} name={"Cart"} header={"Shoping Cart"} />

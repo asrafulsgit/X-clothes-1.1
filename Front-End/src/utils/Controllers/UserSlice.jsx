@@ -7,7 +7,7 @@ const userSlice = createSlice({
           favorites    : 0,
           carts        : 0,
           isLoggedIn  : false,
-          loading      : true,
+          loading     : true,
           message : '',
           isReadyForEmailVerify : false,     // for forgot password
           email : '',                         // for forgot password
