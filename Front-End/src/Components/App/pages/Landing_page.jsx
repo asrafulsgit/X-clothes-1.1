@@ -4,24 +4,24 @@ import Brands from '../Brands/Brands'
 import Layout from '../LayOut/Layout'
 import Deals from '../deal_today/Deals'
 import Offer from '../Offers/Offer'
-import Discount from '../discount/Discount'
 import Subscription from '../subscription/subscription'
 import OutlateProduct from '../Outlate/OutlateProduct'
+import Flat_Discount from '../discount/Flat_Discount'
 
 const Landing_page = () => {
   
   return (
     <>
-    {/* <Display /> */}
+    <Display />
         <div className='app-main'>
-          {/* <Brands /> */}
-          {/* <Layout /> */}
-          {/* <OutlateProduct /> */}
+          <Brands />
+          <Layout />
+          <OutlateProduct />
           <Deals />
         </div>
           <Offer />
         <div className='app-main'>
-         <Discount />
+         <Flat_Discount />
          <Subscription />
         </div>
     </>    

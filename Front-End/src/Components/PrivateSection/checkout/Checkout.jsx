@@ -15,11 +15,12 @@ const Checkout = () => {
   const [message, setMessage] = useState("");
   const [errorMessageField,setErrorMessageField]=useState('')
   const [paymentInfo,setPaymentInfo]=useState({})
-  console.log(paymentInfo)
+  
   const [loading, setLoading] = useState(true);
   const [couponCode, setCouponCode] = useState('')
   const [upazilas, setUpazilas] = useState([]);
   const [address, setAddress] = useState({});
+  console.log(address)
   const [orderInfo,setOrderInfo]=useState({
     shippingAddress : {},
     carts,
@@ -63,6 +64,7 @@ const orderSummary = [
     { name: "Taxes", value: paymentInfo.taxes }
   ];
   const handlePrevAddress=(prevAddress)=>{
+    setOrderInfo((prev)=> ({...prev,shippingAddress : prevAddress}))
     setAddress(prevAddress)
   }
 

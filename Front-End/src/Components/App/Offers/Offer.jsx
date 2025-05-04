@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './offer.css'
 import offer_image from '../../../assets/offer/offer.png'
 import { Link } from 'react-router-dom'

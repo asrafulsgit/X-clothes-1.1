@@ -78,13 +78,13 @@ const Men = () => {
           )}
         </div>
       </div>
-      <div className={isModal ? "modal-open" : "add-to-cart-modal"}>
+      {/* <div className={isModal ? "modal-open" : "add-to-cart-modal"}>
         {!modalLoading && isModal ? (
           <Modal product={modalInfo} clearCartModal={clearCartModal} />
         ) : (
           <p style={{ color: "white" }}>loading...</p>
         )}
-      </div>
+      </div> */}
     </>
   );
 

@@ -39,6 +39,8 @@ import Order_list from '../Components/Admin/orders/Order_list';
 import App from '../App';
 import UpdateProduct from '../Components/Admin/Update-product/UpdateProduct';
 import Test from '../test/test';
+import Discount_page from '../Components/App/discount/Discount_page';
+import Today_Deals from '../Components/App/deal_today/Today_Deals';
 
 
 const Route =  createBrowserRouter([
@@ -51,6 +53,8 @@ const Route =  createBrowserRouter([
         { path: 'kids/:category', Component: Kids  },
         { path: 'winter/:category', Component: Winter  },
         { path: 'product/:id', Component: Productinfo  },
+        { path: 'product/discount/:discount', Component: Discount_page  },
+        { path: 'product/today-deals', Component: Today_Deals  },
   
         {
           Component: Protect_login ,

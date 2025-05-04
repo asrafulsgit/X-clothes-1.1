@@ -264,11 +264,32 @@ const toadaysDeals =async(req,res)=>{
      try {
        const products = await Product.find({discount : {$gte : 50}})
                          .sort({discount : -1})
-                         .limit(10)
        if( !products || products.length <= 0){
           return  res.status(404).send({
                 success : false, 
                 message : 'product is not Found!'
+           })
+      }
+       return res.status(200).send({ 
+         success: true, 
+         products : products,
+         message: 'products successfully fatched' 
+       });
+     } catch (error) {
+       console.error(error);
+       return res.status(500).send({ success: false, message: "Something broke!" });
+     }
+   }
+
+const fixedDiscountPoducts =async(req,res)=>{ 
+     try {
+       const {discount} = req.query;
+       const products = await Product.find({discount : {$eq : Number(discount)}})
+                         .sort({createdAt : -1})
+       if( !products || products.length <= 0){
+          return  res.status(404).send({
+                success : false, 
+                message : 'Discount Product is not Found!'
            })
       }
        return res.status(200).send({ 
@@ -373,5 +394,6 @@ module.exports = {
      searchProduct,
      getProductWithPagination,
      newArrivals,
-     toadaysDeals
+     toadaysDeals,
+     fixedDiscountPoducts
 } 

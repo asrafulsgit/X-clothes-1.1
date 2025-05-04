@@ -96,7 +96,9 @@ const Deals = () => {
         <h1>Deals of the Day</h1>
         </div>
         <div className="right-header">
-          <button className="see-more-btn">See More</button>
+          <Link to='/product/today-deals' state={products}>
+            <button className="see-more-btn">See More</button>
+          </Link> 
         </div>
       </div>
       <div className="deal-items">
