@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 
 const Card = ({ item,handleModal }) => {
      const { _id, brand, price, images } = item; 
-     const {isLoggedIn}=useSelector(state=> state.authInfo)
+     const isLoggedIn=useSelector(state=> state.authInfo.isLoggedIn)
      const navigate = useNavigate()
      const [favorites, setFavorites] = useState(
        JSON.parse(localStorage.getItem('favorites')) || []

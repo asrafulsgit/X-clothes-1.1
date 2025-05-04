@@ -1,16 +1,54 @@
 import React, { useEffect, useState } from "react";
 import "./deals.css";
 // import image from "../../../assets/test.jpg";
-import { Link } from "react-router-dom";
-import { apiRequiest } from "../../../utils/ApiCall";
+import { Link, useNavigate } from "react-router-dom";
+import { apiRequiest, apiRequiestWithCredentials } from "../../../utils/ApiCall";
 import Modal from "../../Products/Modal";
+import { useSelector } from "react-redux";
 const Deals = () => {
-  const isFavorite = false;
+  const isLoggedIn = useSelector(state=> state.authInfo.isLoggedIn)
+  const navigate = useNavigate()
   const [products, setProducts] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalInfo, setModalInfo] = useState({});
-  // const [showCaseProducts,setShowCaseProducts]=useState([])
   const [loading, setLoading] = useState(true);
+  const [favorites, setFavorites] = useState(
+       JSON.parse(localStorage.getItem('favorites')) || []
+      );
+   
+  const [favoriteLoading, setFavoriteLoading] = useState(false);
+   
+      // Add product to favorites
+      const addFavorite =async (id) => {
+        setFavoriteLoading(true);
+        try {
+          const data = await apiRequiestWithCredentials('post','/add-to-favourite',{ productId: id });
+          const favorites = JSON.parse(localStorage.getItem('favorites'))
+          const updatedFavorites = [...favorites, data?.product?.productId];
+          localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
+          setFavorites(updatedFavorites || [] );
+          setFavoriteLoading(false);
+        } catch (error) {
+          console.log(error);
+          setFavoriteLoading(false);
+        }
+      };
+      // Remove product from favorites
+      const deleteFavorite = async(id) => {
+        setFavoriteLoading(true);
+        try {
+          const data = await apiRequiestWithCredentials('delete',`/remove-from-favourite/${id}`);
+          const favorites = JSON.parse(localStorage.getItem('favorites'));
+          const updatedFavorites = favorites.filter((item) => item !== data?.product?._id);
+          localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
+          setFavorites(updatedFavorites || []);
+          setFavoriteLoading(false);
+        } catch (error) {
+          console.log(error);
+          setFavoriteLoading(false);
+        }
+        
+      };
   const getTodaysDeals = async () => {
     try {
       const data = await apiRequiest("get", "/guest/todays-deals");
@@ -25,18 +63,21 @@ const Deals = () => {
     getTodaysDeals();
   }, []);
 
-  
-
   const discountPrice = (price, discount) => {
     const prevPrice = Number(price);
     const discountAmount = (prevPrice / 100) * discount;
     const discountPrice = Math.floor(prevPrice - discountAmount);
     return discountPrice;
   };
-
+  const checkFavorite =(id)=>{
+    return favorites.includes(id)
+  }
   const handleAddToCart =(product)=>{
     setModalInfo(product)
     setIsModalOpen(!isModalOpen)
+  } 
+  const unAuthUser =()=>{
+    navigate('/login')
   }
 
   if (loading) {
@@ -47,7 +88,8 @@ const Deals = () => {
     );
   }
   return (
-    <div className="today-deals-page">
+   <> 
+   <div className="today-deals-page">
       <div className="header">
         <div className="left-header">
         <p>Today Deals</p>
@@ -68,14 +110,20 @@ const Deals = () => {
                   <img src={images[0] || ""} alt="Product Image" />
                   <p className="discount-badge">{discount}% Off</p>
                   <div className="btns">
-                    <button className="favorite-btn">
+                    <button className="favorite-btn" onClick={()=>{ 
+                      // console.log('')
+                      !isLoggedIn ? unAuthUser() : checkFavorite(_id) ? deleteFavorite(_id) : addFavorite(_id)
+                      }
+                      }>
                       <i
                         className={`fa-${
-                          isFavorite ? "solid" : "regular"
+                          checkFavorite(_id) ? "solid" : "regular"
                         } fa-heart`}
                       ></i>
                     </button>
-                    <button className="cart-btn" onClick={()=>handleAddToCart(product)}>
+                    <button className="cart-btn" onClick={()=>{
+                      !isLoggedIn ? unAuthUser() : handleAddToCart(product)
+                      }}>
                       <i id="add-icon" className="fa-solid fa-plus"></i>
                     </button>
                   </div>
@@ -102,8 +150,9 @@ const Deals = () => {
           <p>Product not found!</p>
         )} 
       </div>
+   </div>
        <Modal isOpen={isModalOpen} product={modalInfo} onClose={() => setIsModalOpen(false)} />
-    </div>
+    </>
   );
 };
 

@@ -19,6 +19,7 @@
 .discount-page .discount-card{
      /* border: 1px solid; */
      padding: 2rem;
+     height: 350px;
 }
 .discount-page .discount-card .discount{
      font-size: 1.5rem;
@@ -28,10 +29,11 @@
 .discount-page .discount-card .title{
      font-size: 2.5rem;
      font-weight: 600;
-     margin: 1rem 0;
+     margin: 0.8rem 0;
+     line-height: 3.2rem;
 }
 .discount-page .discount-card .description{
-     opacity: 0.9;
+     opacity: 0.7;
 }
 .discount-page .discount-card button{
    font-size: 1rem;
@@ -44,34 +46,40 @@
    cursor: pointer;
 }
 .discount-page .discount-card-mens  button{
-   bottom: 50px;
-   background-color:#d9165750 ;
+     background-color: white;
+     font-weight: 500;
+     font-family: var(--font-Poppins);
+     color: var(--color-4);
 }
 .discount-page .discount-card-womens  button{
-   
+   background-color: white;
+   font-weight: 500;
+   font-family: var(--font-Poppins);
+   color: var(--color-4);
 }
 .discount-page .discount-card-mens{
-     background-color: var(--color-secondary-black);
+     background:linear-gradient(to right, #0000ff16, #0000ff09);
      width: 50%;
      overflow: hidden;
      position: relative;
      z-index: 1;
+     /* border: 1px solid; */
 }
 .discount-page .discount-card-mens::before{
      position: absolute;
      content: '';
      top: 0;
-     right: -20px;
+     right:-5px;
      width: 100%;
      height: 100%;
-     background-image: url('../../../assets/discount/men.png');
+     background-image: url('https://media-hosting.imagekit.io/1ab8790401134854/sadfsdfa-removebg-preview.png?Expires=1840944660&Key-Pair-Id=K2ZIVPTIP2VGHC&Signature=f1TzVF942nJ3NxYZDXfLb3aiTyMOdnPqU4FiNudxemIoGuRKwRlnVKLfpPKqb8RW9Eds1ejpqhCSSR2lft5u8cxl6bYoB8Tkh7SJuRkZ-bS~-qyuNhYEvZD-fIzrtx9nxolxKND5cKoZFqAOK8AQn~qKJMC3Ig2y~ff1tMXBLbslKlM6NDm64W~TwYpBJ3wq4UrspwWyOF2-JP5omZy1fF0OIIvyifRXejg2sFoMrNYJrahnYOBUmi64JsBSiex6brN1Lrqw5Ek6L7mhXVMVTFBNmjLRd6pgfcacDYMRxnxMI1FNDW3sOT6dKcAY2BV-soLfHfXLg4l~NNgefU~t3w__');
      background-position: right;
      background-repeat: no-repeat;
      background-size: contain;
      z-index: -1;
 }
 .discount-page .discount-card-womens  {
-     background-color:#d9165750;
+     background: linear-gradient(to right, #ffff0027, #ffff000f);
      width: 50%;
      overflow: hidden;
      position: relative;
@@ -82,10 +90,10 @@
      position: absolute;
      content: '';
      top: 0;
-     right: -20px;
+     right: -5px;
      width: 100%;
      height: 100%;
-     background-image: url('../../../assets/discount/women.png');
+     background-image: url('https://media-hosting.imagekit.io/4ec0a728005f464a/asdfsdfsd-removebg-preview.png?Expires=1840945493&Key-Pair-Id=K2ZIVPTIP2VGHC&Signature=EeqJ5jsqChxUI3C0Sglm8nIIURI9TnFqMnd4o8ctKcw3rGmXZaq9BBjdeg-EUibjfOXCgqVNUxh1oowQRMQi4WQgVPl6RDx-vQQ8COEIw9AeYQAKk1brm3qHZHYXVi5FYnKpfVQhgiuts~jsIQl~EelmYazXft~GT7Pr~mB47-Qva0D~kIN0cZeBXIAnxobx4msSTK0WYiAMrSZ5QfvsveckiQIKNayDnk-dsylSQ7GQEe8~elYrnDlByaEaMWqlPOdyFX2vseT30Auv1jKyj18Wuq4iLDo5nAc-Jm~-fLnqUu0lfmOZEPxllwI3h2McJ~8ljYAGjmYO6CXbs84ZAQ__');
      background-position: right;
      background-repeat: no-repeat;
      background-size: contain;

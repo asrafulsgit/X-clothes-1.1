@@ -72,6 +72,7 @@ const AddProduct = () => {
      const imageInput = useRef()
      // images setup
      const [images, setImages] = useState([])
+     console.log(images)
      const handleImageChange =(e)=>{
           setImages(e.target.files)
      }

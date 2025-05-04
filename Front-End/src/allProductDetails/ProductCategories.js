@@ -6,6 +6,7 @@
 //                  short+pants-104,
 //                  panjabi-105,
 //                  jerseys-106,
+//                  casual-shirt-107,
 
 //winter mens=>102130
 //             sweater-120
@@ -78,6 +79,7 @@ export const subCategories = [
                          {name : 'mens-panjabi', category : '104'},
                          {name : 'mens-short+pants', category : '105'},
                          {name : 'mens-jerseys', category : '106'},
+                         {name : 'mens-casual-shirt', category : '107'},
                          {name : 'mens-winter-sweater', category : '120'},
                          {name : 'mens-winter-hoodie', category : '121'},
                          {name : 'mens-winter-blazer', category : '122'},
@@ -241,7 +243,7 @@ export const  navLinksData =[
        name : 'Dresses'
      },
      {
-       subcategory : '212',
+       subcategory : '211',
        name : 'Shrugs'
      },
      {
@@ -299,7 +301,7 @@ export const   mensNavData =[
         category : '102'
      },
      {
-       id : 106,
+       id : 105,
        name : 'Pangabi',
        category : '105'
      },
@@ -314,9 +316,14 @@ export const   mensNavData =[
        category : '104'
      },
      {
-       id : 105,
+       id : 106,
        name : 'Jerseys',
        category : '106'
+     },
+     {
+       id : 107,
+       name : 'Casual-shirt',
+       category : '107'
      },
    ]
 

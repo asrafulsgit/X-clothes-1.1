@@ -35,6 +35,7 @@ const addProduct = async (req, res) => {
             })
           )
         );
+       console.log(images)
        const toPrice = Number(price)
        const toTax = texAndDiscountCalculation(toPrice,Number(taxes))
        const product = new Product({
@@ -64,6 +65,53 @@ const addProduct = async (req, res) => {
        });
      }
 };
+// const addProduct = async (req, res) => {  
+//      try {
+//        const { brand, title, price,taxes,discount, sizes, colors,stock, category,subcategory, description } = req.body.productData;
+//        const images = [];
+//        for (const file of req.files) {
+//           const result = await cloudinary.uploader.upload(file.path, {
+//             resource_type: 'image',
+//           });
+    
+//           await new Promise((resolve, reject) => {
+//             fs.unlink(file.path, (err) => {
+//               if (err) reject(`Failed to delete file: ${err.message}`);
+//               else resolve();
+//             });
+//           });
+    
+//           images.push(result.secure_url);  
+//         }
+//        const toPrice = Number(price)
+//        const toTax = texAndDiscountCalculation(toPrice,Number(taxes))
+//        const product = new Product({
+//          brand,
+//          title,
+//          images,
+//          price,
+//          sizes,
+//          colors,
+//          stock : Number(stock),
+//          category: Number(category),
+//          subcategory: Number(subcategory),
+//          taxes : toTax,
+//          discount : Number(discount),
+//          description,
+//        });
+        
+//        await product.save();
+//        res.status(201).send({
+//          success: true,
+//          message: 'Product is added',
+//          product: product,
+//        });
+//      } catch (error) {
+//        res.status(500).send({
+//          message: 'Something broke!',
+//        });
+//      }
+// };
 const deleteProduct = async(req,res)=>{
      const {productId} = req.params;
 

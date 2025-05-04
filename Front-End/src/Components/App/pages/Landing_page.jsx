@@ -9,13 +9,14 @@ import Subscription from '../subscription/subscription'
 import OutlateProduct from '../Outlate/OutlateProduct'
 
 const Landing_page = () => {
+  
   return (
     <>
-    <Display />
+    {/* <Display /> */}
         <div className='app-main'>
-          <Brands />
-          <Layout />
-          <OutlateProduct />
+          {/* <Brands /> */}
+          {/* <Layout /> */}
+          {/* <OutlateProduct /> */}
           <Deals />
         </div>
           <Offer />
