@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Navigate, Outlet } from 'react-router-dom';
 import { apiRequiestWithCredentials } from '../../utils/ApiCall';
 import Loading from '../../utils/loading/Loading';
+import NotFound from '../../pages/notFound/NotFound';
 
 const Private_admin = () => {
   const [pageLoading,setPageLoading]=useState(true)
@@ -23,7 +24,7 @@ const Private_admin = () => {
   if(pageLoading){
     return (<><Loading /></> )
   }
-  return (isAdmin ? <Outlet /> : <Navigate to='/' />)
+  return (isAdmin ? <Outlet /> : <NotFound />)
 }
 
 export default Private_admin

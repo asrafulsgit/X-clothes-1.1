@@ -41,6 +41,7 @@ import UpdateProduct from '../Components/Admin/Update-product/UpdateProduct';
 import Test from '../test/test';
 import Discount_page from '../Components/App/discount/Discount_page';
 import Today_Deals from '../Components/App/deal_today/Today_Deals';
+import NotFound from '../pages/notFound/NotFound';
 
 
 const Route =  createBrowserRouter([
@@ -120,6 +121,10 @@ const Route =  createBrowserRouter([
           ],
         },
       ],
+    },
+    {
+      path : '/*',
+      Component :  NotFound 
     },
     {
       path :'/test',
