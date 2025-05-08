@@ -1,9 +1,10 @@
 import React from 'react'
 
-import './Contact.css'
+// import './Contact.css'
 const Contact = () => {
   return (
-     <div className="contactSection" id="contact">
+    <> 
+    {/* <div className="contactSection" id="contact">
             <p className="directContactHead">GET IN TOUCH</p>
             <div className="contacts">
                 <div className="directContact">
@@ -36,7 +37,8 @@ const Contact = () => {
                     </form>
                </div>
             </div>
-     </div>
+     </div> */}
+     </>
   )
 }
 

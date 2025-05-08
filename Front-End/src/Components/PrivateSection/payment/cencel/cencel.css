@@ -84,13 +84,13 @@
      color: white;
   }  
    
-   .contact-btn {
+  .payment-cancel-container .contact-btn {
      background-color: transparent;
      color: #333;
      border: 1px solid #ddd;
    }
    
-   .contact-btn:hover {
+   .payment-cancel-container .contact-btn:hover {
      background-color: #ddd;
    }
    

@@ -10,29 +10,29 @@
      --display-font-courgette : "Courgette", cursive;
 }
 
-.faq{
+.faq-page .faq{
      padding: 5rem 4rem 2rem 4rem;
      display: flex;
      flex-direction: column;
      gap: 2rem;
 }
-.faq-header h1{
+.faq-page .faq-header h1{
      text-align: center;
      font-family: var(--display-font-courgette);
      font-weight: 600;
      text-decoration: underline;
 }
-.faq-main{
+.faq-page .faq-main{
      display: flex;
      flex-direction: column;
      gap: 1.5rem;
 }
 
-.faq-main p{
+.faq-page .faq-main p{
      font-family: var(--font-family-poppins);
      text-align: justify;
 }
-.faq-main h2{
+.faq-page .faq-main h2{
      font-family: var(--display-font-open-sens);
      font-size: 16px;
 }

@@ -1,7 +1,7 @@
-.header-section{
+.header-section-container{
      padding-top: 4rem;
 }
-.header-banner{
+.header-section-container .header-banner{
      margin-bottom: 2rem;
      background:  rgba(0, 0, 0, 0.256);
      height: 230px;
@@ -12,18 +12,18 @@
      flex-direction: column;
      font-family: var(--font-Poppins);
 }
-.header-banner h1{
+.header-section-container .header-banner h1{
      font-weight: 500;
      margin-bottom: 0.6rem;
 }
-.header-banner .header-links{
+.header-section-container .header-banner .header-links{
      color: var(--color-4);
      display: flex;
      gap: 5px;
 }
-.header-banner .header-links a{
+.header-section-container .header-banner .header-links a{
      color: var(--color-4);
 }
-.header-banner .header-links a:hover{
+.header-section-container .header-banner .header-links a:hover{
      text-decoration: underline;
 }

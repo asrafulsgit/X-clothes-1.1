@@ -1,11 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { Link, useParams } from "react-router-dom";
-
 import "./Winter.css";
-import Nav from "../../App/Nav/Nav";
-import Footer from "../../App/Footer/Footer";
-import womensBanner from "../../../assets/banners/winter-banner.png";
 import Card from "../Card";
 import Modal from "../Modal";
 import { categoryCheck, subCategory } from "../../../utils/categoryCheck";

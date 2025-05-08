@@ -17,7 +17,7 @@
      background: rgba(0, 0, 0, 0.5);
      z-index: 1000;
 }
-.modal-animate {
+.product-info-modal .modal-animate {
      opacity: 0;
      transform: scale(0.9);
      animation: fadeInScale 0.3s ease-out forwards;

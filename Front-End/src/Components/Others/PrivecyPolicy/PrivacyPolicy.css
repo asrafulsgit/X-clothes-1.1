@@ -10,36 +10,36 @@
      --display-font-courgette : "Courgette", cursive;
 }
 
-.privacy-policy{
+.privacy-policy-page .privacy-policy{
      padding: 5rem 4rem 2rem 4rem;
      display: flex;
      flex-direction: column;
      gap: 2rem;
 }
-.privacy-policy-header h1{
+.privacy-policy-page .privacy-policy-header h1{
      text-align: center;
      font-family: var(--display-font-courgette);
      font-weight: 600;
      text-decoration: underline;
 }
-.privacy-policy-main{
+.privacy-policy-page .privacy-policy-main{
      display: flex;
      flex-direction: column;
      gap: 1.5rem;
 }
-.privacy-policy-main ol{
+.privacy-policy-page .privacy-policy-main ol{
      font-family: var(--font-family-poppins);
      /* margin-top: 0.7rem; */
 }
-.privacy-policy-main ol li{
+.privacy-policy-page .privacy-policy-main ol li{
      list-style-type: disc;
      list-style: inside;
 }
-.privacy-policy-main p{
+.privacy-policy-page .privacy-policy-main p{
      font-family: var(--font-family-poppins);
      text-align: justify;
 }
-.privacy-policy-main h2{
+.privacy-policy-page .privacy-policy-main h2{
      font-family: var(--display-font-open-sens);
      font-size: 16px;
 }

@@ -18,7 +18,7 @@
      font-family: var(--font-family-Poppins);
    }
    
-   .payment-failed-box {
+   .payment-failed-container   .payment-failed-box {
      background-color: white;
      padding: 30px;
      border-radius: 10px;
@@ -35,7 +35,7 @@
    
    
    
-   .payment-failed-heading {
+   .payment-failed-container .payment-failed-heading {
      margin-top: 10px;
      font-size: 24px;
      font-weight: bold;
@@ -43,20 +43,20 @@
      margin-bottom: 15px;
    }
    
-   .payment-failed-message {
+   .payment-failed-container .payment-failed-message {
      font-size: 16px;
      color: #666;
      margin-bottom: 20px;
    }
    
-   .button-container {
+   .payment-failed-container .button-container {
      display: flex;
      justify-content: center;
      gap: 20px;
    }
    
-   .retry-btn,
-   .contact-btn {
+   .payment-failed-container  .retry-btn,
+   .payment-failed-container  .contact-btn {
      font-family: var(--font-family-Poppins);
      padding: 6px 12px;
      font-size: 16px;
@@ -73,13 +73,13 @@
      color: white;
   }  
    
-   .contact-btn {
+  .payment-failed-container   .contact-btn {
      background-color: transparent;
      color: #333;
      border: 1px solid #ddd;
    }
    
-   .contact-btn:hover {
+   .payment-failed-container  .contact-btn:hover {
      background-color: #ddd;
    }
    

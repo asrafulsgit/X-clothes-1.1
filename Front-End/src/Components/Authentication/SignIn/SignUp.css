@@ -18,7 +18,7 @@
      justify-content: center;
      align-items: center;
 }
-.message{
+.sing-up-section .message{
      font-family: var(--font-family2);
      font-size: 14px;
      color:var(--color-4) ;

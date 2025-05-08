@@ -48,13 +48,13 @@ const Productinfo = React.memo(() => {
      const color = e.target.value;
 
   }
+  if(isLoading){
+    return <><div className="product-info-loader">
+    <p>Loading...</p>
+  </div></>
+  }
   return (
-    <div>
-      {isLoading ? (
-        <div className="product-info-loader">
-          <p>Loading...</p>
-        </div>
-      ) : (
+    <>
         <div className="product-info-page">
           <div className="product-info">
             <div className="info-left">
@@ -149,8 +149,7 @@ const Productinfo = React.memo(() => {
             </div>
           </div>
         </div>
-      )}
-    </div>
+    </>
   );
 });
 

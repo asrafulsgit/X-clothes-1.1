@@ -1,10 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { v4 as uuidv4 } from 'uuid';
-import axios from 'axios'
 import './Women.css'
-import Nav from '../../App/Nav/Nav';
-import Footer from '../../App/Footer/Footer';
-import womensBanner from '../../../assets/banners/womens-banner.webp'
 
 import { subCategory,categoryCheck } from '../../../utils/categoryCheck';
 

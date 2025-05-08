@@ -9,7 +9,7 @@ const slides = [
     description: "Embrace the chill with cozy and stylish winter wear.",
     buttonText: "Shop Men's",
     path : '/men/101120',
-    image: "https://aicdn.picsart.com/3102c4ae-ff9e-48bc-9659-dbcde877d0bc.png",
+    image: "https://i.ibb.co.com/HTj73X4Q/men.png",
     imagePosition: "left",
   },
   {
@@ -18,7 +18,7 @@ const slides = [
     description: "Elegant and expressive styles for every woman.",
     buttonText: "Shop Women's",
     path : '/women/201230',
-    image: "https://aicdn.picsart.com/cb3a7e03-be32-475f-8ae3-c895604a273c.png",
+    image: "https://i.ibb.co.com/dwf8FfRs/28eecea6-07b8-4497-b291-fb9f1084971f-removebg-preview.png",
     imagePosition: "right",
   },
   {
@@ -27,7 +27,7 @@ const slides = [
     description: "Fun, bright, and comfy outfits for the little ones.",
     buttonText: "Shop Kid's",
     path : '/kids/301401',
-    image: "https://aicdn.picsart.com/e049b09c-8199-40d1-9e38-fccdf6f5c2ff.png",
+    image: "https://i.ibb.co.com/q31zKySz/kid.png",
     imagePosition: "left",
   },
   {
@@ -36,7 +36,7 @@ const slides = [
     description: "Embrace the chill with cozy and stylish winter wear.",
     buttonText: "Shop Winter",
     path : '/winter/12233342',
-    image: "https://aicdn.picsart.com/cfd0a8b9-2103-46c4-854c-a1248d7db476.png",
+    image: "https://i.ibb.co.com/KpKNQQ3Y/i6upylvvp84fvro5yjjt-removebg-preview.png",
     imagePosition: "right",
   }
 ];

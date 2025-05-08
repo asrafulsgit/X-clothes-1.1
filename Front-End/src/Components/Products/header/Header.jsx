@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 const Header = ({param,name,header}) => {
   return (
-    <div className="header-section">
+    <div className="header-section-container">
       <div className="header-banner">
        <h1>{header}</h1>
        <div className="header-links">

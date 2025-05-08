@@ -38,7 +38,7 @@ import Product_list from '../Components/Admin/product-list/Product_list';
 import Order_list from '../Components/Admin/orders/Order_list';
 import App from '../App';
 import UpdateProduct from '../Components/Admin/Update-product/UpdateProduct';
-import Test from '../test/test';
+// import Test from '../test/test';
 import Discount_page from '../Components/App/discount/Discount_page';
 import Today_Deals from '../Components/App/deal_today/Today_Deals';
 import NotFound from '../pages/notFound/NotFound';
@@ -126,10 +126,10 @@ const Route =  createBrowserRouter([
       path : '/*',
       Component :  NotFound 
     },
-    {
-      path :'/test',
-      Component : Test 
-    }
+    // {
+    //   path :'/test',
+    //   Component : Test 
+    // }
   ]);
 
 export default Route
