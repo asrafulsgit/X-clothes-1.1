@@ -13,7 +13,7 @@ const Page_Load = ({checkUserCreadentials}) => {
                axios.get(`${import.meta.env.VITE_BACKEND_URL}/access/token/refresh`,{
                  withCredentials : true
               }).then((res)=>{
-               //   console.log(res)
+                 console.log(res)
                setCreadentials(true)
                dispatch(setLoading(false))
                }).catch((err)=>{

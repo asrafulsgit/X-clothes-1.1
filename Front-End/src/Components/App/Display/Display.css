@@ -60,8 +60,7 @@
      font-family: var(--font-poppins);
    }
   .hero-slider-page .image {
- 
-     height: 90%;
+     height: 100%;
      margin-top: 5%;
      display: flex;
      justify-content: center;

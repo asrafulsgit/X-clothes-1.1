@@ -11,6 +11,7 @@
 
 .offer-page{
      background-color: var(--color-secondary-black);
+     /* background-color:rgba(0, 128, 0, 0.372); */
      height: 550px;
      width: 100%;
      /* border: 1px solid; */
@@ -27,7 +28,7 @@
 .offer-page .offer-image img{
      position: absolute;
      top: 0px;
-     right: 50px;
+     right: 15px;
      width: 600px;
 }
 .offer-page .offer-details{

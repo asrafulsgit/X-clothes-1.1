@@ -6,7 +6,7 @@ const Offer = () => {
   return (
     <div className='offer-page'>
           <div className="offer-image">
-               <img src={offer_image} alt="" />
+               <img src="https://i.ibb.co.com/8LBd1LGT/Capture-Photoroom.png" alt="offer-image" />
           </div>
           <div className="offer-details">
                <p className='header'>Limited Time Offers</p>

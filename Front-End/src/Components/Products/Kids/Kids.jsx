@@ -13,10 +13,10 @@ const Kids = () => {
   const { category } = useParams();
   const [message,setMessage]=useState(localStorage.getItem('message')|| 'Product Empty!')
   const [pageLoading, setPageLoading] = useState(true);
-  const [isModal, setIsModal] = useState(false);
-  const [modalInfo, setModalInfo] = useState({});
-  const [modalLoading, setModalLoading] = useState(true);
   const [kidsData, setKidsData] = useState([]);
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalInfo, setModalInfo] = useState({});
 
   useEffect(() => {
     const apiCaling = async () => {
@@ -45,14 +45,11 @@ const Kids = () => {
     };
     apiCaling();
   }, [category]);
-  const handleModal = (modal, product) => {
-    setIsModal(modal);
-    setModalInfo(product);
-    setModalLoading(false);
-  };
-  const clearCartModal = (value) => {
-    setIsModal(value);
-  };
+
+ const handleModal = (modal, product) => {
+          setIsModalOpen(modal);
+          setModalInfo(product);
+        };
 
   return (
     <>
@@ -78,13 +75,10 @@ const Kids = () => {
           )}
         </div>
       </div>
-      <div className={isModal ? "modal-open" : "add-to-cart-modal"}>
-        {!modalLoading && isModal ? (
-          <Modal product={modalInfo} clearCartModal={clearCartModal} />
-        ) : (
-          <p style={{ color: "white" }}>loading...</p>
-        )}
-      </div>
+      
+      {/* cart-modal */}
+      <Modal isOpen={isModalOpen} product={modalInfo} onClose={() => setIsModalOpen(false)} />
+
     </>
   );
 };
