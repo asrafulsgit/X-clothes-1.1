@@ -1,20 +1,22 @@
 import React, { useEffect, useState } from "react";
 import "./personalInfo.css";
 import { apiRequiestWithCredentials } from "../../../../utils/ApiCall";
+import Spinner from "../../../../utils/loading/Spinner";
+
 const PersonalInfo = () => {
   const [apiLoading, setApiLoading] = useState(true);
   const [imageLoading, setImageLoading] = useState(false);
   const [message, setMessage]= useState('')
   const [errorField,setErrorField]= useState('')
+
   const [personalInfo, setPersonalInfo] = useState({
     avatar : "",
     name: "",
     email: "",
     phone: "",
   });
-  
-  useEffect(() => {
-    const apiCalling = async () => {
+
+  const apiCalling = async () => {
       try {
         const data = await apiRequiestWithCredentials(
           "get",
@@ -24,14 +26,16 @@ const PersonalInfo = () => {
         setApiLoading(false);
       } catch (error) {
         console.log(error);
+        setApiLoading(false);
       }
-    };
+  };
+
+  useEffect(() => {
     apiCalling();
   }, []);
   
   const changeAvater = async(e) => {
     setImageLoading(true)
-    console.log(message)
     if(errorField === 'avatar'){
       setMessage('')
       setErrorField('')
@@ -58,12 +62,15 @@ const PersonalInfo = () => {
   const handleChange =()=>{
     
   }
+  if(apiLoading){
+    return <>
+     <div className="personal-info-section-loading">
+        <Spinner /> 
+      </div>
+    </>
+  }
   return (
     <div className="personal-info-section">
-      {apiLoading ? (
-        <p>Loading...</p>
-      ) : (
-        <>
           <div className="profile-image-field">
             <div className="profile-image">
               {imageLoading ? 
@@ -105,8 +112,6 @@ const PersonalInfo = () => {
           <div className="info-update-btn">
             <button>Save change</button>
           </div>
-        </>
-      )}
     </div>
   );
 };

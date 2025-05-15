@@ -198,48 +198,48 @@ const UpdateOrderStatus = async(req,res)=>{
 }
 
 const updateSalesEverySunday =async()=>{
-  // const session =await mongoose.startSession()
-  // try {
-  //   await session.startTransaction();
-  //   const orders = await Order.find({
-  //     orderStatus: 'Delivered',
-  //     isSales: false,
-  //   }).session(session);
+  const session =await mongoose.startSession()
+  try {
+    await session.startTransaction();
+    const orders = await Order.find({
+      orderStatus: 'Delivered',
+      isSales: false,
+    }).session(session);
 
-  //   if (!orders.length) {
-  //     await session.abortTransaction();
-  //     await session.endSession()
-  //     return console.log('✅ No eligible orders to process')
-  //   };
+    if (!orders.length) {
+      await session.abortTransaction();
+      await session.endSession()
+      return console.log('No eligible orders to process')
+    };
    
-  //   const salesDocs = orders.map(order => ({
-  //     insertOne: {
-  //       document: {
-  //         orderId: order._id,
-  //         salesDate:  order.updatedAt,
-  //         items: order.items.map(item => ({
-  //           productId: item.product,
-  //           quantitySold: item.quantity
-  //         }))
-  //       }
-  //     }
-  //   })); 
-  //   const orderUpdates = orders.map(order => ({
-  //     updateOne: {
-  //       filter: { _id: order._id },
-  //       update: { $set: { isSales: true } }
-  //     } 
-  //   }));
-  //   await Sales.bulkWrite(salesDocs, { session });
-  //   await Order.bulkWrite(orderUpdates, { session });
-  //   await session.commitTransaction();
-  //   session.endSession()
-  // } catch (error) {
-  //     await  session.abortTransaction();
-  //     session.endSession()
-  //     console.error(error);
-  //     throw error;
-  // }
+    const salesDocs = orders.map(order => ({
+      insertOne: {
+        document: {
+          orderId: order._id,
+          salesDate:  order.updatedAt,
+          items: order.items.map(item => ({
+            productId: item.product,
+            quantitySold: item.quantity
+          }))
+        }
+      }
+    })); 
+    const orderUpdates = orders.map(order => ({
+      updateOne: {
+        filter: { _id: order._id },
+        update: { $set: { isSales: true } }
+      } 
+    }));
+    await Sales.bulkWrite(salesDocs, { session });
+    await Order.bulkWrite(orderUpdates, { session });
+    await session.commitTransaction();
+    session.endSession()
+  } catch (error) {
+      await  session.abortTransaction();
+      session.endSession()
+      console.error(error);
+      throw error;
+  }
 }
 // updateSalesEverySunday()
 const highestOrderProduct =()=>{

@@ -5,9 +5,7 @@ import AddAddress from './AddAddress'
 import UpdateAddress from './UpdateAddress'
 const Address = () => {
   const [addresses,setAddresses]=useState([])
-
-  useEffect(()=>{
-    const apiCalling =async()=>{
+const apiCalling =async()=>{
       try {
       const data =  await apiRequiestWithCredentials('get','/user-addresses')
        setAddresses(data.addresses)
@@ -15,11 +13,11 @@ const Address = () => {
       console.log(error)
       }
     }
+  useEffect(()=>{
     apiCalling()
   },[])
 
   const newAddress=(address)=>{
-    console.log(address)
     setAddresses([...addresses,address])
   }
 

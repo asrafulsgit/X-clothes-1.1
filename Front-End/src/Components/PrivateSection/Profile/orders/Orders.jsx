@@ -3,6 +3,7 @@ import './orders.css'
 import { apiRequiestWithCredentials } from '../../../../utils/ApiCall';
 import CancelOrderModal from './CancelOrderModal';
 import NoPaidOrders from './NoPaidOrders';
+import Spinner from '../../../../utils/loading/Spinner';
 const Orders = () => {
   const [pageLoading,setPageLoading]=useState(true)
   const [message,setMessage]=useState('')
@@ -38,8 +39,13 @@ const Orders = () => {
     setOrders(changesOrders)
     setIsModalOpen(false)
   }
+  
   if(pageLoading){
-    return ( <h1>loading...</h1> )
+    return <>
+     <div className="personal-info-section-loading">
+        <Spinner /> 
+      </div>
+    </>
   }
   return (
     <>
