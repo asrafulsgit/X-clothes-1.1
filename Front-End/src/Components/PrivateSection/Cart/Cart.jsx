@@ -10,6 +10,7 @@ import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setIsCheckout } from "../../../utils/Controllers/UserSlice";
 import Loading from "../../../utils/loading/Loading";
+import Spinner from "../../../utils/loading/Spinner";
 
 const Cart = () => {
   const dispatch = useDispatch()
@@ -32,24 +33,27 @@ const Cart = () => {
     };
     apiCalling();
   }, []);
+
   useEffect(()=>{
     const calculateTotalItems = carts.reduce((acc,item)=> acc + item.quantity ,0)
     setTotalItems(calculateTotalItems)
     const calculateTotalAmount = carts.reduce((acc,item)=> acc + (item.quantity * item.productId.price),0)
     setTotalAmount(calculateTotalAmount)
   },[carts])
+
   const handleDelete = async (productId) => {
     setLoading(true);
     const filteredCarts = carts.filter((item) => item.productId._id !== productId);
-    setCarts(filteredCarts);
     try {
       await apiRequiestWithCredentials(
         "delete",
         `/remove-cart-item/${productId}`
       );
-    setLoading(false)
+      setCarts(filteredCarts);
+      setLoading(false)
     } catch (error) {
       console.log(error);
+      setLoading(false)
     }
   };
 
@@ -93,8 +97,10 @@ const Cart = () => {
     <div className="cart-page">
       <Header param={"/cart"} name={"Cart"} header={"Shoping Cart"} />
       <div className="cart-main">
-        {!loading && (carts?.length <= 0 || !carts) ? (
-          <p className="empty-message">{message}</p>
+        {loading ? <p className="cart-spinner">
+          <Spinner />
+        </p> : (carts?.length <= 0 || !carts) ? (
+          <p className="empty-message">Cart is Empty</p>
         ) : (
           <div className="cart-body">
             <div className="cart-table">

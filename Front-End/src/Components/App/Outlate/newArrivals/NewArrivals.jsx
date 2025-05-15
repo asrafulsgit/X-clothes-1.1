@@ -2,10 +2,12 @@ import { useEffect, useState } from "react";
 import Modal from "../../../Products/Modal";
 import Card from "../../../Products/Card";
 import { apiRequiest } from "../../../../utils/ApiCall";
+import Spinner from "../../../../utils/loading/Spinner";
 
 const NewArrivals = () => {
      const [message, setMessage]= useState('')
      const [products,setProducts]= useState([])
+     const [loading,setLoading] = useState(true)
      const [isModalOpen, setIsModalOpen] = useState(false);
      const [modalInfo, setModalInfo] = useState({});
      const bestSalesProducts = async()=>{
@@ -16,6 +18,7 @@ const NewArrivals = () => {
                console.log(error)
                setProducts([])
           }finally{
+               setLoading(false)
           }
      }
      useEffect(()=>{
@@ -31,8 +34,10 @@ const NewArrivals = () => {
      return (
      <>
      <div className="best-seller-page">
-           {( !products || !products.length ) ? <p>no data found</p>
-              : products.map((item,index) => {
+           {loading ?  <p className="outlate-spinner">
+                          <Spinner />
+                      </p> : ( !products || !products.length ) ? <p>no data found</p>
+              :<div className="outlate-products"> {products.map((item,index) => {
                   return (
                     <Card
                       key={index}
@@ -40,7 +45,9 @@ const NewArrivals = () => {
                       handleModal={handleModal}
                     />
                   );
-                })}   
+                })}
+               </div>
+          }   
      </div>
      <Modal isOpen={isModalOpen} product={modalInfo} onClose={() => setIsModalOpen(false)} />
      </> 

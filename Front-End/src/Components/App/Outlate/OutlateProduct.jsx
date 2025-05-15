@@ -25,7 +25,7 @@ const OutlateProduct = memo(() => {
          name : 'New Arrivals',
          value : 'new-arrivals'
     }
-]
+     ]
 
 
   return (
@@ -40,11 +40,12 @@ const OutlateProduct = memo(() => {
                })
               }
         </div>
+        <div >
         {
           activeProduct === 'popular' ? <Popular /> :
           activeProduct === 'new-arrivals' ? <NewArrivals /> : 
           <BestSellers /> 
-        }
+        }</div>
     </div>
     </>
   );

@@ -10,21 +10,19 @@ import socket from '../../../socket'
 import { setCarts,setFavorites} from '../../../utils/Controllers/UserSlice'
 import { navLinksData } from '../../../allProductDetails/ProductCategories'
 
-const Nav =({navBgSetWithModal}) => {
+const Nav =() => {
   const dispatch = useDispatch();
   const {isLoggedIn,carts,favorites} = useSelector(state => state.authInfo)
   // nav settings
   const [navbg, setNavbg]= useState(false)
   const [subNav,setSubNav]=useState(false)
   useEffect(()=>{
-      setNavbg(navBgSetWithModal);
       window.addEventListener('scroll', ()=>{
-        window.scrollY > 50 ? setNavbg(true) : setNavbg(false);
+        window.scrollY > 10 ? setNavbg(true) : setNavbg(false);
       })
       socket.on('carts',(data)=> dispatch(setCarts(data)))
       socket.on('favourites',(data)=> dispatch(setFavorites(data)))
-
-  },[navBgSetWithModal])
+  },[])
   
   const [hover,setHover] = useState('')
   const handleMouseHover =(hoverItem)=>{

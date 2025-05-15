@@ -1,17 +1,14 @@
 import React, { useEffect, useState } from 'react'
-
 import './Favourite.css'
-import Nav from '../../App/Nav/Nav';
-import Footer from '../../App/Footer/Footer';
 import { apiRequiestWithCredentials } from '../../../utils/ApiCall';
 import Header from '../../Products/header/Header';
 import ExtraFooter from '../../App/Footer/ExtraFooter';
-import Loading from '../../../utils/loading/Loading';
-
+import Spinner from '../../../utils/loading/Spinner'
 const Favourite = () => {
    const [favorites,setFavorites]=useState([])
    const [message,setMessage]=useState('Your cart is empty!')
    const [loading,setLoading]=useState(true)
+
     useEffect(()=>{
       const apiCalling =async()=>{
             try {
@@ -25,15 +22,20 @@ const Favourite = () => {
         }
         apiCalling()
     },[])
+
     const handleDelete=async(id)=>{
       setLoading(true)
       const filteredFavorites = favorites.filter(item => item.productId._id !== id)
       try {
         await apiRequiestWithCredentials('delete',`/remove-from-favourite/${id}`);
-        setFavorites(filteredFavorites)
+         const favorites = JSON.parse(localStorage.getItem('favorites'));
+          const updatedFavorites = favorites.filter((item) => item !== id);
+          localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
+          setFavorites(filteredFavorites || []);
         setLoading(false)
       } catch (error) {
         console.log(error)
+         setLoading(false)
       }
 
     }
@@ -43,9 +45,11 @@ const Favourite = () => {
         <Header param={'/favourite'} name={'Favorites'} header={'Favorites'} />
         <div className="cart-main">
         {loading ? (
-          <p className="empty-message">loading...</p>
+          <p className="favorite-page-spinner">
+            <Spinner />
+          </p>
         ) : (favorites?.length <= 0 || !favorites) ? (
-          <p className="empty-message">{message}</p>
+          <p className="empty-message"> Cart is Empty</p>
         ) : (
           <div className="favorite-cart-table">
             <table>

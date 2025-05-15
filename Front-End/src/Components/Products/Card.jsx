@@ -2,17 +2,18 @@ import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import { apiRequiestWithCredentials } from '../../utils/ApiCall';
 import { useSelector } from 'react-redux';
+import Spinner from '../../utils/loading/Spinner';
 
 const Card = ({ item,handleModal }) => {
      const { _id, brand, price, images } = item; 
-     const isLoggedIn=useSelector(state=> state.authInfo.isLoggedIn)
+     const isLoggedIn = useSelector(state=> state.authInfo.isLoggedIn)
      const navigate = useNavigate()
      const [favorites, setFavorites] = useState(
        JSON.parse(localStorage.getItem('favorites')) || []
       );
       const [isFavorite, setIsFavorite] = useState(favorites.includes(_id));
       const [favoriteLoading, setFavoriteLoading] = useState(false);
-    
+       
       // Add product to favorites
       const addFavorite =async (id) => {
         setFavoriteLoading(true);
@@ -64,15 +65,10 @@ const Card = ({ item,handleModal }) => {
            <button onClick={() => {
               {
                 !isLoggedIn ? unAuthUser() : 
-                (isLoggedIn && isFavorite ) ? deleteFavorite(_id) : 
-                (isLoggedIn && !isFavorite ) ? addFavorite(_id) : ''}
+                isFavorite  ? deleteFavorite(_id) : addFavorite(_id) }
            }} className='add-to-favourite-btn'>
              {favoriteLoading ? (
-               <div className="loadingio-spinner-rolling-nq4q5u6dq7r">
-                 <div className="ldio-x2uulkbinbj favorite-spinner">
-                   <div></div>
-                 </div>
-               </div>
+               <Spinner />
              ) : (
                <i className={`fa-${isFavorite ? 'solid' : 'regular'} fa-heart`}></i>
              )}

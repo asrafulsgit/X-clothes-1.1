@@ -10,12 +10,22 @@
 }
 
 .best-seller-page{
-     padding: 4rem 0;
+     padding: 3rem 0 2rem 0;
+}
+.best-seller-page .outlate-products{
+     width: 100%;
+     display: grid;
+     grid-template-columns: auto auto auto auto auto auto;
+     justify-content:  space-evenly;
+     align-items: center;
+}
+.best-seller-page .outlate-spinner{
+     min-height: 262px;
+     width: 100%;
      display: flex;
      justify-content: center;
      align-items: center;
-     gap: 3rem;
-     flex-wrap: wrap;
+     /* border: 1px solid; */
 }
 
 

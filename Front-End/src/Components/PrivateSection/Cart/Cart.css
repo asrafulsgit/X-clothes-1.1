@@ -218,7 +218,14 @@
 
 
 
-
+.cart-page .cart-spinner{
+     width: 100%;
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     min-height: 150px;
+     /* border: 1px solid; */
+}
 .cart-page .empty-message{
      text-align: center;
      font-family: var(--display-font-OpenSans);

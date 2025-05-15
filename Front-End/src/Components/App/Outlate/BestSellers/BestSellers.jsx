@@ -6,11 +6,13 @@ import Modal from '../../../Products/Modal'
 import './BestSellers.css'
 import OutlateProduct from '../OutlateProduct'
 import { apiRequiest } from '../../../../utils/ApiCall';
+import Spinner from '../../../../utils/loading/Spinner';
 
 
 const BestSellers = () => {
      const [message, setMessage]= useState('')
      const [products,setProducts]= useState([])
+     const [loading,setLoading] = useState(true)
      const [isModalOpen, setIsModalOpen] = useState(false);
      const [modalInfo, setModalInfo] = useState({});
      const bestSalesProducts = async()=>{
@@ -22,6 +24,7 @@ const BestSellers = () => {
                console.log(error)
                setProducts([])
           }finally{
+               setLoading(false)
           }
      }
 
@@ -38,8 +41,12 @@ const BestSellers = () => {
      return (
      <>
      <div className="best-seller-page">
-           {( !products || !products.length ) ? <p>no data found</p>
-              : products.map((item) => {
+           {loading ? 
+           <p className="outlate-spinner">
+                    <Spinner />
+          </p> : ( !products || !products.length ) ? <p>no data found</p>
+              : <div className="outlate-products">
+               {products.map((item) => {
                   return (
                     <Card
                       key={uuidv4()}
@@ -47,7 +54,8 @@ const BestSellers = () => {
                       handleModal={handleModal}
                     />
                   );
-                })}   
+                })}
+              </div> }   
      </div>
      <Modal isOpen={isModalOpen} product={modalInfo} onClose={() => setIsModalOpen(false)} />
      </> 
