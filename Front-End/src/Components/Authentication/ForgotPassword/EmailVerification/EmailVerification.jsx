@@ -1,9 +1,6 @@
 import React, { useState } from 'react'
 import axios from 'axios'
 import './EmailVerification.css'
-
-import Nav from '../../../App/Nav/Nav'
-import Footer from '../../../App/Footer/Footer'
 import { useDispatch, useSelector } from 'react-redux'
 import { apiRequiest } from "../../../../utils/ApiCall";
 
@@ -38,25 +35,18 @@ const EmailVerification = () => {
                console.log(error)
                setMessage(error.response?.data?.errors[0].message)
           }
-               // axios.post('http://localhost:8000/forgot-password-email-verification',verificationInfo)
-               // .then((res)=>{
-               //      dispatch(setEmailVerificationCode(verificationInfo.code))
-               //      dispatch(setIsReadyForResetPassword(true))
-               //      navigate('/reset-password')
-               // }).catch((err)=>{
-               //      setMessage(err.response.data.message)
-               // })
           
      }
-     const handleResend =()=>{
+     const handleResend =async()=>{
           setIsLoading(true)
-          axios.post('http://localhost:8000/forgot-password-email',{email})
-          .then((res)=>{
+          try {
+               await apiRequiest('post','/forgot-password-email',{email})
                setIsLoading(false)
-               setMessage(res.data.message)
-          }).catch((err)=>{
-               setMessage(err.response.data.message)
-          })
+               setMessage(res.data?.message)
+          } catch (error) {
+               console.log(error)
+               setMessage(err.response?.data?.message)
+          }
      }  
   return (
     <div className='email-verification-page'>
@@ -67,12 +57,17 @@ const EmailVerification = () => {
                <form onSubmit={handleSubmit}>
                     <div className='email-verficaton-code'>
                          <label htmlFor="number">Verification Code</label>
-                         <input type="number" name="code"  
-                         id="number" onChange={handleChange} required/>
+                         <input 
+                         type="number" name="code"  
+                         id="number" 
+                         onChange={handleChange}
+                          required
+                          placeholder='1235..'
+                         />
                          <p className='message'>{message}</p>
                     </div>
                     <div className='email-verification-btns'>
-                         <button type='button' onClick={handleResend}  className='email-verficaton-resend-btn'>{isloading ? 'Sending...' : 'Re-send'}</button>
+                         <button type='button' onClick={handleResend}  className='email-verficaton-resend-btn'>{isloading ? 'Sending...' : 'Resend'}</button>
                          <button type='submit' className='email-verficaton-btn'>Forgot Password</button>
                     </div>
                </form>

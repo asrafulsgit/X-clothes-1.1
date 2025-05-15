@@ -51,11 +51,18 @@ return (
                <form onSubmit={handleSubmit}>
                     <div className='reset-password'>
                          <label htmlFor="password">New Password</label>
-                         <input type="password" name="password" onChange={handleChange} id="password" />
+                         <input type="password" 
+                         name="password" 
+                         onChange={handleChange} id="password" required
+     
+                         />
                     </div>
                     <div className='reset-password'>
-                         <label htmlFor="password">Re-type Password</label>
-                         <input type="password" name="rePassword" onChange={handleChange} id="rePassword" />
+                         <label htmlFor="password">Confirm Password</label>
+                         <input type="password" 
+                         name="rePassword" onChange={handleChange} 
+                         id="rePassword" required 
+                       />
                          <p className='message'>{message}</p>
                     </div>
                     <button type='submit' className='reset-password-btn'>Forgot Password</button>

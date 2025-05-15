@@ -55,6 +55,7 @@ const Login = () => {
               name="email"
               onChange={handleChange}
               required
+              placeholder="example@gmail.com"
             />
             <p className="message">{errorField === "email" && message}</p>
           </div>
@@ -68,6 +69,7 @@ const Login = () => {
                 onChange={handleChange}
                 required
                 autoComplete="off"
+                placeholder="hfdAfd125.."
               />
               {user.password.length > 0 && (
                 <button

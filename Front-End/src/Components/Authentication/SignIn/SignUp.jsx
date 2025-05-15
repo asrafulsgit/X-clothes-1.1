@@ -51,6 +51,7 @@ const SignUp = () => {
               onChange={handleChange}
               value={user.name}
               required
+              placeholder="Asraful"
             />
             {errorField === "name" && <p className="message"> {message} </p>}
           </div>
@@ -63,6 +64,7 @@ const SignUp = () => {
               onChange={handleChange}
               value={user.email}
               required
+              placeholder="example@gmail.com"
             />
             <p className="message">{errorField === "email" && message}</p>
           </div>
