@@ -9,14 +9,18 @@ import Modal from "../Modal";
 import { categoryCheck, subCategory } from "../../../utils/categoryCheck";
 import {apiRequiest} from "../../../utils/ApiCall";
 import Header from "../header/Header";
+import Page_loading from "../../../utils/loading/Page_loading";
 
 const Men = () => {
   const { category } = useParams();
-  const [message,setMessage]=useState(localStorage.getItem('message')|| 'Product Empty!')
+  const [message,setMessage]=useState('')
+  
   const [pageLoading, setPageLoading] = useState(true);
   const [mensData, setMensData] = useState([]);
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalInfo, setModalInfo] = useState({});
+
   const apiCaling = async () => {
     try {
       if (subCategory(category)) {
@@ -38,7 +42,10 @@ const Men = () => {
         setPageLoading(false)
       }
     } catch (error) {
-      console.log(error);
+     setMensData([])
+
+      setMessage(error.data?.message || 'This Product is not available for now!')
+     setPageLoading(false)  
     }
   };
   useEffect(() => {
@@ -49,18 +56,18 @@ const Men = () => {
         setIsModalOpen(modal);
         setModalInfo(product);
       };
- 
+  if (pageLoading) {
+    return <> <Page_loading /> </>
+  }
   return (
     <>
-      <div className="mens-page">
+      <div className="womens-page">
         <Header param={'/men/101120'} name={`Men's`} header={`Men's Shop`} />
 
-        <div className="mens-section">
-          {pageLoading ? (
-            <p style={{ textAlign: "center" }}>Loaging...</p>
-          ) : (
-            <div className="mens-shop">
-              {!pageLoading && (mensData?.length <= 0 || !mensData) ? <p>{message}</p>
+        <div className="womens-section">
+            <div className="womens-shop">
+              { (!mensData || mensData?.length <= 0  ) ? 
+              <p className="message">{message}</p>
               : mensData.map((item) => {
                   return (
                     <Card
@@ -71,7 +78,6 @@ const Men = () => {
                   );
                 })}
             </div>
-          )}
         </div>
       </div>
       

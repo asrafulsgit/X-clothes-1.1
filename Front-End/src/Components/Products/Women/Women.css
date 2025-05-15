@@ -2,12 +2,18 @@
      --color-1: #0487E2;
      --color-2: #0463CA;
      --color-3: #09B1EC;
-     --font-family:"Afacad Flux", sans-serif;
-} 
+     --color-4: #D91656;
+     --display-font-Montserrat :"Montserrat", sans-serif;
+     --display-font-OpenSans : "Open Sans", sans-serif;
+     --font-family-AfacadFlux:"Afacad Flux", sans-serif;
+     --font-family2-Poppins :"Poppins", sans-serif;
+}
+
 .womens-page{
      display: flex;
      flex-direction: column;
      gap: 1.5rem;
+     font-family: var(--font-family2-Poppins);
 }
 .womens-page .womens-banner{
      margin-top: 3.5rem;
@@ -16,6 +22,9 @@
 .womens-page .womens-banner img{
      width: 100%;
      object-fit: cover;
+}
+.womens-page .message{
+     color: var(--color-4);
 }
 .womens-page .womens-section{
      padding: 0 2rem 2rem 2rem;

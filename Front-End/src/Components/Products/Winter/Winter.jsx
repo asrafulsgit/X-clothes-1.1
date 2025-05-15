@@ -7,10 +7,11 @@ import Modal from "../Modal";
 import { categoryCheck, subCategory } from "../../../utils/categoryCheck";
 import {apiRequiest} from "../../../utils/ApiCall";
 import Header from "../header/Header";
+import Page_loading from "../../../utils/loading/Page_loading";
 
 const Winter = () => {
   const { category } = useParams();
-    const [message,setMessage]=useState(localStorage.getItem('message')|| 'Product Empty!')
+  const [message,setMessage]=useState('')
   
   const [winterData, setWinterData] = useState([]);
   const [pageLoading, setPageLoading] = useState(true);
@@ -18,8 +19,7 @@ const Winter = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalInfo, setModalInfo] = useState({});
 
-  useEffect(() => { 
-    const apiCaling = async () => {
+  const apiCaling = async () => {
       try {
         if (subCategory(category)) {
           const data = await apiRequiest(
@@ -35,14 +35,16 @@ const Winter = () => {
           });
           setWinterData(data?.products);
           setPageLoading(false)
-        } else {
-          setWinterData([]);
-          setPageLoading(false)
-        }
+        } 
       } catch (error) {
         console.log(error);
+        setWinterData([])
+        setMessage(error.data?.message || 'This Product is not available for now!')
+        setPageLoading(false)
       }
     };
+
+  useEffect(() => { 
     apiCaling();
   }, [category]);
 
@@ -51,17 +53,17 @@ const handleModal = (modal, product) => {
           setIsModalOpen(modal);
           setModalInfo(product);
         };
+        if (pageLoading) {
+          return <> <Page_loading /> </>
+        }
   return (
     <>
       <div className="womens-page">
         <Header  param={'/winter/12233342'} name={'Winter'} header={'Winter Shop'}/>
         <div className="womens-section">
-            {pageLoading ? (
-              <p style={{ textAlign: "center" }}>Loaging...</p>
-            ) : (
               <div className="womens-shop">
-                {!pageLoading && (winterData?.length <= 0 || !winterData) ? (
-                  <p>{message}</p>
+                { ( !winterData || winterData?.length <= 0 ) ? (
+                  <p className="message">{message}</p>
                 ): winterData.map((item) => {
                     return (
                       <Card
@@ -72,7 +74,6 @@ const handleModal = (modal, product) => {
                     );
                   })}
               </div>
-            )}
         </div>
       </div>
 

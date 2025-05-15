@@ -42,9 +42,9 @@ const BestSellers = () => {
      <>
      <div className="best-seller-page">
            {loading ? 
-           <p className="outlate-spinner">
+           <div className="outlate-spinner">
                     <Spinner />
-          </p> : ( !products || !products.length ) ? <p>no data found</p>
+          </div> : ( !products || !products.length ) ? <p>no data found</p>
               : <div className="outlate-products">
                {products.map((item) => {
                   return (

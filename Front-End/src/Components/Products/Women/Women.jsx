@@ -11,10 +11,12 @@ import Modal from '../Modal';
 
 import {apiRequiest} from '../../../utils/ApiCall';
 import Header from '../header/Header';
+import Loading from '../../../utils/loading/Loading';
+import Page_loading from '../../../utils/loading/Page_loading';
 
 const Women =() => {
   const {category}= useParams()
-  const [message,setMessage]=useState(localStorage.getItem('message')|| 'Product Empty!')
+  const [message,setMessage]=useState('')
   const [pageLoading,setPageLoading] = useState(true)
   const [womensData,setWomensData]= useState([])
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -30,16 +32,14 @@ const Women =() => {
           const data = await apiRequiest('post',`/get-product-by-categoris`,{categories : ['201230']}) 
           setWomensData(data?.products)
           setPageLoading(false)
-        }else{
-          setWomensData([])
-          setPageLoading(false)
         }
       } catch (error) {
-        console.log(error)
         setWomensData([])
+        setMessage(error.data?.message || 'This Product is not available for now!')
         setPageLoading(false)
       }
   } 
+  
   useEffect(()=>{
     apiCaling()
   },[category])
@@ -48,18 +48,20 @@ const Women =() => {
           setIsModalOpen(modal);
           setModalInfo(product);
         };
+        if (pageLoading) {
+          return <> <Page_loading /> </>
+        }
   return (
     <>
       <div className='womens-page'>
       <Header  param={'/women/201230'} name={`Women's`} header={`Women's Shop`}/>
       <div className="womens-section">
-          {pageLoading ? <p style={{textAlign : 'center'}}>Loaging...</p>
-          : <div className='womens-shop'>
-              {!pageLoading && (womensData?.length <= 0 || !womensData) ? <p>{message}</p>
+        <div className='womens-shop'>
+              {(!womensData || womensData?.length <= 0  ) ? <p className='message'>{message}</p>
               :  womensData.map((item)=>{
                 return <Card key={uuidv4()} item={item} handleModal={handleModal}/>
               })}
-          </div>}
+          </div>
       </div>
       </div>
 
