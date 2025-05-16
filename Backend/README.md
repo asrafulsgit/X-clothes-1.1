@@ -35,7 +35,7 @@ This document outlines the essential topics and features required to build a **p
 - Soft Deletes and Versioning (optional) ❌ 
 
 ## 6. Cart , favorite & Checkout System
-- Persistent Cart across sessions/devices  ❌
+- Persistent Cart or favorite across sessions/devices  ✅
 - Support for Discount Codes & Coupons  ✅
 - Address Book Management (Shipping/Billing)  ✅
 - Order Summary Preview  ✅
