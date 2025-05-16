@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Line } from "react-chartjs-2";
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from "chart.js";
 
 import './sales.css'
 import Circle_chart from "./Circle_chart";
+import { apiRequiestWithCredentials } from "../../../../utils/ApiCall";
+import { useState } from "react";
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
@@ -50,7 +52,38 @@ const options = {
   },
 };
 
+
+
+
 const Sales = () => {
+    const [year,setYear] = useState(new Date().getFullYear())
+    const [month,setMonth] = useState(new Date().getMonth())
+    const [salesDetials,setSalesDestails]=useState({totalSales : 0,totalExpenses : 0,totalProfit: 0})
+    const monthNames = [
+      "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+      "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+    ];
+
+    console.log(salesDetials)
+  const getSalesExpensesProfit = async()=>{
+
+    try {
+     const data = await apiRequiestWithCredentials('get',`/admin/sales/expenses/profit/${year}/${month}`)
+       setSalesDestails((prev)=>({
+        ...prev,
+        totalExpenses : data?.totalExpenses,
+        totalSales : data?.totalSales,
+        totalProfit : data?.totalProfit,
+      }))
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  useEffect(()=>{
+    getSalesExpensesProfit()
+  },[])
+
+
   return (
 //   <div>
 //     <Line data={data} options={options} />
@@ -62,28 +95,28 @@ const Sales = () => {
           <div className="summary-card">
           <div className="summary-title">
                     <p>Sales</p>
-                    <p>Mar - Apr</p>
+                    <p>{monthNames[month]} - {monthNames[month+1]}</p>
                </div>
-               <h3 className="summary-value">BDT 3425</h3>
-               <hr class="dark horizontal my-0"></hr>
+               <h3 className="summary-value">BDT {salesDetials.totalSales}</h3>
+               <hr className="dark horizontal my-0"></hr>
                <p className="summary-label"><span className="increment">+55%</span> than last month</p>
           </div>
           <div className="summary-card">
                <div className="summary-title">
                     <p>Expenses</p>
-                    <p>Mar - Apr</p>
+                    <p>{monthNames[month]} - {monthNames[month+1]}</p>
                </div>
-               <h3 className="summary-value">BDT 3000</h3>
-               <hr class="dark horizontal my-0"></hr>
+               <h3 className="summary-value">BDT {salesDetials.totalExpenses}</h3>
+               <hr className="dark horizontal my-0"></hr>
                <p className="summary-label"><span className="increment">+20%</span> than last month</p>
           </div>
           <div className="summary-card">
           <div className="summary-title">
                     <p>Profit</p>
-                    <p>Mar - Apr</p>
+                    <p>{monthNames[month]} - {monthNames[month+1]}</p>
                </div>
-               <h3 className="summary-value">BDT 2,910</h3>
-               <hr class="dark horizontal my-0"></hr>
+               <h3 className="summary-value">BDT {salesDetials.totalProfit}</h3>
+               <hr className="dark horizontal my-0"></hr>
                <p className="summary-label">Just updated</p>
           </div>
           </div>

@@ -47,7 +47,7 @@ const Analytics = () => {
   return (
      <>
      {/* <Nav /> */}
-     <div className="analytics-container">
+     {/* <div className="analytics-container">
           <div className="analytics-summary">
           <div className="summary-card">
                <p className="summary-title">Order</p>
@@ -92,7 +92,7 @@ const Analytics = () => {
           </div>
           </div>
           
-     </div>
+     </div> */}
     </>
   );
 };

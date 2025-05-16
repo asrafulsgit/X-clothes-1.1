@@ -76,8 +76,8 @@
      width: 100%;
      cursor: pointer;
 }
-.add-expenses-page .image-err-message{
-     color: red;
-     font-family: var(--font-family2);
-     font-size: 0.9rem;
+.add-expenses-page .expenses-message{
+     color:  var(--color-4);
+     font-family: var(--font-family-Poppins);
+     font-size: 1.2rem;
 }

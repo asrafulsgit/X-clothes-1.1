@@ -1,4 +1,5 @@
 const Favorite = require("../Models/addToFavourite.model")
+const Expenses = require("../Models/expenses.model")
 const Product = require("../Models/products.model")
 const Sales = require("../Models/sales.model")
 
@@ -90,6 +91,62 @@ const pupulerProducts =async(req,res)=>{
 }
 
 
+const calculateSalesExpensesProfit =async(req, res)=>{
+   try {
+    const { year, month } = req.params;
+    const startDate = new Date(`${year}-${Number(month)+1}-01`);
+    const endDate = new Date(startDate);
+    endDate.setMonth(endDate.getMonth() + 1);
+
+
+  const calculateExpenses = await Expenses.aggregate([
+      {
+        $match : {
+            date : {$gte : startDate, $lt : endDate}
+        }
+      },
+      {$group : {
+          _id : null,
+          totalExpenses : {$sum : '$amount'} ,
+          count : {$sum : 1}
+      }}
+  ])
+  const calculateSales = await Sales.aggregate([
+    {$match : {
+      salesDate : {$gte : startDate, $lt : endDate}
+    }},
+    {$lookup :{
+       from : 'orders',
+       foreignField : '_id',
+       localField : 'orderId',
+       as : 'order'
+    }},
+    {$unwind : '$order'},
+    {
+    $group: {
+      _id: null,
+      totalSales: { $sum: '$order.total' },
+      count : {$sum : 1}
+    }
+  }
+    
+  ]) 
+  const totalExpenses = calculateExpenses[0].totalExpenses;
+  const totalSales = calculateSales[0].totalSales;
+  const totalProfit = totalSales - totalExpenses;
+  return res.status(200).send({
+    success : true,
+    totalExpenses,
+    totalSales,
+    totalProfit,
+    startMonth : Number(month),
+    endMoth : Number(month) + 1
+  })
+   } catch (error) {
+    return res.status(500).send({ success: false, message: "Something broke!" });
+   }
+}
+
 
 // const hello =async()=>{
 //   const products = await Sales.aggregate([
@@ -121,5 +178,6 @@ const pupulerProducts =async(req,res)=>{
 
 module.exports={
     bestSalesProducts,
-    pupulerProducts
+    pupulerProducts,
+    calculateSalesExpensesProfit
 }

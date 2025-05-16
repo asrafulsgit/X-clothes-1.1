@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import './expenses.css'
+import { apiRequiestWithCredentials } from "../../../utils/ApiCall";
 const Expenses = () => {
   const [message, setMessage] = useState("");
   const expensesDetails = {
@@ -12,8 +13,19 @@ const Expenses = () => {
       const {name,value}=e.target;
       setExpenses({...expenses,[name] : value})
   };
-  const handleSubmitExpenses = () => {
-   
+  const handleSubmitExpenses = async(e) => {
+   e.preventDefault()
+   try {
+        const data = await  apiRequiestWithCredentials('post','/admin/add-expenses',{expenses})
+        setMessage(data.message) 
+        setExpenses(expensesDetails)
+        setTimeout(() => {
+             setMessage('')
+        }, 2000);
+    } catch (error) {
+     console.log(error)
+     setMessage(error.response?.data?.message)
+   }
   };
   const expensesTypes = [
       "product_cost",
@@ -29,7 +41,7 @@ const Expenses = () => {
     ];
   return (
     <div className="add-expenses-page">
-        <h1 className="product-added-message">{message}</h1>
+        <h1 className="expenses-message">{message && message}</h1>
         <form
           onSubmit={handleSubmitExpenses}
           method="post"
