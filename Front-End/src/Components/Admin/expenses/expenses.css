@@ -1,0 +1,83 @@
+
+:root {
+     --color-1: #0487E2;
+     --color-2: #0463CA;
+     --color-3: #09B1EC;
+     --color-4: #D91656;
+     --display-font-Montserrat :"Montserrat", sans-serif;
+     --display-font-OpenSans : "Open Sans", sans-serif;
+     --font-family-AfacadFlux:"Afacad Flux", sans-serif;
+     --font-family-Poppins :"Poppins", sans-serif;
+     --display-font-section-header : "Courgette", cursive;
+}
+.add-expenses-page{
+     height: 85vh;
+     width: 100%;
+     margin-top: 4rem;
+     display: flex;
+     flex-direction: column;
+     gap: 1rem;
+     /* justify-content: center; */
+     align-items: center;
+}
+.add-expenses-page .product-added-message{
+     color: var(--color-2);
+     font-family: var(--font-family2);
+     font-size: 1.1rem;
+}
+
+.add-expenses-page form{
+     display: flex;
+     flex-direction: column;
+     gap: 0.5rem;
+     justify-content: center;
+     align-items: center;
+     border: 1px solid rgba(0, 0, 0, 0.055);
+     border-radius: 5px;
+     padding: 1rem 1.5rem;
+     width: 80%;
+}
+
+.add-expenses-page form .form-item{
+     display: flex;
+     flex-direction: column;
+     gap: 0.2rem;
+     width: 100%;
+}
+.add-expenses-page form .form-item label{
+     font-family:var(--font-family-Poppins);
+     opacity: 0.7;
+}
+
+.add-expenses-page form textarea{
+        resize: none;
+}
+.add-expenses-page form input,select,textarea{
+     border: 1px solid #d916574c;
+     /* border-radius: 3px; */
+     font-family: var(--font-family2);
+     font-size: 0.9rem;
+     outline: none;
+     padding: 0.3rem;
+     /* width: 100%; */
+     font-weight: 400;
+     background-color: rgba(255, 255, 255, 0.09);
+}
+
+.add-expenses-page form .product-add-btn{
+     font-size: 1rem;
+     margin-top: 1rem;
+     border: none;
+     font-family: var(--font-family-Poppins);
+     background-color: var(--color-4);
+     color: white;
+     font-weight: 400;
+     padding: 0.3rem 0;
+     width: 100%;
+     cursor: pointer;
+}
+.add-expenses-page .image-err-message{
+     color: red;
+     font-family: var(--font-family2);
+     font-size: 0.9rem;
+}

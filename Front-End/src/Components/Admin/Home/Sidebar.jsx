@@ -20,6 +20,10 @@ const Sidebar = ({closeSidebar}) => {
                name : 'Product List',
                 path : '/admin/product-list'
           },
+          {
+               name : 'Add Expenses',
+                path : '/admin/add-expenses'
+          },
      ]
      
      

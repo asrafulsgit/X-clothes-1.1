@@ -61,7 +61,7 @@ const Sales = () => {
           <div className="sales-summary">
           <div className="summary-card">
           <div className="summary-title">
-                    <p>Revenue</p>
+                    <p>Sales</p>
                     <p>Mar - Apr</p>
                </div>
                <h3 className="summary-value">BDT 3425</h3>
@@ -70,7 +70,7 @@ const Sales = () => {
           </div>
           <div className="summary-card">
                <div className="summary-title">
-                    <p>Revenue</p>
+                    <p>Expenses</p>
                     <p>Mar - Apr</p>
                </div>
                <h3 className="summary-value">BDT 3000</h3>
@@ -79,7 +79,7 @@ const Sales = () => {
           </div>
           <div className="summary-card">
           <div className="summary-title">
-                    <p>Revenue</p>
+                    <p>Profit</p>
                     <p>Mar - Apr</p>
                </div>
                <h3 className="summary-value">BDT 2,910</h3>

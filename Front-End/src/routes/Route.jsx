@@ -42,6 +42,7 @@ import UpdateProduct from '../Components/Admin/Update-product/UpdateProduct';
 import Discount_page from '../Components/App/discount/Discount_page';
 import Today_Deals from '../Components/App/deal_today/Today_Deals';
 import NotFound from '../pages/notFound/NotFound';
+import Expenses from '../Components/Admin/Expenses/Expenses';
 
 
 const Route =  createBrowserRouter([
@@ -118,6 +119,7 @@ const Route =  createBrowserRouter([
             { path: 'product-list', Component: Product_list },
             { path: 'product/update/:productId', Component: UpdateProduct },
             { path: 'order-list', Component: Order_list  },
+            { path: 'add-expenses', Component: Expenses  },
           ],
         },
       ],
