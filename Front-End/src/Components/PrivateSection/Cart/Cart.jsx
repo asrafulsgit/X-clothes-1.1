@@ -97,11 +97,11 @@ const Cart = () => {
     <div className="cart-page">
       <Header param={"/cart"} name={"Cart"} header={"Shoping Cart"} />
       <div className="cart-main">
-        {loading ? <p className="cart-spinner">
+        {loading ? <div className="cart-spinner">
           <Spinner />
-        </p> : (carts?.length <= 0 || !carts) ? (
+        </div> : (carts?.length <= 0 || !carts) ? (
           <p className="empty-message">Cart is Empty</p>
-        ) : (
+        ) : ( 
           <div className="cart-body">
             <div className="cart-table">
             <table>

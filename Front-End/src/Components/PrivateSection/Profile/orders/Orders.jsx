@@ -4,6 +4,7 @@ import { apiRequiestWithCredentials } from '../../../../utils/ApiCall';
 import CancelOrderModal from './CancelOrderModal';
 import NoPaidOrders from './NoPaidOrders';
 import Spinner from '../../../../utils/loading/Spinner';
+import axios from 'axios';
 const Orders = () => {
   const [pageLoading,setPageLoading]=useState(true)
   const [message,setMessage]=useState('')
@@ -39,7 +40,34 @@ const Orders = () => {
     setOrders(changesOrders)
     setIsModalOpen(false)
   }
-  
+  const downloadInvoice =async(order)=>{
+      const {couponDiscount,discount,items,shippingAddress,
+        shippingCost,subTotal,taxes,total,paymentDetails } = order;
+     try {
+      const response = await axios({
+        method: 'post',
+        url: `${import.meta.env.VITE_BACKEND_URL}/download/invoice`,
+        data : {couponDiscount,discount,items,shippingAddress,
+        shippingCost,subTotal,taxes,total,paymentDetails},
+        withCredentials : true,
+        responseType: 'blob' 
+      });
+
+      // Create download link
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', 'order_voucher.pdf');
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+    } catch (error) {
+      console.error('Error generating voucher:', error);
+      alert('Failed to generate voucher');
+    }
+      
+  }
+
   if(pageLoading){
     return <>
      <div className="personal-info-section-loading">
@@ -105,19 +133,18 @@ const Orders = () => {
                 <span className={order.orderStatus.toLowerCase()}>{order.orderStatus}</span>
                 <p>Your Order has been {order.orderStatus}</p>
               </div>
-
               <div className="order-actions">
                 {order.orderStatus.toLowerCase() === 'processing' && (
                   <>
                     <button className="track-order">Track Order</button>
-                    <button className="invoice">Invoice</button>
+                    <button onClick={()=>downloadInvoice(order)} className="invoice" >Invoice</button>
                     <button className="cancel-order"  onClick={()=>handleCancellOrder(order._id)}>Cancel Order</button>
                   </>
                 )}
                 {order.orderStatus.toLowerCase() === 'delivered' && (
                   <>
-                    <button className="add-review">Add Review</button>
-                    <button className="invoice">Invoice</button>
+                    <button  className="add-review">Add Review</button>
+                    <button onClick={()=>downloadInvoice(order)} className="invoice">Invoice</button>
                   </>
                 )}
               </div>

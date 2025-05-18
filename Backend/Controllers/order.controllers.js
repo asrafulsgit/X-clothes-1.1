@@ -13,7 +13,7 @@ const getUserOrders = async (req, res) => {
          user: userId,
          "paymentDetails.status": "Paid"
        })
-         .populate("items.product", "title images")
+         .populate("items.product", "title price images")
          .lean(); 
    
        if (orders.length === 0) {

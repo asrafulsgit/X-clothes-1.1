@@ -45,9 +45,9 @@ const Favourite = () => {
         <Header param={'/favourite'} name={'Favorites'} header={'Favorites'} />
         <div className="cart-main">
         {loading ? (
-          <p className="favorite-page-spinner">
+          <div className="favorite-page-spinner">
             <Spinner />
-          </p>
+          </div>
         ) : (favorites?.length <= 0 || !favorites) ? (
           <p className="empty-message"> Cart is Empty</p>
         ) : (

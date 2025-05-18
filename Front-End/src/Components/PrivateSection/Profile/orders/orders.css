@@ -66,10 +66,13 @@
   .user-order-list-container .delivery-date{
      border-left: 1px solid rgba(0, 0, 0, 0.1);
      padding-left: 15px;
+     
    }
    .user-order-list-container   .order-details > div p{
-     font-weight: 600;
+     font-weight: 400;
      margin-top: 0.3rem;
+     font-size: 14px;
+     color: rgba(255, 255, 255, 0.484);
    } 
    .user-order-list-container   .order-items {
      margin: 20px;

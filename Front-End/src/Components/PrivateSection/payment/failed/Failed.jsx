@@ -1,5 +1,4 @@
 import React from 'react'
-import Nav from '../Nav'
 import './failed.css'
 import { Link } from 'react-router-dom'
 const Failed = () => {

@@ -544,10 +544,10 @@ const getPaymentDetails = async (req, res) => {
 
 const generateVoucher = async(req,res)=>{
   const {paymentInfo,orderInfo} = req.body;
-  const {order_id,tran_id,amount,payment_type,status} = paymentInfo;
+  const {order_id,tran_id,payment_type,status} = paymentInfo;
   const {items,shippingAddress,subTotal,discount,taxes,shippingCost,couponDiscount,total} = orderInfo;
-const width = 210 * 2.83465;  
-const height = 233 * 2.83465;
+  const width = 210 * 2.83465;  
+  const height = 233 * 2.83465;
   const doc = new PDFDocument({
     size: [width, height],
     margin: 50  
@@ -658,6 +658,125 @@ rows.forEach(([label, value], i) => {
 
   doc.end();
 }
+const downloadInvoice = async(req,res)=>{
+  const {couponDiscount,discount,items,shippingAddress,
+  shippingCost,subTotal,taxes,total,paymentDetails} = req.body;
+  const paymentInfo = await Payment.find({transactionId : paymentDetails?.transactionId})
+  console.log(shippingAddress)
+  const {orderId,paymentStatus} = paymentInfo[0];
+  const {tran_id,card_issuer} = paymentInfo[0]?.paymentDetails;
+  const width = 210 * 2.83465;  
+  const height = 233 * 2.83465;
+  const doc = new PDFDocument({
+    size: [width, height],
+    margin: 50  
+  });
+
+  const filename = `voucher-${Date.now()}.pdf`;
+  res.setHeader('Content-Disposition', `attachment; filename=${filename}`);
+  res.setHeader('Content-Type', 'application/pdf');
+  doc.pipe(res);
+
+  // Draw border
+  const pageWidth = doc.page.width;
+  const pageHeight = doc.page.height;
+  const borderMargin = 20;
+  doc.rect(borderMargin, borderMargin, pageWidth - 2 * borderMargin, pageHeight - 2 * borderMargin).stroke();
+
+  // --- Header ---
+  doc
+    .fontSize(18)
+    .fillColor('#c9184a')
+    .text('Disbursement Voucher', { align: 'center' })
+    .moveDown(0.2)
+    .fontSize(12)
+    .fillColor('#555')
+    .text('X CLOTHE', { align: 'center' })
+    .moveDown();
+
+  // --- Customer Info ---
+  const billStartY = 110;
+  doc.fontSize(12).fillColor('#000').font('Helvetica-Bold')
+    .text('Bill To:', 50, billStartY)
+    .text('Payment Method:', 330, billStartY);
+  doc.fontSize(10).font('Helvetica')
+    .text(`Name: ${shippingAddress.name}`, 50, billStartY + 20)
+    .text(`Address: ${shippingAddress?.upazila}`, 50, billStartY + 35)
+    .text(`Email: ${shippingAddress.email}`, 50, billStartY + 50)
+    .text(`Phone: ${shippingAddress.phone}`, 50, billStartY + 65);
+  doc
+    .text(`Payment Type: ${card_issuer}`, 330, billStartY + 20)
+    .text(`Tran. ID: ${tran_id}`, 330, billStartY + 35)
+    .text(`Order ID: ${orderId}`, 330, billStartY + 50)
+    .text(`Status: ${paymentStatus}`, 330, billStartY + 65);
+
+  // --- Table Header ---
+  doc.moveDown(2).fontSize(12).text('Details', { underline: true });
+
+  const tableTop = doc.y + 10;
+  doc.fontSize(10)
+    .text('SL', 50, tableTop)
+    .text('Description', 80, tableTop)
+    .text('Quantity', 300, tableTop)
+    .text('Unit Price', 370, tableTop)
+    .text('Total', 460, tableTop);
+
+  let yPos = tableTop + 20;
+  items.forEach((p, i) => {
+    const total = p.quantity * Number(p.product.price);
+    doc
+      .text(i + 1, 50, yPos)
+      .text(p.product.title, 80, yPos)
+      .text(p.quantity.toString(), 300, yPos)
+      .text(p.product.price, 370, yPos)
+      .text(total.toString(), 460, yPos);
+    yPos += 20;
+  });
+
+doc.fontSize(12)
+   .text('Summary', 50,doc.y + 15 , { underline: true })
+   .moveDown();
+
+const tableX = 50;
+let tableY = doc.y;
+const labelColWidth = 120;
+const valueColWidth = 100;
+const rowHeight = 20;
+
+// Summary rows data
+const rows = [
+  ['Subtotal:', subTotal.toString()],
+  ['Tax:', taxes.toString()],
+  ['Coupon Discount:', couponDiscount.toString()],
+  ['Discount:', discount.toString()],
+  ['Shipping Cost:', shippingCost.toString()],
+  ['Total:', total.toString()],
+];
+
+// Draw table rows
+doc.fontSize(12);
+rows.forEach(([label, value], i) => {
+  const y = tableY + i * rowHeight;
+
+  // Row background (optional)
+  if (i % 2 === 0) {
+    doc.rect(tableX, y, labelColWidth + valueColWidth, rowHeight).fillOpacity(1);
+  }
+
+  // Draw border
+  doc.rect(tableX, y, labelColWidth + valueColWidth, rowHeight);
+
+  // Draw label and value
+  doc
+    .fillColor('#000')
+    .text(label, tableX + 5, y + 5)
+    .text(value, tableX + labelColWidth + 5, y + 5);
+});
+  // --- Footer ---
+  doc.moveDown(2).fontSize(10).text(`${new Date().toLocaleDateString()}`, { align: 'right' });
+
+  doc.end();
+}
 
 const cleanOldOrderAndPayment = async() => {
   const cleanPaymentDb = await Payment.deleteMany({
@@ -700,5 +819,6 @@ module.exports={
      generateVoucher,
      payment_failed,
      payment_cencel,
-     cleanOldOrderAndPayment
+     cleanOldOrderAndPayment,
+     downloadInvoice
 }

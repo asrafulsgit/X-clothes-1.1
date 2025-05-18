@@ -26,7 +26,7 @@ const Page_Load = ({checkUserCreadentials}) => {
                dispatch(setLoading(false))
              }
      },[])
-  return (<></>)
+  return (null)
 }
 
 export default Page_Load
