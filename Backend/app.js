@@ -8,10 +8,12 @@ const productRouter = require('./Routers/product.router')
 const cors = require('cors');
 const { addToCartRoute } = require('./Routers/addToCart.router');
 const  {favouriteRoute} = require('./Routers/addToFavourite.router');
-const paymentRouter = require('./Routers/payments.router.');
+const paymentRouter = require('./Routers/payments.router');
 const { orderRouter } = require('./Routers/order.router');
 const salesRouter = require('./Routers/sales.router');
 const expensesRouter = require('./Routers/expenses.router');
+const ApiError = require('./utils/ApiError');
+const errorHandler = require('./Middlewares/errorHandler');
 
 const app = express();
 const server = http.createServer(app)
@@ -27,17 +29,6 @@ app.use(cors({
 
 
 
-app.use((err, req, res, next) => {
-    if (err) {
-        console.error(err.stack);
-        return res.status(500).send({ message: 'Something went wrong' });
-    }
-     next();
- });
-
-
-
-
 app.use(userRouter) 
 app.use(productRouter)
 app.use(addToCartRoute)
@@ -48,30 +39,15 @@ app.use(salesRouter)
 app.use(expensesRouter)
 
 
+app.all('*', (req, res, next) => {
+  next(new ApiError(404, `Route ${req.originalUrl} not found`));
+});
+
+app.use(errorHandler);
 
 
-// app.post("/ipn", async (req, res) => {
-//     try {
-//         const receivedData = req.body;
-//         const { val_id, status, tran_id } = receivedData;
-//         console.log(receivedData)
-//         // Verify payment with SSLCOMMERZ
-//         // const validationURL = `https://securepay.sslcommerz.com/validator/api/validationserverAPI.php?val_id=${val_id}&store_id=${SSLCOMMERZ_STORE_ID}&store_passwd=${SSLCOMMERZ_STORE_PASSWD}&format=json`;
-//         // const validationResponse = await axios.get(validationURL);
 
-//         // if (validationResponse.data.status === "VALID" && status === "VALID") {
-//         //     // Update order status in database as 'Paid'
-//         //     console.log(`Order ${tran_id} has been paid.`);
-//         // } else {
-//         //     console.log(`Order ${tran_id} payment validation failed.`);
-//         // }
 
-//         // res.status(200).send("IPN Received");
-//     } catch (error) {
-//         console.log(error)
-//         res.status(500).send("Error processing IPN");
-//     }
-// });
 
 module.exports = server;
 

@@ -72,7 +72,7 @@
      width: 100%;
 }
 
-.login-section .password-div .message{
+.login-section .message{
      color:var(--color-4);
      font-family: var(--font-family-Poppins);
      font-size: 0.9rem;

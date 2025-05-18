@@ -4,9 +4,9 @@ const userRouter  = express.Router();
 
 const userAuthentication = require('../Middlewares/userAuth-middleware');
 const {userRegister, userLogin,resetPassword, EmailVerification, findUserAndSendEmail, tokenRefresh, userLogout, getAdminAuthentication} = require('../Controllers/user.controllers');
-const { userPersonalInformation, avaterUpdate, addNewAddress, getUserAddresses, updateAddress, removeAddress, userResetPassword } = require('../Controllers/user.account.controllers');
+const { userPersonalInformation, avaterUpdate, addNewAddress, getUserAddresses, updateAddress, removeAddress, userResetPassword, personalInfoUpdate } = require('../Controllers/user.account.controllers');
 const upload = require('../Middlewares/product.middleware');
-const { validateSignup,vlidateLogin, validateAddress, validateDeleteAddress, validateResetPassword, emailValidation, EmailVerificationCode, validateEmailVerificationCode, validateEmailValidation, validateForgetPassword } = require('../validators/user.validators'); 
+const { validateSignup,vlidateLogin, validateAddress, validateDeleteAddress, validateResetPassword, emailValidation, EmailVerificationCode, validateEmailVerificationCode, validateEmailValidation, validateForgetPassword, validatePersonalInfoChange } = require('../validators/user.validators'); 
 const {validationMiddleware } = require('../Middlewares/validation.result.middleware');
 const {fileErrorHandlerMiddleware } = require('../Middlewares/fileErrorHandle.middleware');
 const adminAuthentication = require('../Middlewares/adminAuth.middleware');
@@ -23,6 +23,7 @@ userRouter.get('/admin-authentication',adminAuthentication,getAdminAuthenticatio
 
 // user account
 userRouter.get('/user-personal-information',userAuthentication, userPersonalInformation)
+userRouter.put('/user/information/update',userAuthentication,validatePersonalInfoChange,validationMiddleware, personalInfoUpdate)
 userRouter.put('/user-avater',userAuthentication,upload.single('avatar'),fileErrorHandlerMiddleware, avaterUpdate)
 userRouter.post('/user-new-address',userAuthentication,validateAddress,validationMiddleware, addNewAddress)
 userRouter.get('/user-addresses',userAuthentication, getUserAddresses)

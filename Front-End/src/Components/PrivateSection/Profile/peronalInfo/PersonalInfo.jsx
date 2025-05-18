@@ -59,8 +59,17 @@ const PersonalInfo = () => {
     }
     setImageLoading(false)
   };
-  const handleChange =()=>{
-    
+  const handleChange =(e)=>{
+    const {name,value} = e.target;
+    setPersonalInfo((prev)=> ({...prev,[name] : value}))
+  }
+  const handleInformationChange =async()=>{
+    try {
+        const data = await apiRequiestWithCredentials('put','/user/information/update',personalInfo)
+        setMessage(data.message)
+    } catch (error) {
+      console.log(error)
+    }
   }
   if(apiLoading){
     return <>
@@ -98,19 +107,28 @@ const PersonalInfo = () => {
           <div className="information-section">
             <div className="input-field">
               <label htmlFor="name"> Name</label>
-              <input type="text" onChange={handleChange} value={personalInfo.name} name="name" />
+              <input type="text" 
+              onChange={handleChange} 
+              value={personalInfo.name} 
+              name="name" />
             </div>
             <div className="input-field">
               <label htmlFor="email">Email</label>
-              <input type="email" onChange={handleChange} value={personalInfo.email} name="email" />
+              <input type="email" 
+              disabled
+              value={personalInfo.email || ' '} 
+              name="email" />
             </div>
             <div className="input-field">
               <label htmlFor="number">Phone</label>
-              <input type="number" onChange={handleChange} value={personalInfo.phone} name="number" />
+              <input type="number" 
+              onChange={handleChange} 
+              value={personalInfo.phone} 
+              name="phone" />
             </div>
           </div>
           <div className="info-update-btn">
-            <button>Save change</button>
+            <button onClick={handleInformationChange}>Save change</button>
           </div>
     </div>
   );

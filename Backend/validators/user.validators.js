@@ -73,6 +73,13 @@ const validateForgetPassword =[
  .custom((value, { req }) => value === req.body.password).withMessage('Confirm password must match new password.').escape(),
 ]
 
+const validatePersonalInfoChange =[
+     body('name').isString().notEmpty().withMessage('Name is required.').escape(),
+     body('phone')
+     .matches(/^01[3-9]\d{8}$/).withMessage('Phone number must start with 01 and be followed by 9 digits.')
+     .isLength({min: 11,max : 11}).withMessage('Invalid phone number format.')
+     .escape()
+]
 
 
 module.exports={
@@ -83,5 +90,6 @@ module.exports={
      validateResetPassword,
      validateEmailValidation,
      validateEmailVerificationCode,
-     validateForgetPassword
+     validateForgetPassword,
+     validatePersonalInfoChange
 }

@@ -2,7 +2,11 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer");
 const User = require("../Models/user.model");
+const asyncHandler = require("../utils/asyncHandler");
 
+
+
+// register user
 const userRegister = async (req, res) => {
   try {
     const { name, email, password } = req.body;
@@ -37,25 +41,23 @@ const userRegister = async (req, res) => {
   }
 };
 
-const userLogin = async (req, res) => {
+// login user
+const userLogin = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
-  try {
+  
     const isExist = await User.findOne({ email });
     if (!isExist) {
       return res.status(404).send({ errors :[{
-        message: "email is not valid!",
+        message: "Invalid email",
         field: "email",
       }]});
     }
 
     const existedUser = await bcrypt.compare(password, isExist.password);
     if (!existedUser) {
-      return res.status(404).send(
-        { success: false, 
-          errors :[{
-          message: "wrong password!",
-          field: "password",
-        }]});
+      return res.status(401).send({
+            errors: [{ message: "Wrong password!", field: "password" }],
+      });
     }
     const accessToken = jwt.sign(
       {
@@ -90,18 +92,13 @@ const userLogin = async (req, res) => {
     });
 
     return res.status(200).send({
-      message: "logged in success",
+      message: "Logged in successfully",
       success: true,
-    });
-  } catch (error) {
-    return res.status(500).send({
-      message: "somthing broke!",
-      field: "server",
-      success: false,
-    });
-  }
-};
+    })
+});
 
+
+// access token refresh
 const tokenRefresh = async (req, res) => {
   const { accesstoken, refreshtoken } = req.cookies;
   try {
@@ -162,6 +159,7 @@ const tokenRefresh = async (req, res) => {
   }
 };
 
+// check is admin
 const getAdminAuthentication=async(req,res)=>{
     const adminId = req.adminInfo.id;
     const adminRole = req.adminInfo.role;
@@ -192,7 +190,7 @@ const getAdminAuthentication=async(req,res)=>{
 }
 
 
-
+// logout user
 const userLogout = async (req, res) => {
   const { refreshtoken } = req.cookies;
   const userId = req.userInfo.id;
@@ -233,7 +231,7 @@ const userLogout = async (req, res) => {
   }
 };
 
-// forgot-password
+// forget-password
 const findUserAndSendEmail = async (req, res) => {
   const { email } = req.body;
   try {

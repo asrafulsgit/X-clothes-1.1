@@ -662,7 +662,6 @@ const downloadInvoice = async(req,res)=>{
   const {couponDiscount,discount,items,shippingAddress,
   shippingCost,subTotal,taxes,total,paymentDetails} = req.body;
   const paymentInfo = await Payment.find({transactionId : paymentDetails?.transactionId})
-  console.log(shippingAddress)
   const {orderId,paymentStatus} = paymentInfo[0];
   const {tran_id,card_issuer} = paymentInfo[0]?.paymentDetails;
   const width = 210 * 2.83465;  

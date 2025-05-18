@@ -32,7 +32,7 @@ const Successfull = () => {
      try {
       const response = await axios({
         method: 'post',
-        url: 'http://localhost:8000/generate/voucher',
+        url: `${import.meta.env.VITE_BACKEND_URL}/generate/voucher`,
         data : {paymentInfo,orderInfo} ,
         withCredentials : true,
         responseType: 'blob' 

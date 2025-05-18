@@ -7,15 +7,15 @@ const Address = require("../Models/userAddress.model");
 
 // cloudinary configuration
 cloudinary.config({ 
-     cloud_name: 'dbpes24kn', 
-     api_key: '527739673541715', 
-     api_secret: 'VfkJpNPsu5lyhApYock5Hp1sjPY'
+     cloud_name: process.env.CLOUD_NAME, 
+     api_key: process.env.CLOUD_API_KEY, 
+     api_secret: process.env.CLOUD_API_SECRET
  });
 
 
 
 const userPersonalInformation = async (req, res) => {
-     const userId = req.userInfo.id;
+     const userId = req.userInfo?.id;
      try {
        const user = await User.findById(userId);
        if (!user) {
@@ -40,11 +40,14 @@ const userPersonalInformation = async (req, res) => {
 
 const avaterUpdate = async (req, res) => {
   try {
-    const userId = req.userInfo.id;
-    const file = req.file;
+    const userId = req.userInfo?.id;
+    const file = req?.file;
 
     if (!file) {
-      return res.status(400).json({ message: "No file uploaded", success: false });
+      return res.status(400).json({ 
+        message: "No file uploaded", 
+        success: false 
+      });
     }
 
     const user = await User.findById(userId);
@@ -73,7 +76,31 @@ const avaterUpdate = async (req, res) => {
 };
 
 const personalInfoUpdate =async(req,res)=>{
+      const userId = req.userInfo?.id;
+     try {
+       const {name,phone}= req.body;
+       const user = await User.findById(userId);
+       if (!user) {
+         return res.status(404).send({
+           message: "user is not found!",
+           success: false,
+         });
+       }
+       user.name = name;
+       user.phone = phone;
 
+       await user.save();
+
+       return res.status(200).send({
+         message: "updated user info",
+         success: true,
+       });
+     } catch (error) {
+       return res.status(500).send({
+         message: "somthing broke!",
+         success: false,
+       });
+     }
 }
 
 const addNewAddress = async(req,res)=>{
@@ -225,5 +252,6 @@ module.exports ={
      getUserAddresses,
      updateAddress,
      removeAddress,
-     userResetPassword
+     userResetPassword,
+     personalInfoUpdate
 }
