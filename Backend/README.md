@@ -7,14 +7,14 @@ This document outlines the essential topics and features required to build a **p
 ## 1. Core Backend Foundations
 - RESTful API Design ✅ 
 - MVC or Clean Architecture pattern ✅ 
-- Environment Configuration (`dotenv`)  ✅
-- Asynchronous Programming (Promises, async/await)  ✅
-- Comprehensive Error Handling ❌ 
+- Environment Configuration (`dotenv`) ✅
+- Asynchronous Programming (Promises, async/await) ✅
+- Comprehensive Error Handling ✅ 
 
 ## 2. Authentication & Authorization
 - JWT  ✅
 - OAuth2 based authentication  ❌
-- Role-based Access Control (e.g., `admin`, `user`)  ✅
+- Role-based Access Control (e.g., `admin`, `user`) ✅
 - Secure Password Hashing (bcrypt) ✅ 
 
 ## 3. Database Management
