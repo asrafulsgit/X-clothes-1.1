@@ -7,6 +7,10 @@ const User = require("../Models/user.model");
 const Payment = require('../Models/payment.model');
 const Address = require('../Models/userAddress.model');
 
+const PDFDocument = require('pdfkit');
+const fs = require('fs');
+
+
 const calculateTotals = (carts, products) => {
      let subTotal = 0;
      let discount = 0;
@@ -431,111 +435,229 @@ const getPaymentDetails = async (req, res) => {
   }
 };
 
-const generateVoucher = async (req, res) => {
-  try {
-    const { orderInfo, paymentInfo, customerInfo } = req.body;
+// const generateVoucher = async (req, res) => {
+//   try {
+//     const { orderInfo, paymentInfo, customerInfo } = req.body;
 
-    const htmlContent = `
-    <html>
-      <head>
-        <style>
-          body { font-family: "Poppins", sans-serif; background: #f4f4f4; }
-          .voucher-container { max-width: 700px; margin: 20px auto; padding: 20px; background: white; border: 1px solid #ddd; }
-          .voucher-title { text-align: center; font-size: 24px; font-weight: 600; color: #D91656; }
-          .voucher-subtitle { text-align: center; color: gray; font-weight: bold; }
-          .voucher-section { display: flex; justify-content: space-between; margin-top: 20px; padding: 10px; border: 1px solid #ddd; border-radius: 6px; }
-          .voucher-column h3 { font-size: 16px; font-weight: 600; }
-          .voucher-column p { font-size: 14px; }
-          .voucher-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-          .voucher-table th, .voucher-table td { border: 1px solid #ddd; padding: 5px; text-align: left; }
-          .voucher-table th { background: #f4f4f4; font-size: 14px; font-weight: 600; }
-          .payment-date { text-align: right; margin-top: 10px; color: gray; font-weight: 500; }
-        </style>
-      </head>
-      <body>
-        <div class="voucher-container">
-          <h2 class="voucher-title">Disbursement Voucher</h2>
-          <p class="voucher-subtitle">X CLOTHE</p>
+//     const htmlContent = `
+//     <html>
+//       <head>
+//         <style>
+//           body { font-family: "Poppins", sans-serif; background: #f4f4f4; }
+//           .voucher-container { max-width: 700px; margin: 20px auto; padding: 20px; background: white; border: 1px solid #ddd; }
+//           .voucher-title { text-align: center; font-size: 24px; font-weight: 600; color: #D91656; }
+//           .voucher-subtitle { text-align: center; color: gray; font-weight: bold; }
+//           .voucher-section { display: flex; justify-content: space-between; margin-top: 20px; padding: 10px; border: 1px solid #ddd; border-radius: 6px; }
+//           .voucher-column h3 { font-size: 16px; font-weight: 600; }
+//           .voucher-column p { font-size: 14px; }
+//           .voucher-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+//           .voucher-table th, .voucher-table td { border: 1px solid #ddd; padding: 5px; text-align: left; }
+//           .voucher-table th { background: #f4f4f4; font-size: 14px; font-weight: 600; }
+//           .payment-date { text-align: right; margin-top: 10px; color: gray; font-weight: 500; }
+//         </style>
+//       </head>
+//       <body>
+//         <div class="voucher-container">
+//           <h2 class="voucher-title">Disbursement Voucher</h2>
+//           <p class="voucher-subtitle">X CLOTHE</p>
           
-          <div class="voucher-section">
-            <div class="voucher-column">
-              <h3>Bill To:</h3>
-              <p><strong>Name:</strong> ${customerInfo.name}</p>
-              <p><strong>Address:</strong> ${customerInfo.zila}, ${customerInfo.upazila}</p>
-              <p><strong>Email:</strong> ${customerInfo.email ? customerInfo.email : ""}</p>
-              <p><strong>Phone:</strong> ${customerInfo.phone}</p>
-            </div>
-            <div class="voucher-column">
-              <h3>Payment Method:</h3>
-              <p><strong>Payment Type:</strong> ${paymentInfo.payment_type}</p>
-              <p><strong>Tran. ID:</strong> ${paymentInfo.tran_id}</p>
-              <p><strong>Order ID:</strong> ${paymentInfo.order_id}</p>
-              <p><strong>Status:</strong> ${paymentInfo.status}</p>
-            </div>
-          </div>
+//           <div class="voucher-section">
+//             <div class="voucher-column">
+//               <h3>Bill To:</h3>
+//               <p><strong>Name:</strong> ${customerInfo.name}</p>
+//               <p><strong>Address:</strong> ${customerInfo.zila}, ${customerInfo.upazila}</p>
+//               <p><strong>Email:</strong> ${customerInfo.email ? customerInfo.email : ""}</p>
+//               <p><strong>Phone:</strong> ${customerInfo.phone}</p>
+//             </div>
+//             <div class="voucher-column">
+//               <h3>Payment Method:</h3>
+//               <p><strong>Payment Type:</strong> ${paymentInfo.payment_type}</p>
+//               <p><strong>Tran. ID:</strong> ${paymentInfo.tran_id}</p>
+//               <p><strong>Order ID:</strong> ${paymentInfo.order_id}</p>
+//               <p><strong>Status:</strong> ${paymentInfo.status}</p>
+//             </div>
+//           </div>
           
-          <h3 class="voucher-items-title">Details</h3>
-          <table class="voucher-table">
-            <thead>
-              <tr>
-                <th>SL</th>
-                <th>Description</th>
-                <th>Quantity</th>
-                <th>Unit Price</th>
-                <th>Total</th>
-              </tr>
-            </thead>
-            <tbody>
-              ${orderInfo.items.map((item, index) => `
-                <tr>
-                  <td>${index + 1}</td>
-                  <td>${item.product.title}</td>
-                  <td>${item.quantity}</td>
-                  <td>${item.product.price}</td>
-                  <td>${item.product.price * item.quantity}</td>
-                </tr>
-              `).join("")}
-            </tbody>
-          </table>
+//           <h3 class="voucher-items-title">Details</h3>
+//           <table class="voucher-table">
+//             <thead>
+//               <tr>
+//                 <th>SL</th>
+//                 <th>Description</th>
+//                 <th>Quantity</th>
+//                 <th>Unit Price</th>
+//                 <th>Total</th>
+//               </tr>
+//             </thead>
+//             <tbody>
+//               ${orderInfo.items.map((item, index) => `
+//                 <tr>
+//                   <td>${index + 1}</td>
+//                   <td>${item.product.title}</td>
+//                   <td>${item.quantity}</td>
+//                   <td>${item.product.price}</td>
+//                   <td>${item.product.price * item.quantity}</td>
+//                 </tr>
+//               `).join("")}
+//             </tbody>
+//           </table>
           
-          <div class="voucher-summary">
-            <table class="voucher-table">
-              <thead><tr><th colspan="2" style="text-align: center;">Summary</th></tr></thead>
-              <tbody>
-                <tr><td><strong>Subtotal</strong></td><td>${orderInfo.subTotal}</td></tr>
-                <tr><td><strong>Tax</strong></td><td>${orderInfo.taxes}</td></tr>
-                <tr><td><strong>Coupon Discount</strong></td><td>${orderInfo.couponDiscount}</td></tr>
-                <tr><td><strong>Discount</strong></td><td>${orderInfo.discount}</td></tr>
-                <tr><td><strong>Shipping Cost</strong></td><td>${orderInfo.shippingCost}</td></tr>
-                <tr><td><strong>Total</strong></td><td>${orderInfo.total}</td></tr>
-              </tbody>
-            </table>
-          </div>
+//           <div class="voucher-summary">
+//             <table class="voucher-table">
+//               <thead><tr><th colspan="2" style="text-align: center;">Summary</th></tr></thead>
+//               <tbody>
+//                 <tr><td><strong>Subtotal</strong></td><td>${orderInfo.subTotal}</td></tr>
+//                 <tr><td><strong>Tax</strong></td><td>${orderInfo.taxes}</td></tr>
+//                 <tr><td><strong>Coupon Discount</strong></td><td>${orderInfo.couponDiscount}</td></tr>
+//                 <tr><td><strong>Discount</strong></td><td>${orderInfo.discount}</td></tr>
+//                 <tr><td><strong>Shipping Cost</strong></td><td>${orderInfo.shippingCost}</td></tr>
+//                 <tr><td><strong>Total</strong></td><td>${orderInfo.total}</td></tr>
+//               </tbody>
+//             </table>
+//           </div>
 
-          <div class="payment-date">
-            <p>${paymentInfo.createdAt.split("T")[0]}</p>
-          </div>
-        </div>
-      </body>
-    </html>`;
-    const browser = await puppeteer.launch({
-      headless: true,
-      args: ["--no-sandbox", "--disable-setuid-sandbox"],
-    });
-    const page = await browser.newPage();
-    await page.setContent(htmlContent, { waitUntil: "load" });
+//           <div class="payment-date">
+//             <p>${paymentInfo.createdAt.split("T")[0]}</p>
+//           </div>
+//         </div>
+//       </body>
+//     </html>`;
+//     const browser = await puppeteer.launch({
+//       headless: true,
+//       args: ["--no-sandbox", "--disable-setuid-sandbox"],
+//     });
+//     const page = await browser.newPage();
+//     await page.setContent(htmlContent, { waitUntil: "load" });
 
-    const pdfBuffer = await page.pdf({ format: "A4" });
-    await browser.close();
+//     const pdfBuffer = await page.pdf({ format: "A4" });
+//     await browser.close();
 
-    res.setHeader("Content-Type", "application/pdf");
-    res.setHeader("Content-Disposition", 'inline; filename="voucher.pdf"');
-    res.send(Buffer.from(pdfBuffer));
-  } catch (error) {
-    console.error("Error generating PDF:", error);
-    res.status(500).json({ error: "Error generating PDF" });
+//     res.setHeader("Content-Type", "application/pdf");
+//     res.setHeader("Content-Disposition", 'inline; filename="voucher.pdf"');
+//     res.send(Buffer.from(pdfBuffer));
+//   } catch (error) {
+//     console.error("Error generating PDF:", error);
+//     res.status(500).json({ error: "Error generating PDF" });
+//   }
+// };
+
+
+const generateVoucher = async(req,res)=>{
+  const {paymentInfo,orderInfo} = req.body;
+  const {order_id,tran_id,amount,payment_type,status} = paymentInfo;
+  const {items,shippingAddress,subTotal,discount,taxes,shippingCost,couponDiscount,total} = orderInfo;
+const width = 210 * 2.83465;  
+const height = 233 * 2.83465;
+  const doc = new PDFDocument({
+    size: [width, height],
+    margin: 50  
+  });
+
+  const filename = `voucher-${Date.now()}.pdf`;
+  res.setHeader('Content-Disposition', `attachment; filename=${filename}`);
+  res.setHeader('Content-Type', 'application/pdf');
+  doc.pipe(res);
+
+  // Draw border
+  const pageWidth = doc.page.width;
+  const pageHeight = doc.page.height;
+  const borderMargin = 20;
+  doc.rect(borderMargin, borderMargin, pageWidth - 2 * borderMargin, pageHeight - 2 * borderMargin).stroke();
+
+  // --- Header ---
+  doc
+    .fontSize(18)
+    .fillColor('#c9184a')
+    .text('Disbursement Voucher', { align: 'center' })
+    .moveDown(0.2)
+    .fontSize(12)
+    .fillColor('#555')
+    .text('X CLOTHE', { align: 'center' })
+    .moveDown();
+
+  // --- Customer Info ---
+  const billStartY = 110;
+  doc.fontSize(12).fillColor('#000').font('Helvetica-Bold')
+    .text('Bill To:', 50, billStartY)
+    .text('Payment Method:', 330, billStartY);
+  doc.fontSize(10).font('Helvetica')
+    .text(`Name: ${shippingAddress.name}`, 50, billStartY + 20)
+    .text(`Address: ${shippingAddress.address}`, 50, billStartY + 35)
+    .text(`Email: ${shippingAddress.email}`, 50, billStartY + 50)
+    .text(`Phone: ${shippingAddress.phone}`, 50, billStartY + 65);
+  doc
+    .text(`Payment Type: ${payment_type}`, 330, billStartY + 20)
+    .text(`Tran. ID: ${tran_id}`, 330, billStartY + 35)
+    .text(`Order ID: ${order_id}`, 330, billStartY + 50)
+    .text(`Status: ${status}`, 330, billStartY + 65);
+
+  // --- Table Header ---
+  doc.moveDown(2).fontSize(12).text('Details', { underline: true });
+
+  const tableTop = doc.y + 10;
+  doc.fontSize(10)
+    .text('SL', 50, tableTop)
+    .text('Description', 80, tableTop)
+    .text('Quantity', 300, tableTop)
+    .text('Unit Price', 370, tableTop)
+    .text('Total', 460, tableTop);
+
+  let yPos = tableTop + 20;
+  items.forEach((p, i) => {
+    const total = p.quantity * Number(p.product.price);
+    doc
+      .text(i + 1, 50, yPos)
+      .text(p.product.title, 80, yPos)
+      .text(p.quantity.toString(), 300, yPos)
+      .text(p.product.price, 370, yPos)
+      .text(total.toString(), 460, yPos);
+    yPos += 20;
+  });
+
+doc.fontSize(12)
+   .text('Summary', 50,doc.y + 15 , { underline: true })
+   .moveDown();
+
+const tableX = 50;
+let tableY = doc.y;
+const labelColWidth = 120;
+const valueColWidth = 100;
+const rowHeight = 20;
+
+// Summary rows data
+const rows = [
+  ['Subtotal:', subTotal.toString()],
+  ['Tax:', taxes.toString()],
+  ['Coupon Discount:', couponDiscount.toString()],
+  ['Discount:', discount.toString()],
+  ['Shipping Cost:', shippingCost.toString()],
+  ['Total:', total.toString()],
+];
+
+// Draw table rows
+doc.fontSize(12);
+rows.forEach(([label, value], i) => {
+  const y = tableY + i * rowHeight;
+
+  // Row background (optional)
+  if (i % 2 === 0) {
+    doc.rect(tableX, y, labelColWidth + valueColWidth, rowHeight).fillOpacity(1);
   }
-};
+
+  // Draw border
+  doc.rect(tableX, y, labelColWidth + valueColWidth, rowHeight);
+
+  // Draw label and value
+  doc
+    .fillColor('#000')
+    .text(label, tableX + 5, y + 5)
+    .text(value, tableX + labelColWidth + 5, y + 5);
+});
+  // --- Footer ---
+  doc.moveDown(2).fontSize(10).text(`${new Date().toLocaleDateString()}`, { align: 'right' });
+
+  doc.end();
+}
 
 const cleanOldOrderAndPayment = async() => {
   const cleanPaymentDb = await Payment.deleteMany({

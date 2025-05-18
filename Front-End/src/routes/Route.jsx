@@ -43,6 +43,7 @@ import Discount_page from '../Components/App/discount/Discount_page';
 import Today_Deals from '../Components/App/deal_today/Today_Deals';
 import NotFound from '../pages/notFound/NotFound';
 import Expenses from '../Components/Admin/Expenses/Expenses';
+import Test from '../test/Test';
 
 
 const Route =  createBrowserRouter([
@@ -125,13 +126,13 @@ const Route =  createBrowserRouter([
       ],
     },
     {
+      path :'/test',
+      Component : Test 
+    },
+    {
       path : '/*',
       Component :  NotFound 
-    },
-    // {
-    //   path :'/test',
-    //   Component : Test 
-    // }
+    }
   ]);
 
 export default Route

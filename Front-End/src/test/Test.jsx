@@ -51,3 +51,38 @@
 // };
 
 // export default Test;
+
+import axios from 'axios';
+import React from 'react'
+
+const Test = () => {
+    const hanldeDownload = async() => {
+     try {
+      const response = await axios({
+        method: 'get',
+        url: 'http://localhost:8000/generate/voucher',
+        responseType: 'blob' // Important for PDF download
+      });
+
+      // Create download link
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', 'order_voucher.pdf');
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+    } catch (error) {
+      console.error('Error generating voucher:', error);
+      alert('Failed to generate voucher');
+    }
+  }
+  return (
+    <div>
+      <button onClick={hanldeDownload}>Download</button>
+    </div>
+  )
+}
+
+export default Test
+

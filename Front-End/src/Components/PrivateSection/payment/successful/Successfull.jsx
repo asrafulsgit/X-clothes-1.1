@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { apiRequiest } from '../../../../utils/ApiCall'
-import { Link, NavLink, useParams } from 'react-router-dom'
+import { apiRequiest, apiRequiestWithCredentials } from '../../../../utils/ApiCall'
+import { json, Link, NavLink, useParams } from 'react-router-dom'
 import './successfull.css'
 import axios from 'axios';
 import Loading from '../../../../utils/loading/Loading';
@@ -14,8 +14,9 @@ const Successfull = () => {
   useEffect(()=>{
     const apiCalling =async()=>{
       try {
-        const data = await apiRequiest('get',`/payment/details/${tranId}`)
+        const data = await apiRequiestWithCredentials('get',`/payment/details/${tranId}`)
         const orderInfo = JSON.parse(data.orderDetails)
+        console.log(orderInfo)
          setOrderInfo(orderInfo)
          setCustomerInfo(orderInfo.shippingAddress)
          setPaymentInfo(data.paymentDetails)
@@ -28,21 +29,26 @@ const Successfull = () => {
     apiCalling()
   },[])
   const hanldeDownload = async() => {
-    try {
-      const response = await axios.post("http://localhost:8000/generate/voucher", {
-        customerInfo,
-        orderInfo,
-        paymentInfo,
-      }, {
-        headers: { "Content-Type": "application/json" },
-        responseType: 'blob', 
+     try {
+      const response = await axios({
+        method: 'post',
+        url: 'http://localhost:8000/generate/voucher',
+        data : {paymentInfo,orderInfo} ,
+        withCredentials : true,
+        responseType: 'blob' 
       });
-  
-      // Create a URL for the PDF blob and open it in a new window
-      const url = window.URL.createObjectURL(response.data);
-      window.open(url);
+
+      // Create download link
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', 'order_voucher.pdf');
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
     } catch (error) {
-      console.error("Failed to generate PDF", error);
+      console.error('Error generating voucher:', error);
+      alert('Failed to generate voucher');
     }
   }
 
@@ -55,6 +61,7 @@ const Successfull = () => {
     <>
       <div className="payment-success">
         <div className="voucher-container" id='voucher'>
+          <button className='download-btn'  onClick={hanldeDownload}>Download</button>
           <h2 className="voucher-title">Disbursement Voucher</h2>
           <p className="voucher-subtitle">X CLOTHE</p>
           
@@ -134,7 +141,7 @@ const Successfull = () => {
               </tbody>
             </table>
           </div>
-          <button onClick={hanldeDownload}>Download</button>
+          
            <div className="payment-date">
               <p>{paymentInfo.createdAt.split('T')[0]}</p>
            </div>

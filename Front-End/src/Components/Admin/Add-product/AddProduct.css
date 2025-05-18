@@ -13,7 +13,7 @@
 .add-product-section{
      height: 85vh;
      width: 100%;
-     margin-top: 4rem;
+     /* margin-top: 2rem; */
      display: flex;
      flex-direction: column;
      gap: 1rem;
