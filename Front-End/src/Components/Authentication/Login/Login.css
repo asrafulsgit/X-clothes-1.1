@@ -118,6 +118,17 @@
      width: 100%;
      font-size: 15px;
 }
+.login-section .google-login-btn{
+     font-family: var(--font-family-Poppins);
+     background-color: black;
+     color: white;
+     font-weight: 400;
+     border-radius: 3px;
+     border: none;
+     padding: 10px;
+     width: 100%;
+     cursor: pointer;
+}
 
 
 

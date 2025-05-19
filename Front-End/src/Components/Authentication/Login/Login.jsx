@@ -101,8 +101,8 @@ const Login = () => {
               Sing Up
             </Link>
           </div>
+          <button className="google-login-btn" onClick={handleLoginWithGoogle}><i style={{marginRight: '5px'}} className="fa-brands fa-google"></i> Login With Google</button>
         </form>
-        <button onClick={handleLoginWithGoogle}>Login With Google</button>
       </div>
     </>
   );
