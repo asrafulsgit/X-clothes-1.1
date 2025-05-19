@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const userSchema = new mongoose.Schema({
      avatar : {
           type : String,
-          default : 'https://media-hosting.imagekit.io//0fa2cb7b3ec34d93/profile.png?Expires=1835331601&Key-Pair-Id=K2ZIVPTIP2VGHC&Signature=mOSwPgjOLQ0gBZ6~rSZCGPuukiIlIBoj-Jv0HJtzue5w3TphnM~7LAEzGG3LP2pBOI90L0H5zf2YBHm-Lfwd4FIsskpDxJ4DuRVJbIZt4IOFYzy7~gxR1lSBzP~QnSmJPhH-VyDWKazP9Q8y8yrA2s4Y-0Bo24BmZ-X2oFoP7SR7f0LrYdA2PITQAcRqqEdINvx436n~MhHXK1vxNrShisa10w-GwAGsZ0ZS2qeq2syLrqSBC7JIdq9pprGm6boUg4hlbSw3EG8vA1yLC~MWo1UaJ-l~IPIgUHpXRbdLHPPckRtPYygiJiNh9Q77zwRK9dMuYtqg1N9-g~1I3a24eg__'
+          default : 'https://i.ibb.co/nN9dfh5f/user-icon-illustration-for-graphic-design-logo-web-site-social-media-mobile-app-ui-png.png'
      },
      name :{
           type : String,
@@ -18,15 +18,18 @@ const userSchema = new mongoose.Schema({
      },
      password :{
           type : String,
-          required : [true, 'password is required!'],
+          required : function(){
+               return !this.google;
+          },
           trim : true
      },
-     role : {type : String, enum : ['user','admin'],default : 'user'},
      phone : String,
+     role : {type : String, enum : ['user','admin'],default : 'user'},
      refreshtoken : String,
      resetpasswordcode : String,
-     resetpasswordexpiries : Date
-},{timestamps : true})
+     resetpasswordexpiries : Date,
+     google : {type : Boolean, default : false}
+},{timestamps : true}) 
 
 const User = mongoose.model('User', userSchema);
 

@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import Nav from "../../App/Nav/Nav";
 import Footer from "../../App/Footer/Footer";
 import { apiRequiestWithCredentials } from "../../../utils/ApiCall";
+import { handleLoginWithGoogle } from "../../../utils/firebase.config";
 const Login = () => {
   const [message, setMessage] = useState("");
   const [errorField, setErrorField] = useState("");
@@ -43,6 +44,10 @@ const Login = () => {
     e.preventDefault();
     setSeePassword(!seePassword);
   };
+
+
+
+
   return (
     <>
       <div className="login-section">
@@ -97,6 +102,7 @@ const Login = () => {
             </Link>
           </div>
         </form>
+        <button onClick={handleLoginWithGoogle}>Login With Google</button>
       </div>
     </>
   );

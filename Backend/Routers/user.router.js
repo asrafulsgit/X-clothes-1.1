@@ -1,7 +1,8 @@
 const express = require('express');
-
+const User = require('../Models/user.model');
+const jwt = require('jsonwebtoken')
+const admin = require('../firebase')
 const userRouter  = express.Router();
-
 const userAuthentication = require('../Middlewares/userAuth-middleware');
 const {userRegister, userLogin,resetPassword, EmailVerification, findUserAndSendEmail, tokenRefresh, userLogout, getAdminAuthentication} = require('../Controllers/user.controllers');
 const { userPersonalInformation, avaterUpdate, addNewAddress, getUserAddresses, updateAddress, removeAddress, userResetPassword, personalInfoUpdate } = require('../Controllers/user.account.controllers');
@@ -10,6 +11,7 @@ const { validateSignup,vlidateLogin, validateAddress, validateDeleteAddress, val
 const {validationMiddleware } = require('../Middlewares/validation.result.middleware');
 const {fileErrorHandlerMiddleware } = require('../Middlewares/fileErrorHandle.middleware');
 const adminAuthentication = require('../Middlewares/adminAuth.middleware');
+
 
 
  
@@ -41,6 +43,80 @@ userRouter.get('/user-logout',userAuthentication,userLogout)
 userRouter.post('/forgot-password-email',validateEmailValidation,validationMiddleware, findUserAndSendEmail)
 userRouter.post('/forgot-password-email-verification',validateEmailVerificationCode,validationMiddleware, EmailVerification)
 userRouter.put('/reset-password',validateForgetPassword,validationMiddleware, resetPassword)
+
+
+
+userRouter.post('/api/auth/google', async (req, res) => {
+  const { token } = req.body;
+
+  try {
+    const decoded = await admin.auth().verifyIdToken(token);
+    const { email, name, picture } = decoded;
+
+    let user = await User.findOne({ email });
+    console.log(user)
+    console.log( email, name, picture)
+
+    if (!user) {
+      user = new User({
+        name,
+        email,
+        avatar: picture,
+        google: true,
+      });
+      await user.save();
+    }
+    
+    const accessToken = jwt.sign(
+          {
+            id: user._id, role : user.role
+          },
+          process.env.JWT_ACCESS_TOEKN,
+          { expiresIn: "15m" }
+        );
+    
+        const refreshToken = jwt.sign(
+          {
+            id: user._id, role : user.role
+          },
+          process.env.JWT_REFRESH_TOKEN,
+          { expiresIn: "7d" }
+        );
+    
+        user.refreshtoken = refreshToken;
+        await user.save();
+    
+        res.cookie("accesstoken", accessToken, {
+          httpOnly: true,
+          secure: false,
+          sameSite: "Strict",
+          maxAge: 1000 * 60 * 15,
+        });
+        res.cookie("refreshtoken", refreshToken, {
+          maxAge: 1000 * 60 * 60 * 24 * 7,
+          httpOnly: true,
+          secure: false,
+          sameSite: "Strict",
+        });
+    
+        return res.status(200).send({
+          message: "Logged in successfully",
+          success: true,
+        })
+  } catch (err) {
+    console.error("Google Login Error:", err);
+    res.status(401).json({ message: "Invalid Google token" });
+  }
+
+})
+
+
+
+
+
+
+
+
 
 
 
