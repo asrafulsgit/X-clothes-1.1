@@ -45,7 +45,7 @@ A full-stack eCommerce application for a clothing store. It allows users to brow
 
 ```bash
 # Clone the repo
-git clone [https://github.com/your-username/clothing-app.git](https://github.com/asrafulsgit/X-clothes-1.1)
+git clone https://github.com/asrafulsgit/X-clothes-1.1
 
 # Navigate to the folders
 cd Backend
